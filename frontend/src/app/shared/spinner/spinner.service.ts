@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { List } from 'immutable';
 import { finalize } from 'rxjs';
 import { of } from 'rxjs';
 import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { concatMap } from 'rxjs/operators';
 import { tap } from 'rxjs/operators';
 
@@ -11,13 +13,9 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class SpinnerService {
-  readonly spinnerState$: Observable<boolean>;
-  private readonly _spinnerState$ = new BehaviorSubject<boolean>(false);
   private activeActions: List<string> = List();
-
-  constructor() {
-    this.spinnerState$ = this._spinnerState$.asObservable();
-  }
+  private readonly _spinnerState$ = new BehaviorSubject<boolean>(false);
+  readonly showSpinner = toSignal(this._spinnerState$.pipe(debounceTime(300)));
 
   showUntilCompleted<T>(obs$: Observable<T>, action: string): Observable<T> {
     return of(null).pipe(
@@ -32,7 +30,6 @@ export class SpinnerService {
     if (this._spinnerState$.value !== true) {
       this._spinnerState$.next(true);
     }
-    // console.log(`spinner start ${action} - activeActions = ${this.activeActions}, spinnerState=${this._spinnerState}`);
   }
 
   end(action: string): void {
@@ -40,6 +37,5 @@ export class SpinnerService {
     if (this.activeActions.isEmpty() && this._spinnerState$.value !== false) {
       this._spinnerState$.next(false);
     }
-    // console.log(`spinner end ${action} - activeActions = ${this.activeActions}, spinnerState=${this._spinnerState}`);
   }
 }
