@@ -1,18 +1,10 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { Params, RouterLink } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
-import { PeriodParameters } from '@api/common/status';
-import { SystemStatusPage } from '@api/common/status';
+import { RouterLink } from '@angular/router';
 import { PageComponent } from '@app/components/shared/page';
-import { ApiService } from '@app/services';
-import { Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
-import { tap } from 'rxjs/operators';
-import { map } from 'rxjs/operators';
+import { RouterService } from '../../shared/services/router.service';
 import { DataSizeChartComponent } from './charts/system/data-size-chart.component';
 import { DiskSizeChartComponent } from './charts/system/disk-size-chart.component';
 import { DiskSizeExternalChartComponent } from './charts/system/disk-size-external-chart.component';
@@ -20,9 +12,9 @@ import { DiskSpaceAvailableChartComponent } from './charts/system/disk-space-ava
 import { DiskSpaceOverpassChartComponent } from './charts/system/disk-space-overpass-chart.component';
 import { DiskSpaceUsedChartComponent } from './charts/system/disk-space-used-chart.component';
 import { DocsChartComponent } from './charts/system/docs-chart.component';
-import { StatusLinks } from './status-links';
 import { StatusPageMenuComponent } from './status-page-menu.component';
 import { StatusSidebarComponent } from './status-sidebar.component';
+import { SystemStatusPageService } from './system-status-page.service';
 
 @Component({
   selector: 'kpn-system-status-page',
@@ -39,8 +31,8 @@ import { StatusSidebarComponent } from './status-sidebar.component';
 
       <h1>System</h1>
 
-      @if (page$ | async; as page) {
-        <kpn-status-page-menu [links]="statusLinks" [periodType]="page.periodType" />
+      @if (service.page(); as page) {
+        <kpn-status-page-menu [links]="service.statusLinks()" [periodType]="page.periodType" />
         <div>
           <a [routerLink]="'TODO previous'" class="previous">previous</a>
           <a [routerLink]="'TODO next'">next</a>
@@ -49,36 +41,48 @@ import { StatusSidebarComponent } from './status-sidebar.component';
           <h2>Backend disk space</h2>
           <kpn-disk-space-used-chart
             [barChart]="page.backendDiskSpaceUsed"
-            [xAxisLabel]="xAxisLabel"
+            [xAxisLabel]="service.xAxisLabel"
           />
           <kpn-disk-space-available-chart
             [barChart]="page.backendDiskSpaceAvailable"
-            [xAxisLabel]="xAxisLabel"
+            [xAxisLabel]="service.xAxisLabel"
           />
           <kpn-disk-space-overpass-chart
             [barChart]="page.backendDiskSpaceOverpass"
-            [xAxisLabel]="xAxisLabel"
+            [xAxisLabel]="service.xAxisLabel"
           />
         </div>
         <div class="chart-group">
           <h2>Analysis database</h2>
-          <kpn-docs-chart [barChart]="page.analysisDocCount" [xAxisLabel]="xAxisLabel" />
-          <kpn-disk-size-chart [barChart]="page.analysisDiskSize" [xAxisLabel]="xAxisLabel" />
+          <kpn-docs-chart [barChart]="page.analysisDocCount" [xAxisLabel]="service.xAxisLabel" />
+          <kpn-disk-size-chart
+            [barChart]="page.analysisDiskSize"
+            [xAxisLabel]="service.xAxisLabel"
+          />
           <kpn-disk-size-external-chart
             [barChart]="page.analysisDiskSizeExternal"
-            [xAxisLabel]="xAxisLabel"
+            [xAxisLabel]="service.xAxisLabel"
           />
-          <kpn-data-size-chart [barChart]="page.analysisDataSize" [xAxisLabel]="xAxisLabel" />
+          <kpn-data-size-chart
+            [barChart]="page.analysisDataSize"
+            [xAxisLabel]="service.xAxisLabel"
+          />
         </div>
         <div class="chart-group">
           <h2>Changes database</h2>
-          <kpn-docs-chart [barChart]="page.changesDocCount" [xAxisLabel]="xAxisLabel" />
-          <kpn-disk-size-chart [barChart]="page.changesDiskSize" [xAxisLabel]="xAxisLabel" />
+          <kpn-docs-chart [barChart]="page.changesDocCount" [xAxisLabel]="service.xAxisLabel" />
+          <kpn-disk-size-chart
+            [barChart]="page.changesDiskSize"
+            [xAxisLabel]="service.xAxisLabel"
+          />
           <kpn-disk-size-external-chart
             [barChart]="page.changesDiskSizeExternal"
-            [xAxisLabel]="xAxisLabel"
+            [xAxisLabel]="service.xAxisLabel"
           />
-          <kpn-data-size-chart [barChart]="page.changesDataSize" [xAxisLabel]="xAxisLabel" />
+          <kpn-data-size-chart
+            [barChart]="page.changesDataSize"
+            [xAxisLabel]="service.xAxisLabel"
+          />
         </div>
       }
       <kpn-status-sidebar sidebar />
@@ -97,9 +101,9 @@ import { StatusSidebarComponent } from './status-sidebar.component';
       padding-right: 5px;
     }
   `,
+  providers: [SystemStatusPageComponent, RouterService],
   standalone: true,
   imports: [
-    AsyncPipe,
     DataSizeChartComponent,
     DiskSizeChartComponent,
     DiskSizeExternalChartComponent,
@@ -114,99 +118,9 @@ import { StatusSidebarComponent } from './status-sidebar.component';
   ],
 })
 export class SystemStatusPageComponent implements OnInit {
-  private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly apiService = inject(ApiService);
-
-  protected page$: Observable<SystemStatusPage>;
-  protected statusLinks: StatusLinks;
-  protected xAxisLabel: string;
+  protected readonly service = inject(SystemStatusPageService);
 
   ngOnInit(): void {
-    this.page$ = this.activatedRoute.params.pipe(
-      map((params) => this.toPeriodParameters(params)),
-      tap((parameters) => {
-        if (parameters.period === 'year') {
-          this.xAxisLabel = 'weeks';
-        } else if (parameters.period === 'month') {
-          this.xAxisLabel = 'days';
-        } else if (parameters.period === 'week') {
-          this.xAxisLabel = 'days';
-        } else if (parameters.period === 'day') {
-          this.xAxisLabel = 'hours';
-        } else if (parameters.period === 'hour') {
-          this.xAxisLabel = 'minutes';
-        }
-      }),
-      mergeMap((parameters) =>
-        this.apiService.systemStatus(parameters).pipe(
-          map((r) => r.result),
-          tap((page) => (this.statusLinks = new StatusLinks(page.timestamp, '/status/system')))
-        )
-      )
-    );
-  }
-
-  private toPeriodParameters(params: Params): PeriodParameters {
-    const period = params['period'];
-    if ('year' === period) {
-      return {
-        period: 'year',
-        year: +params['year'],
-        month: null,
-        week: null,
-        day: null,
-        hour: null,
-      };
-    }
-    if ('month' === period) {
-      return {
-        period: 'month',
-        year: +params['year'],
-        month: +params['monthOrWeek'],
-        week: null,
-        day: null,
-        hour: null,
-      };
-    }
-    if ('week' === period) {
-      return {
-        period: 'week',
-        year: +params['year'],
-        month: null,
-        week: +params['monthOrWeek'],
-        day: null,
-        hour: null,
-      };
-    }
-    if ('day' === period) {
-      return {
-        period: 'day',
-        year: +params['year'],
-        month: +params['month'],
-        week: null,
-        day: +params['day'],
-        hour: null,
-      };
-    }
-    if ('hour' === period) {
-      return {
-        period: 'hour',
-        year: +params['year'],
-        month: +params['month'],
-        week: null,
-        day: +params['day'],
-        hour: +params['hour'],
-      };
-    }
-
-    const now = new Date();
-    return {
-      period: 'hour',
-      year: now.getFullYear(),
-      month: now.getMonth(),
-      week: null,
-      day: now.getDate(),
-      hour: now.getHours(),
-    };
+    this.service.onInit();
   }
 }

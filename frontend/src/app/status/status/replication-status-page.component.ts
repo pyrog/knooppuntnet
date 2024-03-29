@@ -1,18 +1,10 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { Params, RouterLink } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
-import { PeriodParameters } from '@api/common/status';
-import { ReplicationStatusPage } from '@api/common/status';
+import { RouterLink } from '@angular/router';
 import { PageComponent } from '@app/components/shared/page';
-import { ApiService } from '@app/services';
-import { Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
-import { tap } from 'rxjs/operators';
-import { map } from 'rxjs/operators';
+import { RouterService } from '../../shared/services/router.service';
 import { AnalysisDelayChartComponent } from './charts/analysis-delay-chart.component';
 import { DelayChartComponent } from './charts/delay-chart.component';
 import { ReplicationBytesChartComponent } from './charts/replication-bytes-chart.component';
@@ -20,7 +12,7 @@ import { ReplicationChangesetsChartComponent } from './charts/replication-change
 import { ReplicationDelayChartComponent } from './charts/replication-delay-chart.component';
 import { ReplicationElementsChartComponent } from './charts/replication-elements-chart.component';
 import { UpdateDelayChartComponent } from './charts/update-delay-chart.component';
-import { StatusLinks } from './status-links';
+import { ReplicationStatusPageService } from './replication-status-page.service';
 import { StatusPageMenuComponent } from './status-page-menu.component';
 import { StatusSidebarComponent } from './status-sidebar.component';
 
@@ -39,33 +31,36 @@ import { StatusSidebarComponent } from './status-sidebar.component';
 
       <h1>Replication</h1>
 
-      @if (page$ | async; as page) {
-        <kpn-status-page-menu [links]="statusLinks" [periodType]="page.periodType" />
+      @if (service.page(); as page) {
+        <kpn-status-page-menu [links]="service.statusLinks()" [periodType]="page.periodType" />
         <div>
           <a [routerLink]="'TODO previous'" class="previous">previous</a>
           <a [routerLink]="'TODO next'">next</a>
         </div>
         <div class="chart-group">
-          <kpn-delay-chart [barChart]="page.delay" [xAxisLabel]="xAxisLabel" />
-          <kpn-analysis-delay-chart [barChart]="page.analysisDelay" [xAxisLabel]="xAxisLabel" />
-          <kpn-update-delay-chart [barChart]="page.updateDelay" [xAxisLabel]="xAxisLabel" />
+          <kpn-delay-chart [barChart]="page.delay" [xAxisLabel]="service.xAxisLabel" />
+          <kpn-analysis-delay-chart
+            [barChart]="page.analysisDelay"
+            [xAxisLabel]="service.xAxisLabel"
+          />
+          <kpn-update-delay-chart [barChart]="page.updateDelay" [xAxisLabel]="service.xAxisLabel" />
           <kpn-replication-delay-chart
             [barChart]="page.replicationDelay"
-            [xAxisLabel]="xAxisLabel"
+            [xAxisLabel]="service.xAxisLabel"
           />
         </div>
         <div class="chart-group">
           <kpn-replication-bytes-chart
             [barChart]="page.replicationBytes"
-            [xAxisLabel]="xAxisLabel"
+            [xAxisLabel]="service.xAxisLabel"
           />
           <kpn-replication-elements-chart
             [barChart]="page.replicationElements"
-            [xAxisLabel]="xAxisLabel"
+            [xAxisLabel]="service.xAxisLabel"
           />
           <kpn-replication-changesets-chart
             [barChart]="page.replicationChangeSets"
-            [xAxisLabel]="xAxisLabel"
+            [xAxisLabel]="service.xAxisLabel"
           />
         </div>
       }
@@ -85,10 +80,10 @@ import { StatusSidebarComponent } from './status-sidebar.component';
       padding-right: 5px;
     }
   `,
+  providers: [ReplicationStatusPageService, RouterService],
   standalone: true,
   imports: [
     AnalysisDelayChartComponent,
-    AsyncPipe,
     DelayChartComponent,
     PageComponent,
     ReplicationBytesChartComponent,
@@ -102,99 +97,9 @@ import { StatusSidebarComponent } from './status-sidebar.component';
   ],
 })
 export class ReplicationStatusPageComponent implements OnInit {
-  private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly apiService = inject(ApiService);
-
-  protected page$: Observable<ReplicationStatusPage>;
-  protected statusLinks: StatusLinks;
-  protected xAxisLabel: string;
+  protected readonly service = inject(ReplicationStatusPageService);
 
   ngOnInit(): void {
-    this.page$ = this.activatedRoute.params.pipe(
-      map((params) => this.toPeriodParameters(params)),
-      tap((parameters) => {
-        if (parameters.period === 'year') {
-          this.xAxisLabel = 'weeks';
-        } else if (parameters.period === 'month') {
-          this.xAxisLabel = 'days';
-        } else if (parameters.period === 'week') {
-          this.xAxisLabel = 'days';
-        } else if (parameters.period === 'day') {
-          this.xAxisLabel = 'hours';
-        } else if (parameters.period === 'hour') {
-          this.xAxisLabel = 'minutes';
-        }
-      }),
-      mergeMap((parameters) =>
-        this.apiService.replicationStatus(parameters).pipe(
-          map((r) => r.result),
-          tap((page) => (this.statusLinks = new StatusLinks(page.timestamp, '/status/replication')))
-        )
-      )
-    );
-  }
-
-  private toPeriodParameters(params: Params): PeriodParameters {
-    const period = params['period'];
-    if ('year' === period) {
-      return {
-        period: 'year',
-        year: +params['year'],
-        month: null,
-        week: null,
-        day: null,
-        hour: null,
-      };
-    }
-    if ('month' === period) {
-      return {
-        period: 'month',
-        year: +params['year'],
-        month: +params['monthOrWeek'],
-        week: null,
-        day: null,
-        hour: null,
-      };
-    }
-    if ('week' === period) {
-      return {
-        period: 'week',
-        year: +params['year'],
-        month: null,
-        week: +params['monthOrWeek'],
-        day: null,
-        hour: null,
-      };
-    }
-    if ('day' === period) {
-      return {
-        period: 'day',
-        year: +params['year'],
-        month: +params['month'],
-        week: null,
-        day: +params['day'],
-        hour: null,
-      };
-    }
-    if ('hour' === period) {
-      return {
-        period: 'hour',
-        year: +params['year'],
-        month: +params['month'],
-        week: null,
-        day: +params['day'],
-        hour: +params['hour'],
-      };
-    }
-
-    const now = new Date();
-    return {
-      period: 'hour',
-      year: now.getFullYear(),
-      month: now.getMonth(),
-      week: null,
-      day: now.getDate(),
-      hour: now.getHours(),
-    };
+    this.service.onInit();
   }
 }

@@ -1,18 +1,10 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { Params, RouterLink } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
-import { LogPage } from '@api/common/status';
-import { PeriodParameters } from '@api/common/status';
+import { RouterLink } from '@angular/router';
 import { PageComponent } from '@app/components/shared/page';
-import { ApiService } from '@app/services';
-import { Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
-import { tap } from 'rxjs/operators';
-import { map } from 'rxjs/operators';
+import { RouterService } from '../../shared/services/router.service';
 import { LogAnalysisChartComponent } from './charts/log/log-analysis-chart.component';
 import { LogAnalysisRobotChartComponent } from './charts/log/log-analysis-robot-chart.component';
 import { LogApiChartComponent } from './charts/log/log-api-chart.component';
@@ -21,7 +13,7 @@ import { LogNonRobotChartComponent } from './charts/log/log-non-robot-chart.comp
 import { LogRobotChartComponent } from './charts/log/log-robot-chart.component';
 import { LogTileChartComponent } from './charts/log/log-tile-chart.component';
 import { LogTileRobotChartComponent } from './charts/log/log-tile-robot-chart.component';
-import { StatusLinks } from './status-links';
+import { LogPageService } from './log-page.service';
 import { StatusPageMenuComponent } from './status-page-menu.component';
 import { StatusSidebarComponent } from './status-sidebar.component';
 
@@ -40,22 +32,25 @@ import { StatusSidebarComponent } from './status-sidebar.component';
 
       <h1>Log analysis</h1>
 
-      @if (page$ | async; as page) {
-        <kpn-status-page-menu [links]="statusLinks" [periodType]="page.periodType" />
+      @if (service.page(); as page) {
+        <kpn-status-page-menu [links]="service.statusLinks()" [periodType]="page.periodType" />
         <div>
           <a [routerLink]="'TODO previous'" class="previous">previous</a>
           <a [routerLink]="'TODO next'">next</a>
         </div>
         <div class="chart-group">
           <h2>Analysis</h2>
-          <kpn-log-tile-chart [barChart]="page.tile" [xAxisLabel]="xAxisLabel" />
-          <kpn-log-tile-robot-chart [barChart]="page.tileRobot" [xAxisLabel]="xAxisLabel" />
-          <kpn-log-api-chart [barChart]="page.api" [xAxisLabel]="xAxisLabel" />
-          <kpn-log-api-robot-chart [barChart]="page.apiRobot" [xAxisLabel]="xAxisLabel" />
-          <kpn-log-analysis-chart [barChart]="page.analysis" [xAxisLabel]="xAxisLabel" />
-          <kpn-log-analysis-robot-chart [barChart]="page.analysisRobot" [xAxisLabel]="xAxisLabel" />
-          <kpn-log-robot-chart [barChart]="page.robot" [xAxisLabel]="xAxisLabel" />
-          <kpn-log-non-robot-chart [barChart]="page.nonRobot" [xAxisLabel]="xAxisLabel" />
+          <kpn-log-tile-chart [barChart]="page.tile" [xAxisLabel]="service.xAxisLabel" />
+          <kpn-log-tile-robot-chart [barChart]="page.tileRobot" [xAxisLabel]="service.xAxisLabel" />
+          <kpn-log-api-chart [barChart]="page.api" [xAxisLabel]="service.xAxisLabel" />
+          <kpn-log-api-robot-chart [barChart]="page.apiRobot" [xAxisLabel]="service.xAxisLabel" />
+          <kpn-log-analysis-chart [barChart]="page.analysis" [xAxisLabel]="service.xAxisLabel" />
+          <kpn-log-analysis-robot-chart
+            [barChart]="page.analysisRobot"
+            [xAxisLabel]="service.xAxisLabel"
+          />
+          <kpn-log-robot-chart [barChart]="page.robot" [xAxisLabel]="service.xAxisLabel" />
+          <kpn-log-non-robot-chart [barChart]="page.nonRobot" [xAxisLabel]="service.xAxisLabel" />
         </div>
       }
       <kpn-status-sidebar sidebar />
@@ -74,9 +69,9 @@ import { StatusSidebarComponent } from './status-sidebar.component';
       padding-right: 5px;
     }
   `,
+  providers: [LogPageService, RouterService],
   standalone: true,
   imports: [
-    AsyncPipe,
     LogAnalysisChartComponent,
     LogAnalysisRobotChartComponent,
     LogApiChartComponent,
@@ -92,99 +87,9 @@ import { StatusSidebarComponent } from './status-sidebar.component';
   ],
 })
 export class LogPageComponent implements OnInit {
-  private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly apiService = inject(ApiService);
-
-  protected page$: Observable<LogPage>;
-  protected statusLinks: StatusLinks;
-  protected xAxisLabel: string;
+  protected readonly service = inject(LogPageService);
 
   ngOnInit(): void {
-    this.page$ = this.activatedRoute.params.pipe(
-      map((params) => this.toPeriodParameters(params)),
-      tap((parameters) => {
-        if (parameters.period === 'year') {
-          this.xAxisLabel = 'weeks';
-        } else if (parameters.period === 'month') {
-          this.xAxisLabel = 'days';
-        } else if (parameters.period === 'week') {
-          this.xAxisLabel = 'days';
-        } else if (parameters.period === 'day') {
-          this.xAxisLabel = 'hours';
-        } else if (parameters.period === 'hour') {
-          this.xAxisLabel = 'minutes';
-        }
-      }),
-      mergeMap((parameters) =>
-        this.apiService.logStatus(parameters).pipe(
-          map((r) => r.result),
-          tap((page) => (this.statusLinks = new StatusLinks(page.timestamp, '/status/log')))
-        )
-      )
-    );
-  }
-
-  private toPeriodParameters(params: Params): PeriodParameters {
-    const period = params['period'];
-    if ('year' === period) {
-      return {
-        period: 'year',
-        year: +params['year'],
-        month: null,
-        week: null,
-        day: null,
-        hour: null,
-      };
-    }
-    if ('month' === period) {
-      return {
-        period: 'month',
-        year: +params['year'],
-        month: +params['monthOrWeek'],
-        week: null,
-        day: null,
-        hour: null,
-      };
-    }
-    if ('week' === period) {
-      return {
-        period: 'week',
-        year: +params['year'],
-        month: null,
-        week: +params['monthOrWeek'],
-        day: null,
-        hour: null,
-      };
-    }
-    if ('day' === period) {
-      return {
-        period: 'day',
-        year: +params['year'],
-        month: +params['month'],
-        week: null,
-        day: +params['day'],
-        hour: null,
-      };
-    }
-    if ('hour' === period) {
-      return {
-        period: 'hour',
-        year: +params['year'],
-        month: +params['month'],
-        week: null,
-        day: +params['day'],
-        hour: +params['hour'],
-      };
-    }
-
-    const now = new Date();
-    return {
-      period: 'hour',
-      year: now.getFullYear(),
-      month: now.getMonth(),
-      week: null,
-      day: now.getDate(),
-      hour: now.getHours(),
-    };
+    this.service.onInit();
   }
 }
