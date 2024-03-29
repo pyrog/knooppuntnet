@@ -1,31 +1,16 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { ChangeSetPage } from '@api/common/changes';
-import { ApiResponse } from '@api/custom';
-import { Util } from '@app/components/shared';
 import { PageComponent } from '@app/components/shared/page';
-import { ApiService } from '@app/services';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { map } from 'rxjs/operators';
-import { mergeMap } from 'rxjs/operators';
+import { RouterService } from '../../shared/services/router.service';
 import { AnalysisSidebarComponent } from '../analysis/analysis-sidebar.component';
+import { ChangeSetPageService } from './change-set-page.service';
 import { ChangeSetHeaderComponent } from './components/change-set-header.component';
 import { ChangeSetLocationChangesComponent } from './components/change-set-location-changes.component';
 import { ChangeSetNetworkChangesComponent } from './components/change-set-network-changes.component';
 import { ChangeSetOrphanNodeChangesComponent } from './components/change-set-orphan-node-changes.component';
 import { ChangeSetOrphanRouteChangesComponent } from './components/change-set-orphan-route-changes.component';
-
-class ChangeSetKey {
-  constructor(
-    readonly changeSetId: string,
-    readonly replicationNumber: string
-  ) {}
-}
 
 @Component({
   selector: 'kpn-change-set-page',
@@ -34,10 +19,10 @@ class ChangeSetKey {
     <kpn-page>
       <h1>
         <ng-container i18n="@@change-set.title">Changeset</ng-container>
-        {{ changeSetTitle }}
+        {{ service.changeSetTitle }}
       </h1>
 
-      @if (response$ | async; as response) {
+      @if (service.response(); as response) {
         @if (!response.result) {
           <div i18n="@@changeset.not-found">Changeset not found</div>
         } @else {
@@ -51,10 +36,10 @@ class ChangeSetKey {
       <kpn-analysis-sidebar sidebar />
     </kpn-page>
   `,
+  providers: [ChangeSetPageService, RouterService],
   standalone: true,
   imports: [
     AnalysisSidebarComponent,
-    AsyncPipe,
     ChangeSetHeaderComponent,
     ChangeSetLocationChangesComponent,
     ChangeSetNetworkChangesComponent,
@@ -64,28 +49,9 @@ class ChangeSetKey {
   ],
 })
 export class ChangeSetPageComponent implements OnInit {
-  private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly apiService = inject(ApiService);
-  protected response$: Observable<ApiResponse<ChangeSetPage>>;
-  protected changeSetTitle = '';
+  protected readonly service = inject(ChangeSetPageService);
 
   ngOnInit(): void {
-    this.response$ = this.activatedRoute.params.pipe(
-      map((params) => this.interpretParams(params)),
-      mergeMap((key) => this.apiService.changeSet(key.changeSetId, key.replicationNumber)),
-      tap((response) => {
-        if (response.result) {
-          const a = response.result.summary.key.changeSetId;
-          const b = Util.replicationName(response.result.summary.key.replicationNumber);
-          this.changeSetTitle = a + ' ' + b;
-        }
-      })
-    );
-  }
-
-  private interpretParams(params: Params): ChangeSetKey {
-    const changeSetId = params['changeSetId'];
-    const replicationNumber = params['replicationNumber'];
-    return new ChangeSetKey(changeSetId, replicationNumber);
+    this.service.onInit();
   }
 }
