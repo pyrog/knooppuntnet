@@ -1,11 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { signal } from '@angular/core';
 import { inject } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { ApiService } from '@app/services';
 import { Range } from 'immutable';
 import { Subscription } from 'rxjs';
 import { TimeoutError } from 'rxjs';
-import { BehaviorSubject } from 'rxjs';
 import { concat } from 'rxjs';
 import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -19,19 +19,28 @@ export class EditService {
   private readonly apiService = inject(ApiService);
   private readonly sharedStateService = inject(SharedStateService);
 
+  private readonly _progress = signal<number>(0);
+  private readonly _showProgress = signal<boolean>(false);
+  private readonly _ready = signal<boolean>(false);
+  private readonly _error = signal<boolean>(false);
+  private readonly _errorName = signal<string>('');
+  private readonly _errorMessage = signal<string>('');
+  private readonly _timeout = signal<boolean>(false);
+  private readonly _errorCouldNotConnect = signal<boolean>(false);
+
+  readonly progress = this._progress.asReadonly();
+  readonly showProgress = this._showProgress.asReadonly();
+  readonly ready = this._ready.asReadonly();
+  readonly error = this._error.asReadonly();
+  readonly errorName = this._errorName.asReadonly();
+  readonly errorMessage = this._errorMessage.asReadonly();
+  readonly timeout = this._timeout.asReadonly();
+  readonly errorCouldNotConnect = this._errorCouldNotConnect.asReadonly();
+
   private progressCount = 0;
   private progressSteps = 0;
 
   private subscription: Subscription;
-
-  public readonly progress$ = new BehaviorSubject<number>(0);
-  public readonly showProgress$ = new BehaviorSubject<boolean>(false);
-  public readonly ready$ = new BehaviorSubject<boolean>(false);
-  public readonly error$ = new BehaviorSubject<boolean>(false);
-  public readonly errorName$ = new BehaviorSubject<string>('');
-  public readonly errorMessage$ = new BehaviorSubject<string>('');
-  public readonly timeout$ = new BehaviorSubject<boolean>(false);
-  public readonly errorCouldNotConnect$ = new BehaviorSubject<boolean>(false);
 
   private readonly configuration = new EditConfiguration();
 
@@ -47,33 +56,33 @@ export class EditService {
     const steps = setBounds === null ? edits : edits.concat(setBounds);
 
     this.progressSteps = steps.length;
-    this.showProgress$.next(true);
+    this._showProgress.set(true);
     this.subscription = concat(...steps).subscribe({
       error: (err) => {
         if (err instanceof TimeoutError) {
-          this.timeout$.next(true);
-          this.showProgress$.next(false);
+          this._timeout.set(true);
+          this._showProgress.set(false);
         } else if (err instanceof HttpErrorResponse) {
           const httpErrorResponse = err as HttpErrorResponse;
-          this.showProgress$.next(false);
-          this.error$.next(true);
+          this._showProgress.set(false);
+          this._error.set(true);
           if (httpErrorResponse.status === 0) {
-            this.errorCouldNotConnect$.next(true);
+            this._errorCouldNotConnect.set(true);
           } else {
-            this.errorName$.next(httpErrorResponse.name);
-            this.errorMessage$.next(httpErrorResponse.message);
+            this._errorName.set(httpErrorResponse.name);
+            this._errorMessage.set(httpErrorResponse.message);
           }
         } else {
-          this.errorName$.next(err.name);
-          this.errorMessage$.next(err.message);
+          this._errorName.set(err.name);
+          this._errorMessage.set(err.message);
         }
       },
       complete: () => {
-        this.showProgress$.next(false);
-        this.progress$.next(0);
+        this._showProgress.set(false);
+        this._progress.set(0);
         this.progressCount = 0;
         this.progressSteps = 0;
-        this.ready$.next(true);
+        this._ready.set(true);
         if (this.subscription) {
           this.subscription.unsubscribe();
         }
@@ -84,8 +93,8 @@ export class EditService {
   cancel(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
-      this.showProgress$.next(false);
-      this.progress$.next(0);
+      this._showProgress.set(false);
+      this._progress.set(0);
       this.progressCount = 0;
       this.progressSteps = 0;
     }
@@ -176,6 +185,6 @@ export class EditService {
     if (this.progressSteps > 0) {
       progress = Math.round((100 * this.progressCount) / this.progressSteps);
     }
-    this.progress$.next(progress);
+    this._progress.set(progress);
   }
 }

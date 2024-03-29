@@ -1,4 +1,4 @@
-import { AsyncPipe } from '@angular/common';
+import { effect } from '@angular/core';
 import { inject } from '@angular/core';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
@@ -21,20 +21,20 @@ import { EditService } from './edit.service';
     <div mat-dialog-title class="dialog" i18n="@@edit-dialog.title">Load in editor</div>
 
     <div mat-dialog-content>
-      @if (editService.showProgress$ | async) {
+      @if (editService.showProgress()) {
         <p>
-          <mat-progress-bar [value]="editService.progress$ | async"></mat-progress-bar>
+          <mat-progress-bar [value]="editService.progress()"></mat-progress-bar>
         </p>
       }
-      @if (editService.error$ | async) {
+      @if (editService.error()) {
         <p i18n="@@edit-dialog.error">Sorry, could not load elements in editor.</p>
       }
-      @if (editService.errorName$ | async; as errorName) {
+      @if (editService.errorName(); as errorName) {
         <p>
           {{ errorName }}
         </p>
       }
-      @if (editService.errorCouldNotConnect$ | async) {
+      @if (editService.errorCouldNotConnect()) {
         <ul>
           <li i18n="@@edit-dialog.editor-not-started">Editor not started?</li>
           <li i18n="@@edit-dialog.remote-control-not-enabled">
@@ -42,24 +42,24 @@ import { EditService } from './edit.service';
           </li>
         </ul>
       }
-      @if (editService.errorMessage$ | async; as errorMessage) {
+      @if (editService.errorMessage(); as errorMessage) {
         <p>
           {{ errorMessage }}
         </p>
       }
-      @if (editService.timeout$ | async) {
+      @if (editService.timeout()) {
         <p class="timeout" i18n="@@edit-dialog.timeout">
           Timeout: editor not started, or editor remote control not enabled?
         </p>
       }
     </div>
     <div mat-dialog-actions>
-      @if (editService.showProgress$ | async) {
+      @if (editService.showProgress()) {
         <p>
           <button mat-raised-button (click)="cancel()">{{ cancelButtonText }}</button>
         </p>
       }
-      @if (editService.error$ | async) {
+      @if (editService.error()) {
         <p>
           <button mat-raised-button (click)="close()" i18n="@@edit-dialog.close">Close</button>
         </p>
@@ -77,7 +77,7 @@ import { EditService } from './edit.service';
   `,
   providers: [EditService],
   standalone: true,
-  imports: [AsyncPipe, MatButtonModule, MatDialogModule, MatProgressBarModule],
+  imports: [MatButtonModule, MatDialogModule, MatProgressBarModule],
 })
 export class EditDialogComponent implements OnInit, OnDestroy {
   protected readonly parameters: EditParameters = inject(MAT_DIALOG_DATA);
@@ -86,8 +86,15 @@ export class EditDialogComponent implements OnInit, OnDestroy {
   protected readonly cancelButtonText = Translations.get('action.cancel');
   private readonly subscriptions = new Subscriptions();
 
+  constructor() {
+    effect(() => {
+      if (this.editService.ready()) {
+        this.dialogRef.close();
+      }
+    });
+  }
+
   ngOnInit(): void {
-    this.closeDialogUponReady();
     this.editService.edit(this.parameters);
   }
 
@@ -102,15 +109,5 @@ export class EditDialogComponent implements OnInit, OnDestroy {
 
   close(): void {
     this.dialogRef.close();
-  }
-
-  private closeDialogUponReady(): void {
-    this.subscriptions.add(
-      this.editService.ready$.subscribe((ready) => {
-        if (ready) {
-          this.dialogRef.close();
-        }
-      })
-    );
   }
 }
