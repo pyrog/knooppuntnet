@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { computed } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
@@ -70,7 +69,7 @@ import { MonitorRouteMapStateService } from './monitor-route-map-state.service';
     }
   `,
   standalone: true,
-  imports: [MatButtonModule, MatMenuModule, AsyncPipe],
+  imports: [MatButtonModule, MatMenuModule],
 })
 export class MonitorRouteMapControlJosmComponent {
   private readonly stateService = inject(MonitorRouteMapStateService);

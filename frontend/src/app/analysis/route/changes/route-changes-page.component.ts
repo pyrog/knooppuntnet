@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
@@ -109,7 +108,6 @@ import { RouteChangesPageService } from './route-changes-page.service';
   providers: [RouteChangesPageService, RouterService],
   standalone: true,
   imports: [
-    AsyncPipe,
     ChangesComponent,
     ItemComponent,
     ItemsComponent,

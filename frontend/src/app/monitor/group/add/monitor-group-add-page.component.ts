@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { NavService } from '@app/components/shared';
-import { FormStatusComponent } from '@app/components/shared';
 import { PageHeaderComponent } from '@app/components/shared/page';
 import { PageComponent } from '@app/components/shared/page';
 import { SidebarComponent } from '@app/components/shared/sidebar';
@@ -39,10 +38,6 @@ import { MonitorGroupAddPageService } from './monitor-group-add-page.service';
       <form [formGroup]="service.form" class="kpn-form" #ngForm="ngForm">
         <kpn-monitor-group-name [ngForm]="ngForm" [name]="service.name" />
         <kpn-monitor-group-description [ngForm]="ngForm" [description]="service.description" />
-        <kpn-form-status
-          formName="group-form"
-          [statusChanges]="service.form.statusChanges"
-        ></kpn-form-status>
         <div class="kpn-form-buttons">
           <button
             mat-stroked-button
@@ -61,7 +56,6 @@ import { MonitorGroupAddPageService } from './monitor-group-add-page.service';
   providers: [MonitorGroupAddPageService, NavService],
   standalone: true,
   imports: [
-    FormStatusComponent,
     MatButtonModule,
     MonitorGroupBreadcrumbComponent,
     MonitorGroupDescriptionComponent,

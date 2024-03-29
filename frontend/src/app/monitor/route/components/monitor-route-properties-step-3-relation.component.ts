@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { OnDestroy } from '@angular/core';
 import { OnInit } from '@angular/core';
@@ -13,7 +12,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatStepperModule } from '@angular/material/stepper';
-import { FormStatusComponent } from '@app/components/shared';
 import { Subscriptions } from '@app/util';
 import { MonitorRouteInfoComponent } from '../add/monitor-route-info.component';
 import { MonitorRoutePropertiesStep3RelationService } from './monitor-route-properties-step-3-relation.service';
@@ -58,7 +56,7 @@ import { MonitorRoutePropertiesStep3RelationService } from './monitor-route-prop
     @if (relationIdKnown().value === true) {
       <div>
         <mat-form-field>
-          <mat-label i18n="@@monitor.route.properties.relation.label">Route relation id </mat-label>
+          <mat-label i18n="@@monitor.route.properties.relation.label">Route relation id</mat-label>
           <input matInput type="number" id="relation-id" [formControl]="relationId()" />
         </mat-form-field>
         <div>
@@ -111,7 +109,6 @@ import { MonitorRoutePropertiesStep3RelationService } from './monitor-route-prop
       }
     }
 
-    <kpn-form-status formName="step3-form()" [statusChanges]="ngForm().statusChanges" />
     <div class="kpn-button-group">
       <button id="step3-back" mat-stroked-button matStepperPrevious i18n="@@action.back">
         Back
@@ -137,8 +134,6 @@ import { MonitorRoutePropertiesStep3RelationService } from './monitor-route-prop
   providers: [MonitorRoutePropertiesStep3RelationService],
   standalone: true,
   imports: [
-    AsyncPipe,
-    FormStatusComponent,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,

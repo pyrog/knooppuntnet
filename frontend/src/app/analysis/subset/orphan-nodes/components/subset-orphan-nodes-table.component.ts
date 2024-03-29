@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { effect } from '@angular/core';
 import { viewChild } from '@angular/core';
 import { inject } from '@angular/core';
@@ -83,7 +82,6 @@ import { SubsetOrphanNodesPageService } from '../subset-orphan-nodes-page.servic
   standalone: true,
   imports: [
     ActionButtonNodeComponent,
-    AsyncPipe,
     DayComponent,
     EditAndPaginatorComponent,
     LinkNodeComponent,

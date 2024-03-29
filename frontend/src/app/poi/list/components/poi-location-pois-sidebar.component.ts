@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
@@ -92,7 +91,6 @@ import { CountrySelectComponent } from './country-select.component';
   `,
   standalone: true,
   imports: [
-    AsyncPipe,
     CountrySelectComponent,
     LocationSelectorComponent,
     MatCheckboxModule,

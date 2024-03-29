@@ -6,7 +6,6 @@ import { FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper';
 import { Timestamp } from '@api/custom';
-import { FormStatusComponent } from '@app/components/shared';
 import { TimestampPipe } from '@app/components/shared/format';
 import { DayInputComponent } from '@app/components/shared/format';
 
@@ -149,10 +148,6 @@ import { DayInputComponent } from '@app/components/shared/format';
       </p>
     </div>
 
-    <kpn-form-status
-      formName="step5-form"
-      [statusChanges]="ngForm().statusChanges"
-    ></kpn-form-status>
     <div class="kpn-button-group">
       <button id="step5-back" mat-stroked-button matStepperPrevious i18n="@@action.back">
         Back
@@ -166,14 +161,7 @@ import { DayInputComponent } from '@app/components/shared/format';
     }
   `,
   standalone: true,
-  imports: [
-    DayInputComponent,
-    FormStatusComponent,
-    MatButtonModule,
-    MatStepperModule,
-    NgClass,
-    TimestampPipe,
-  ],
+  imports: [DayInputComponent, MatButtonModule, MatStepperModule, NgClass, TimestampPipe],
 })
 export class MonitorRoutePropertiesStep5ReferenceDetailsComponent {
   ngForm = input.required<FormGroupDirective>();

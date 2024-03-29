@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { Component } from '@angular/core';
 import { ChangeFilterComponent } from '@app/analysis/components/changes/filter';
@@ -17,7 +16,7 @@ import { SubsetChangesPageService } from '../subset-changes-page.service';
     </kpn-sidebar>
   `,
   standalone: true,
-  imports: [SidebarComponent, ChangeFilterComponent, AsyncPipe],
+  imports: [SidebarComponent, ChangeFilterComponent],
 })
 export class SubsetChangesSidebarComponent {
   private readonly store = inject(SubsetChangesPageService);

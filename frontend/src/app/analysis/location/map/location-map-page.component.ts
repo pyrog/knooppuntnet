@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { OnInit } from '@angular/core';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
@@ -36,7 +35,6 @@ import { LocationMapPageService } from './location-map-page.service';
   providers: [LocationMapPageService, RouterService],
   standalone: true,
   imports: [
-    AsyncPipe,
     ErrorComponent,
     LocationMapComponent,
     LocationPageHeaderComponent,

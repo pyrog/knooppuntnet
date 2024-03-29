@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper';
-import { FormStatusComponent } from '@app/components/shared';
 import { MonitorRouteDescriptionComponent } from './monitor-route-description.component';
 import { MonitorRouteNameComponent } from './monitor-route-name.component';
 
@@ -14,10 +13,6 @@ import { MonitorRouteNameComponent } from './monitor-route-name.component';
   template: `
     <kpn-monitor-route-name [ngForm]="ngForm()" [name]="name()" />
     <kpn-monitor-route-description [ngForm]="ngForm()" [description]="description()" />
-    <kpn-form-status
-      formName="step2-form"
-      [statusChanges]="ngForm().statusChanges"
-    ></kpn-form-status>
     <div class="kpn-button-group">
       @if (mode() === 'update') {
         <button id="step2-back" mat-stroked-button matStepperPrevious i18n="@@action.back">
@@ -30,7 +25,6 @@ import { MonitorRouteNameComponent } from './monitor-route-name.component';
   `,
   standalone: true,
   imports: [
-    FormStatusComponent,
     MatButtonModule,
     MatStepperModule,
     MonitorRouteDescriptionComponent,

@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { computed } from '@angular/core';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
@@ -21,7 +20,7 @@ import { TagDiffsTextComponent } from './tag-diffs-text.component';
     }
   `,
   standalone: true,
-  imports: [TagDiffsTextComponent, TagDiffsTableComponent, AsyncPipe],
+  imports: [TagDiffsTextComponent, TagDiffsTableComponent],
 })
 export class TagDiffsComponent {
   tagDiffs = input.required<TagDiffs>();

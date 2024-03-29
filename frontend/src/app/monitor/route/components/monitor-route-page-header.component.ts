@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { NgClass } from '@angular/common';
 import { computed } from '@angular/core';
 import { EventEmitter } from '@angular/core';
@@ -116,7 +115,6 @@ import { MonitorRouteSubRelationMenuOptionComponent } from './monitor-route-sub-
   `,
   standalone: true,
   imports: [
-    AsyncPipe,
     EllipsisComponent,
     ErrorComponent,
     MatMenuModule,

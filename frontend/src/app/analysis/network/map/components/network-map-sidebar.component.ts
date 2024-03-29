@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SidebarComponent } from '@app/components/shared/sidebar';
@@ -47,7 +46,7 @@ import { NetworkMapLegendIconComponent } from './network-map-legend-icon.compone
     }
   `,
   standalone: true,
-  imports: [SidebarComponent, NetworkMapLegendIconComponent, AsyncPipe],
+  imports: [SidebarComponent, NetworkMapLegendIconComponent],
 })
 export class NetworkMapSidebarComponent {
   private readonly mapZoomService = inject(MapZoomService);

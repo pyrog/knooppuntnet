@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
@@ -15,7 +14,7 @@ import { SubsetOrphanRoutesPageService } from '../subset-orphan-routes-page.serv
     </kpn-sidebar>
   `,
   standalone: true,
-  imports: [SidebarComponent, FilterComponent, AsyncPipe],
+  imports: [SidebarComponent, FilterComponent],
 })
 export class SubsetOrphanRoutesSidebarComponent {
   private readonly service = inject(SubsetOrphanRoutesPageService);

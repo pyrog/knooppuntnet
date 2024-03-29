@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
@@ -45,7 +44,6 @@ import { NodeMapPageService } from './node-map-page.service';
   providers: [NodeMapPageService, NodeMapService, RouterService],
   standalone: true,
   imports: [
-    AsyncPipe,
     ErrorComponent,
     NodeDetailsSidebarComponent,
     NodeMapComponent,

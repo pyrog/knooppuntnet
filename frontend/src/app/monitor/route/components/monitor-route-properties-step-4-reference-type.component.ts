@@ -6,7 +6,6 @@ import { FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatStepperModule } from '@angular/material/stepper';
-import { FormStatusComponent } from '@app/components/shared';
 
 @Component({
   selector: 'kpn-monitor-route-properties-step-4-reference-type',
@@ -55,7 +54,6 @@ import { FormStatusComponent } from '@app/components/shared';
       }
     }
 
-    <kpn-form-status formName="step4-form" [statusChanges]="ngForm().statusChanges" />
     <div class="kpn-button-group">
       <button id="step4-back" mat-stroked-button matStepperPrevious i18n="@@action.back">
         Back
@@ -74,13 +72,7 @@ import { FormStatusComponent } from '@app/components/shared';
     }
   `,
   standalone: true,
-  imports: [
-    FormStatusComponent,
-    MatButtonModule,
-    MatRadioModule,
-    MatStepperModule,
-    ReactiveFormsModule,
-  ],
+  imports: [MatButtonModule, MatRadioModule, MatStepperModule, ReactiveFormsModule],
 })
 export class MonitorRoutePropertiesStep4ReferenceTypeComponent {
   ngForm = input.required<FormGroupDirective>();

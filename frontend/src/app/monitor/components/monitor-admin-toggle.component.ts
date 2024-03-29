@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
@@ -31,7 +30,7 @@ import { MonitorService } from '../monitor.service';
     }
   `,
   standalone: true,
-  imports: [MatSlideToggleModule, AsyncPipe],
+  imports: [MatSlideToggleModule],
 })
 export class MonitorAdminToggleComponent {
   protected readonly service = inject(MonitorService);

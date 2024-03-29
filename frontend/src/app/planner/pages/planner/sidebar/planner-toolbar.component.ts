@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PageWidthService } from '@app/components/shared';
@@ -23,7 +22,7 @@ import { PlanActionsComponent } from './plan-actions.component';
     }
   `,
   standalone: true,
-  imports: [AsyncPipe, NetworkTypeSelectorComponent, PlanActionsComponent],
+  imports: [NetworkTypeSelectorComponent, PlanActionsComponent],
 })
 export class PlannerToolbarComponent {
   private readonly pageWidthService = inject(PageWidthService);

@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
@@ -57,7 +56,7 @@ import { OpenlayersMapService } from '../services';
     }
   `,
   standalone: true,
-  imports: [AsyncPipe, MatCheckboxModule, MatDividerModule, MatIconModule, MatMenuModule],
+  imports: [MatCheckboxModule, MatDividerModule, MatIconModule, MatMenuModule],
 })
 export class LayerSwitcherComponent {
   private readonly openlayersMapService: OpenlayersMapService = inject(MAP_SERVICE_TOKEN);

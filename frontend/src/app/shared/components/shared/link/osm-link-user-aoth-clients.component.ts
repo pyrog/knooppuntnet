@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { computed } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
@@ -20,7 +19,6 @@ import { UserService } from '../../../user';
     </a>
   `,
   standalone: true,
-  imports: [AsyncPipe],
 })
 export class OsmLinkUserAothClientsComponent {
   private readonly userService = inject(UserService);

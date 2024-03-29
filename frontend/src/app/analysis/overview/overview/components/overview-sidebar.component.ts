@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
@@ -63,7 +62,7 @@ import { OverviewFormat } from './overview-format';
     }
   `,
   standalone: true,
-  imports: [SidebarComponent, MatRadioModule, AsyncPipe],
+  imports: [SidebarComponent, MatRadioModule],
 })
 export class OverviewSidebarComponent {
   private readonly overviewService = inject(OverviewPageService);

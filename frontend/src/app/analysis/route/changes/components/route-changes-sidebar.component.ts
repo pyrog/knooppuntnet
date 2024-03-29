@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
@@ -19,7 +18,7 @@ import { RouteChangesPageService } from '../route-changes-page.service';
     </kpn-sidebar>
   `,
   standalone: true,
-  imports: [SidebarComponent, ChangeFilterComponent, AsyncPipe],
+  imports: [SidebarComponent, ChangeFilterComponent],
 })
 export class RouteChangesSidebarComponent {
   protected readonly service = inject(RouteChangesPageService);

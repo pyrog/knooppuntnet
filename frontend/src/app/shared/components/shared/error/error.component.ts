@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
@@ -47,7 +46,6 @@ import { SharedStateService } from '../../../core/shared/shared-state.service';
     }
   `,
   standalone: true,
-  imports: [AsyncPipe],
 })
 export class ErrorComponent {
   protected readonly service = inject(SharedStateService);

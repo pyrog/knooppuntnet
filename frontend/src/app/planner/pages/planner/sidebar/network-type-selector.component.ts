@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
@@ -49,7 +48,7 @@ import { PlannerPageService } from '../planner-page.service';
     }
   `,
   standalone: true,
-  imports: [MatButtonToggleModule, MatIconModule, AsyncPipe],
+  imports: [MatButtonToggleModule, MatIconModule],
 })
 export class NetworkTypeSelectorComponent {
   protected readonly service = inject(PlannerPageService);

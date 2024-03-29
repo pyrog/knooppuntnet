@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { computed } from '@angular/core';
 import { inject } from '@angular/core';
 import { Injector } from '@angular/core';
@@ -84,7 +83,7 @@ import { PlanOutputDialogComponent } from './plan-output-dialog.component';
     }
   `,
   standalone: true,
-  imports: [PlanActionButtonComponent, AsyncPipe],
+  imports: [PlanActionButtonComponent],
 })
 export class PlanActionsComponent {
   private readonly plannerService = inject(PlannerService);

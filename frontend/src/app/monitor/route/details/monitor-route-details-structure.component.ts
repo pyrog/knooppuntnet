@@ -1,5 +1,4 @@
 import { NgClass } from '@angular/common';
-import { AsyncPipe } from '@angular/common';
 import { OnInit } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
@@ -305,7 +304,6 @@ import { MonitorRouteGapComponent } from '../monitor-route-gap.component';
   `,
   standalone: true,
   imports: [
-    AsyncPipe,
     DayPipe,
     DistancePipe,
     MatButtonModule,

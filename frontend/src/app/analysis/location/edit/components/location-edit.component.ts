@@ -1,4 +1,4 @@
-import { AsyncPipe } from '@angular/common';
+import { signal } from '@angular/core';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { OnInit } from '@angular/core';
@@ -10,7 +10,6 @@ import { LocationEditPage } from '@api/common/location';
 import { EditConfiguration } from '@app/analysis/components/edit';
 import { EditParameters } from '@app/analysis/components/edit';
 import { EditService } from '@app/components/shared';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'kpn-location-edit',
@@ -37,7 +36,7 @@ import { BehaviorSubject } from 'rxjs';
         <span i18n="@@location-edit.full-routes">routes with ways (takes more time)</span>
       </mat-checkbox>
     </p>
-    @if (showEstimatedTime$ | async) {
+    @if (showEstimatedTime()) {
       <p>
         <i i18n="@@location-edit.time-warning">
           We estimate that it will take perhaps about {{ seconds }} seconds to load all nodes and
@@ -59,7 +58,7 @@ import { BehaviorSubject } from 'rxjs';
     </p>
   `,
   standalone: true,
-  imports: [MatCheckboxModule, MatButtonModule, AsyncPipe],
+  imports: [MatCheckboxModule, MatButtonModule],
 })
 export class LocationEditComponent implements OnInit {
   page = input.required<LocationEditPage>();
@@ -72,7 +71,7 @@ export class LocationEditComponent implements OnInit {
   routeRelationsSelection = true;
   fullRouteSelection = false;
 
-  showEstimatedTime$ = new BehaviorSubject<boolean>(false);
+  protected showEstimatedTime = signal<boolean>(false);
 
   private readonly configuration = new EditConfiguration();
 
@@ -103,7 +102,7 @@ export class LocationEditComponent implements OnInit {
   private updateExpectation(): void {
     const parameters: EditParameters = this.buildEditParameters();
     this.seconds = this.configuration.seconds(parameters);
-    this.showEstimatedTime$.next(this.seconds > 3);
+    this.showEstimatedTime.set(this.seconds > 3);
   }
 
   private buildEditParameters(): EditParameters {
