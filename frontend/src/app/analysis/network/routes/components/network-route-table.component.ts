@@ -22,11 +22,9 @@ import { DayPipe } from '@app/components/shared/format';
 import { IntegerFormatPipe } from '@app/components/shared/format';
 import { LinkRouteComponent } from '@app/components/shared/link';
 import { SymbolComponent } from '@app/symbol';
-import { BehaviorSubject } from 'rxjs';
 import { ActionButtonRouteComponent } from '../../../components/action/action-button-route.component';
 import { NetworkRoutesPageService } from '../network-routes-page.service';
 import { NetworkRouteAnalysisComponent } from './network-route-analysis.component';
-import { NetworkRouteFilterCriteria } from './network-route-filter-criteria';
 
 @Component({
   selector: 'kpn-network-route-table',
@@ -198,10 +196,6 @@ export class NetworkRouteTableComponent implements OnInit {
 
     return ['nr', 'analysis', 'route'];
   });
-
-  private readonly filterCriteria$ = new BehaviorSubject<NetworkRouteFilterCriteria>(
-    new NetworkRouteFilterCriteria()
-  );
 
   constructor() {
     effect(() => {

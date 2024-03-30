@@ -87,12 +87,12 @@ export class PlannerPageService {
   setNetworkType(networkType: NetworkType): void {
     this.plannerStateService.setNetworkType(networkType);
     this.plannerService.context.setNetworkType(networkType);
-    this.plannerMapService.setNetworkType(networkType);
+    this.plannerMapService.updateLayerVisibility();
   }
 
   setMapMode(mapMode: MapMode): void {
     this.plannerStateService.setMapMode(mapMode);
-    this.plannerMapService.setMapMode(mapMode);
+    this.plannerMapService.updateLayerVisibility();
   }
 
   mouseleave() {

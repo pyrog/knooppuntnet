@@ -40,9 +40,6 @@ export class PlannerMapService extends OpenlayersMapService {
   private overlay: Overlay;
   private readonly interaction = new PlannerInteraction(this.plannerService.engine);
 
-  private networkType: NetworkType;
-  private mapMode: MapMode;
-
   private parameters = computed(() => {
     const selectedRouteId = '';
     const selectedNodeId = '';
@@ -119,15 +116,6 @@ export class PlannerMapService extends OpenlayersMapService {
     // );
   }
 
-  setNetworkType(networkType: NetworkType): void {
-    this.networkType = networkType;
-  }
-
-  setMapMode(mapMode: MapMode): void {
-    this.mapMode = mapMode;
-    this.updateLayerVisibility();
-  }
-
   override destroy() {
     // this.networkVectorLayerStyle.destroy(); can we really do this? consider the lifecycle of this service...
     this.subcriptions.unsubscribe();
@@ -157,17 +145,11 @@ export class PlannerMapService extends OpenlayersMapService {
     }
   }
 
-  networkTypeOrMapModeChanged(networkType: NetworkType, mapMode: MapMode) {
-    this.networkType = networkType;
-    this.mapMode = mapMode;
-    this.updateLayerVisibility();
-  }
-
   protected override layerVisible(mapLayer: MapLayer): boolean {
-    if (!!mapLayer.networkType && mapLayer.networkType !== this.networkType) {
+    if (!!mapLayer.networkType && mapLayer.networkType !== this.plannerStateService.networkType()) {
       return false;
     }
-    if (!!mapLayer.mapMode && mapLayer.mapMode !== this.mapMode) {
+    if (!!mapLayer.mapMode && mapLayer.mapMode !== this.plannerStateService.mapMode()) {
       return false;
     }
     return super.layerVisible(mapLayer);

@@ -1,11 +1,11 @@
-import { AsyncPipe } from '@angular/common';
+import { computed } from '@angular/core';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { EventEmitter } from '@angular/core';
-import { OnInit } from '@angular/core';
 import { Output } from '@angular/core';
 import { input } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { UntypedFormBuilder } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UntypedFormControl } from '@angular/forms';
@@ -17,9 +17,6 @@ import { MatInputModule } from '@angular/material/input';
 import { LocationNode } from '@api/common/location';
 import { Country } from '@api/custom';
 import { Util } from '@app/components/shared';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { startWith } from 'rxjs/operators';
 import { LocationOption } from './location-option';
 
 @Component({
@@ -44,7 +41,7 @@ import { LocationOption } from './location-option';
           [displayWith]="displayName"
           (opened)="resetWarning()"
         >
-          @for (option of filteredOptions | async; track option) {
+          @for (option of filteredOptions(); track option) {
             <mat-option [value]="option">
               {{ option.name }}
               @if (nodeCount(option) > 0) {
@@ -87,7 +84,6 @@ import { LocationOption } from './location-option';
   `,
   standalone: true,
   imports: [
-    AsyncPipe,
     MatAutocompleteModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -96,7 +92,7 @@ import { LocationOption } from './location-option';
     ReactiveFormsModule,
   ],
 })
-export class LocationSelectorComponent implements OnInit {
+export class LocationSelectorComponent /* implements OnInit*/ {
   country = input.required<Country>();
   locationNode = input.required<LocationNode>();
   all = input(false);
@@ -106,28 +102,30 @@ export class LocationSelectorComponent implements OnInit {
 
   protected warningSelectionMandatory = false;
   protected warningSelectionInvalid = false;
-  protected options: LocationOption[] = [];
+  protected readonly options = computed(() => this.toOptions('', this.locationNode()));
   protected locationInputControl = new UntypedFormControl();
-  protected filteredOptions: Observable<LocationOption[]>;
   protected readonly formGroup = this.fb.group({
     locationInputControl: this.locationInputControl,
   });
 
-  ngOnInit(): void {
-    this.options = this.toOptions('', this.locationNode());
-    this.filteredOptions = this.locationInputControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => (typeof value === 'string' ? value : value.locationName)),
-      map((name) => (name ? this._filter(name) : this.options))
-    );
-  }
+  private readonly inputControlValue = toSignal(this.locationInputControl.valueChanges);
+  protected readonly filteredOptions = computed(() => {
+    const value = this.inputControlValue();
+    if (typeof value === 'string') {
+      return this._filter(value);
+    }
+    if (value instanceof LocationOption) {
+      return this._filter(value.name);
+    }
+    return this.options();
+  });
 
   select(): void {
     if (this.locationInputControl.value) {
       let selection = this.locationInputControl.value;
       if (!(selection instanceof LocationOption)) {
         const normalized = Util.normalize(selection);
-        const selectedLocationOptions = this.options.filter(
+        const selectedLocationOptions = this.options().filter(
           (locationOption) => locationOption.normalizedLocationName === normalized
         );
         if (selectedLocationOptions.length > 0) {
@@ -160,7 +158,7 @@ export class LocationSelectorComponent implements OnInit {
 
   private _filter(filterValue: string): LocationOption[] {
     const normalizedFilterValue = Util.normalize(filterValue);
-    return this.options.filter(
+    return this.options().filter(
       (option) => option.normalizedLocationName.indexOf(normalizedFilterValue) >= 0
     );
   }

@@ -1,9 +1,10 @@
-import { AsyncPipe } from '@angular/common';
+import { computed } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ErrorComponent } from '@app/components/shared/error';
 import { PageComponent } from '@app/components/shared/page';
+import { SharedStateService } from '../../../shared/core/shared/shared-state.service';
 import { RouterService } from '../../../shared/services/router.service';
 import { LocationPageHeaderComponent } from '../components/location-page-header.component';
 import { LocationResponseComponent } from '../components/location-response.component';
@@ -46,19 +47,12 @@ import { LocationEditPageService } from './location-edit-page.service';
           </kpn-location-response>
         </div>
       } @else {
-        <!-- TODO SIGNAL      @if (noHttpError$ | async) {-->
-        <p class="analyzing" i18n="@@location-edit.analyzing">
-          Analyzing location nodes and routes, please wait...
-        </p>
-        <!--        }-->
+        @if (noHttpError()) {
+          <p class="analyzing kpn-spacer-above" i18n="@@location-edit.analyzing">
+            Analyzing location nodes and routes, please wait...
+          </p>
+        }
       }
-      <ng-template #analyzing>
-        <!-- TODO      @if (noHttpError$ | async) {-->
-        <p class="analyzing" i18n="@@location-edit.analyzing">
-          Analyzing location nodes and routes, please wait...
-        </p>
-        <!--        }-->
-      </ng-template>
       <kpn-location-sidebar sidebar />
     </kpn-page>
   `,
@@ -75,7 +69,6 @@ import { LocationEditPageService } from './location-edit-page.service';
   providers: [LocationEditPageService, RouterService],
   standalone: true,
   imports: [
-    AsyncPipe,
     ErrorComponent,
     LocationEditComponent,
     LocationPageHeaderComponent,
@@ -86,23 +79,10 @@ import { LocationEditPageService } from './location-edit-page.service';
 })
 export class LocationEditPageComponent implements OnInit {
   protected readonly service = inject(LocationEditPageService);
+  private readonly sharedStateService = inject(SharedStateService);
+  protected readonly noHttpError = computed(() => !this.sharedStateService.httpError());
 
   ngOnInit(): void {
     this.service.onInit();
   }
-
-  // TODO SIGNAL!!!
-  // private readonly store = inject(Store);
-  // readonly apiResponse = this.store.selectSignal(selectLocationEditPage);
-  // readonly noHttpError$ = this.store
-  //   .select(selectSharedHttpError)
-  //   .pipe(map((error) => error == null));
-  //
-  // ngOnInit(): void {
-  //   this.store.dispatch(actionLocationEditPageInit());
-  // }
-  //
-  // ngOnDestroy(): void {
-  //   this.store.dispatch(actionLocationEditPageDestroy());
-  // }
 }

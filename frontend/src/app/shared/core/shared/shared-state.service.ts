@@ -16,7 +16,6 @@ export class SharedStateService {
   readonly httpError = this._httpError.asReadonly();
   readonly surveyDateValues = this._surveyDateValues.asReadonly();
 
-  // TODO SIGNAL
   setHttpError(message: string | null): void {
     this._httpError.set(message);
   }
