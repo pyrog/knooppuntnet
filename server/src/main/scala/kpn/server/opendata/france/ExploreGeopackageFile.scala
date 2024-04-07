@@ -17,13 +17,14 @@ class ExploreGeopackageFile {
   private val report = new Report
 
   def explore(): Unit = {
-    explore("/Users/marc/kpn/opendata/france/itineraires-rando-parc-du-vercors.gpkg")
-    explore("/Users/marc/kpn/opendata/france/signaletique.gpkg")
-    explore("/Users/marc/kpn/opendata/france/boucles-pdipr-cd24.gpkg")
-    explore("/Users/marc/kpn/opendata/france/liaisons-pdipr-cd24.gpkg")
+    explore("itineraires-rando-parc-du-vercors.gpkg")
+    explore("signaletique.gpkg")
+    explore("boucles-pdipr-cd24.gpkg")
+    explore("liaisons-pdipr-cd24.gpkg")
   }
 
-  private def explore(filename: String): Unit = {
+  private def explore(name: String): Unit = {
+    val filename = "/Users/marc/kpn/opendata/france/" + name
     report.print(filename)
     report.indent {
       val file = new File(filename)
@@ -85,9 +86,8 @@ class ExploreGeopackageFile {
   private def reportColumns(dao: FeatureDao): Unit = {
     report.print(s"columns")
     report.indent {
-      dao.getTable.getColumnNames.foreach { columnName =>
-        report.print(columnName)
-      }
+      val columns = dao.getTable.getColumnNames.map(n => dao.getTable.getColumn(n))
+      columns.foreach { column => report.print(f"${column.getName}%-15s ${column.getDataType.name()}")}
     }
   }
 
