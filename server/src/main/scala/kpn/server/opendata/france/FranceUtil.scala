@@ -1,6 +1,7 @@
 package kpn.server.opendata.france
 
 import kpn.api.common.LatLonImpl
+import mil.nga.geopackage.features.user.FeatureRow
 import org.geotools.geometry.jts.JTS
 import org.geotools.referencing.CRS
 import org.locationtech.jts.geom.{Coordinate, GeometryFactory, Point, PrecisionModel}
@@ -19,4 +20,9 @@ object FranceUtil {
     val longitude = targetPoint.getY.toString
     LatLonImpl(latitude, longitude)
   }
+
+  def routeNames(row: FeatureRow): Seq[String] = {
+    row.getValue("iti_nom").toString.split(";").toSeq.flatMap(_.split(",")).map(_.trim).filterNot(_.isEmpty)
+  }
+
 }

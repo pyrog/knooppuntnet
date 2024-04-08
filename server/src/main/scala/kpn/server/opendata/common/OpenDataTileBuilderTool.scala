@@ -5,6 +5,7 @@ import kpn.server.opendata.flanders.FlandersNode
 import kpn.server.opendata.flanders.FlandersNodeParser
 import kpn.server.opendata.flanders.FlandersRoute
 import kpn.server.opendata.flanders.FlandersRouteParser
+import kpn.server.opendata.france.FranceRouteParser
 import kpn.server.opendata.netherlands.RoutedatabankNode
 import kpn.server.opendata.netherlands.RoutedatabankNodeReader
 import kpn.server.opendata.netherlands.RoutedatabankRoute
@@ -26,8 +27,9 @@ class OpenDataTileBuilderTool {
   private val log = Log(classOf[OpenDataTileBuilderTool])
 
   def build(): Unit = {
-    buildFlanders()
+    //buildFlanders()
     // buildNetherlands()
+    buildFrance()
     log.info("Done")
   }
 
@@ -97,6 +99,22 @@ class OpenDataTileBuilderTool {
     val filename = "/kpn/opendata/netherlands/Wandelnetwerken (wgs84).json"
     val inputStream = new FileInputStream(filename)
     new RoutedatabankRouteReader().read(inputStream)
+  }
+
+  private def buildFrance(): Unit = {
+    buildFranceHiking()
+  }
+
+  private def buildFranceHiking(): Unit = {
+    Log.context("France") {
+      val routes = readFranceHikingRoutes()
+      new OpenDataTileBuilder().build(Seq.empty, routes, "opendata/france/hiking")
+    }
+  }
+
+  private def readFranceHikingRoutes(): Seq[OpenDataRoute] = {
+    log.info("Read hiking routes")
+    new FranceRouteParser().read()
   }
 
   private def toXml(filename: String): Elem = {

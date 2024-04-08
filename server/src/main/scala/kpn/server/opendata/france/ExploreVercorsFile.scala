@@ -2,7 +2,6 @@ package kpn.server.opendata.france
 
 import kpn.core.util.Haversine
 import kpn.core.util.Report
-import kpn.server.opendata.common.OpenDataRoute
 import kpn.server.opendata.france.ExploreVercorsFile.routeDescriptions
 import mil.nga.geopackage.GeoPackageManager
 import mil.nga.geopackage.features.user.FeatureRow
@@ -17,7 +16,7 @@ object ExploreVercorsFile {
     new ExploreVercorsFile().explore()
   }
 
-  val routeDescriptions = Seq(
+  val routeDescriptions: Map[String, String] = Seq(
     "best" -> "Balcon Est",
     "cs_gs" -> "chemins du soleil Grenoble Sisteron",
     "cs_vg" -> "chemins du soleil Valence Gap",
@@ -78,7 +77,7 @@ class ExploreVercorsFile {
   private def printRoutesWithoutName(rows: Seq[FeatureRow]): Unit = {
     report.print("routes without name")
     report.indent {
-      val filteredRows = rows.filter(row => routeNames(row).isEmpty)
+      val filteredRows = rows.filter(row => FranceUtil.routeNames(row).isEmpty)
       filteredRows.foreach(printRow)
     }
   }
@@ -96,10 +95,10 @@ class ExploreVercorsFile {
   }
 
   private def printRouteDistances(rows: Seq[FeatureRow]): Unit = {
-    val names = rows.flatMap(routeNames)
+    val names = rows.flatMap(FranceUtil.routeNames)
     val resultMap = names.groupBy(identity).map(e => e._1 -> e._2.size).toSeq.sortBy(_._1.toLowerCase())
     val distances = resultMap.map(_._1).map { routeName =>
-      val routeRows = rows.filter(row => routeNames(row).contains(routeName))
+      val routeRows = rows.filter(row => FranceUtil.routeNames(row).contains(routeName))
       val distance = routeRows.map(routeDistance).sum
       routeName -> distanceString(distance)
     }
@@ -153,10 +152,6 @@ class ExploreVercorsFile {
       }
     }
     report.print(s"---")
-  }
-
-  private def routeNames(row: FeatureRow): Seq[String] = {
-    row.getValue("iti_nom").toString.split(";").toSeq.flatMap(_.split(",")).map(_.trim).filterNot(_.isEmpty)
   }
 
   private def routeDistance(row: FeatureRow): Int = {

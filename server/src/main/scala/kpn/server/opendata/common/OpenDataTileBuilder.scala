@@ -116,7 +116,7 @@ class OpenDataTileBuilder {
   }
 
   private def writeTile(tile: OldTile, tileBytes: Array[Byte], dir: String, fileExtension: String): Unit = {
-    val filename = s"/kpn/tiles/$dir/${tile.z}/${tile.x}/${tile.y}.$fileExtension"
+    val filename = s"/Users/marc/kpn/tiles/$dir/${tile.z}/${tile.x}/${tile.y}.$fileExtension"
     val file = new File(filename)
     FileUtils.writeByteArrayToFile(file, tileBytes)
   }
