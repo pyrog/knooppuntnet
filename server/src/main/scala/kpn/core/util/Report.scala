@@ -1,7 +1,7 @@
 package kpn.core.util
 
 class Report {
-  var indentLevel = 0
+  private var indentLevel = 0
 
   def indent(block: => Unit): Unit = {
     indentLevel = indentLevel + 1
@@ -10,8 +10,8 @@ class Report {
   }
 
   def print(string: String): Unit = {
-    0.until (indentLevel).foreach { level =>
-      System.out.print(" ")
+    0.until (indentLevel).foreach { _ =>
+      System.out.print("  ")
     }
     println(string)
   }
