@@ -1,5 +1,7 @@
 package kpn.server.repository
 
+import kpn.api.common.LocationChangeSet
+import kpn.api.common.changes.filter.ChangesParameters
 import kpn.api.common.location.LocationFact
 import kpn.api.common.location.LocationNodeInfo
 import kpn.api.common.location.LocationNodesParameters
@@ -12,6 +14,7 @@ import kpn.api.custom.LocationNodesType
 import kpn.api.custom.LocationRoutesType
 import kpn.api.custom.NetworkType
 import kpn.core.doc.LocationNodeCount
+import kpn.database.actions.locations.MongoQueryLocationChanges
 import kpn.database.actions.locations.MongoQueryLocationFactCount
 import kpn.database.actions.locations.MongoQueryLocationFacts
 import kpn.database.actions.locations.MongoQueryLocationNodeCounts
@@ -77,5 +80,9 @@ class LocationRepositoryImpl(database: Database) extends LocationRepository {
 
   override def factCount(networkType: NetworkType, locationName: String): Long = {
     new MongoQueryLocationFactCount(database).execute(networkType, locationName)
+  }
+
+  override def changes(locationKey: LocationKey, parameters: ChangesParameters): Seq[LocationChangeSet] = {
+    new MongoQueryLocationChanges(database).execute(locationKey.networkType, locationKey.name, parameters)
   }
 }

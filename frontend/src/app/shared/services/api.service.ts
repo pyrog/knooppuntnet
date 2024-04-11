@@ -287,7 +287,7 @@ export class ApiService {
 
   public locationChanges(
     locationKey: LocationKey,
-    parameters: LocationChangesParameters
+    parameters: ChangesParameters
   ): Observable<ApiResponse<LocationChangesPage>> {
     const url = this.locationUrl(locationKey, 'changes');
     return this.http.post(url, parameters, { params: this.languageParams() });

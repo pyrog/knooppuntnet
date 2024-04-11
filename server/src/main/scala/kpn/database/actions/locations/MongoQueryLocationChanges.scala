@@ -31,16 +31,16 @@ object MongoQueryLocationChanges {
   private val log = Log(classOf[MongoQueryLocationChanges])
 
   def main(args: Array[String]): Unit = {
-    Mongo.executeIn("kpn-3") { database =>
+    Mongo.executeIn("kpn-prod") { database =>
       val parameters = ChangesParameters(
         pageSize = 6,
-        impact = true,
-        year = Some(2022),
-        month = Some(2),
-        day = Some(28)
+        impact = false,
+        year = None,
+        month = None,
+        day = None
       )
       val query = new MongoQueryLocationChanges(database)
-      val changes = query.execute(NetworkType.hiking, "fr", parameters)
+      val changes = query.execute(NetworkType.hiking, "nl-1-gd", parameters)
       println("---")
       changes.foreach { change =>
         val timestamp = change.key.timestamp.yyyymmddhhmmss

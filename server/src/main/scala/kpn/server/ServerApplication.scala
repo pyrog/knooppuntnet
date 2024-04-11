@@ -1,11 +1,8 @@
 package kpn.server
 
 import org.springframework.boot.SpringApplication
-import org.springframework.boot.actuate.autoconfigure.mail.MailHealthContributorAutoConfiguration
 import org.springframework.boot.actuate.autoconfigure.metrics.mongo.MongoMetricsAutoConfiguration
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
-import org.springframework.boot.autoconfigure.mail.MailSenderValidatorAutoConfiguration
 import org.springframework.boot.autoconfigure.mongo.MongoReactiveAutoConfiguration
 import org.springframework.scheduling.annotation.EnableScheduling
 

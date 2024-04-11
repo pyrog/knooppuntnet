@@ -1,9 +1,21 @@
 package kpn.core.tools.config
 
 import java.io.File
+import java.io.FileNotFoundException
 
 object Dirs {
-  def apply(): Dirs = new Dirs(new File("/kpn"))
+  def root: File = {
+    val filename = System.getenv("KPN_ROOT")
+    if (filename == null) {
+      throw new FileNotFoundException("KPN_ROOT environment variable undefined")
+    }
+    val file = new File(filename)
+    if (!file.exists()) {
+      throw new FileNotFoundException("KPN_ROOT $filename does not exist")
+    }
+    file
+  }
+  def apply(): Dirs = new Dirs(root)
 }
 
 class Dirs(val root: File) {

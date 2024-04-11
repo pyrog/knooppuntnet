@@ -2,6 +2,7 @@ package kpn.server.analyzer.engine.analysis.location
 
 import kpn.api.common.Language
 import kpn.api.custom.Country
+import kpn.core.tools.config.Dirs
 import kpn.core.tools.location.LocationNameDefinition
 import kpn.core.tools.location.LocationNameDefinitions
 import kpn.core.util.Log
@@ -18,12 +19,12 @@ class LocationConfigurationReader {
     val rootLocations = Country.all.map { country =>
       log.info("Loading " + country.domain.toUpperCase)
       val locationNameDefinitions = {
-        val filename = s"/kpn/locations/${country.domain}/locations.json"
+        val filename = s"${Dirs.root}/kpn/locations/${country.domain}/locations.json"
         val string = FileUtils.readFileToString(new File(filename), "UTF-8")
         Json.objectMapper.readValue(string, classOf[LocationNameDefinitions])
       }
       val locationMap = locationNameDefinitions.locations.map(lnd => lnd.id -> lnd).toMap
-      val treeFilename = s"/kpn/locations/${country.domain}/tree.json"
+      val treeFilename = s"${Dirs.root}/kpn/locations/${country.domain}/tree.json"
       val string = FileUtils.readFileToString(new File(treeFilename), "UTF-8")
       val tree = Json.objectMapper.readValue(string, classOf[LocationTree])
       toLocation(locationMap, tree)

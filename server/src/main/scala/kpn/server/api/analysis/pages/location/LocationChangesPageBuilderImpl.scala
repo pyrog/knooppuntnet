@@ -1,6 +1,7 @@
 package kpn.server.api.analysis.pages.location
 
 import kpn.api.common.Language
+import kpn.api.common.changes.filter.ChangesParameters
 import kpn.api.common.location.LocationChangesPage
 import kpn.api.common.location.LocationChangesParameters
 import kpn.api.custom.Country
@@ -28,8 +29,10 @@ class LocationChangesPageBuilderImpl(
   private def buildPage(language: Language, locationKeyParam: LocationKey, parameters: LocationChangesParameters): Option[LocationChangesPage] = {
     val locationKey = locationService.toIdBased(language, locationKeyParam)
     val summary = locationRepository.summary(locationKey)
+    val changesParameters = ChangesParameters(pageSize = parameters.pageSize, pageIndex = parameters.pageIndex)
+    val changeSets = locationRepository.changes(locationKey, changesParameters)
     Some(
-      LocationChangesPage(summary)
+      LocationChangesPage(summary, changeSets)
     )
   }
 }
