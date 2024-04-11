@@ -204,14 +204,14 @@ documented [planner interaction tests](https://github.com/vmarc/knooppuntnet/blo
 
 Knooppuntnet is happy to use an [IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) from JetBrains who provided an [open source license](https://jb.gg/OpenSourceSupport).
 
-<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/IntelliJ_IDEA.svg"  width="250">
+<a href="https://www.jetbrains.com/idea"><img src="https://resources.jetbrains.com/storage/products/company/brand/logos/IntelliJ_IDEA.svg" width="250"/></a>
 
-Translation support for the appication is provided by for free by
+Translation support for the application is provided by for free by
 [POEditor](https://poeditor.com/) (supporter of open source projects).
 You can [join the translation effort](https://poeditor.com/join/project/Bfvs2fvcYI)
 at their web-site.
 
-![logo](docs/poeditor.svg)
+<a href="https://poeditor.com/"><img src="docs/poeditor.svg"/></a>
 
 All map data is coming from [OpenStreetMap](http://www.openstreetmap.org).
 
