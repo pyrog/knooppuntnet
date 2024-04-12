@@ -11,7 +11,6 @@ import { SurveyDateInfo } from '@api/common';
 import { ChangeSetPage } from '@api/common/changes';
 import { ChangesParameters } from '@api/common/changes/filter';
 import { LocationChangesPage } from '@api/common/location';
-import { LocationChangesParameters } from '@api/common/location';
 import { LocationEditPage } from '@api/common/location';
 import { LocationFactsPage } from '@api/common/location';
 import { LocationMapPage } from '@api/common/location';

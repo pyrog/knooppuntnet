@@ -3,15 +3,14 @@ package kpn.server.api.analysis
 import kpn.api.common.AnalysisStrategy
 import kpn.api.common.ChangesPage
 import kpn.api.common.EN
+import kpn.api.common.LOCATION
 import kpn.api.common.Language
 import kpn.api.common.Languages
-import kpn.api.common.LOCATION
 import kpn.api.common.ReplicationId
 import kpn.api.common.SurveyDateInfo
 import kpn.api.common.changes.ChangeSetPage
 import kpn.api.common.changes.filter.ChangesParameters
 import kpn.api.common.location.LocationChangesPage
-import kpn.api.common.location.LocationChangesParameters
 import kpn.api.common.location.LocationEditPage
 import kpn.api.common.location.LocationFactsPage
 import kpn.api.common.location.LocationMapPage
@@ -337,7 +336,7 @@ class AnalysisController(analysisFacade: AnalysisFacade) {
     @PathVariable networkType: NetworkType,
     @PathVariable country: Country,
     @PathVariable location: String,
-    @RequestBody parameters: LocationChangesParameters
+    @RequestBody parameters: ChangesParameters
   ): ApiResponse[LocationChangesPage] = {
     val locationKey = LocationKey(networkType, country, location)
     analysisFacade.locationChanges(toLanguage(language), locationKey, parameters)

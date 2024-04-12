@@ -3,7 +3,6 @@ package kpn.server.api.analysis.pages.location
 import kpn.api.common.Language
 import kpn.api.common.changes.filter.ChangesParameters
 import kpn.api.common.location.LocationChangesPage
-import kpn.api.common.location.LocationChangesParameters
 import kpn.api.custom.Country
 import kpn.api.custom.LocationKey
 import kpn.api.custom.NetworkType
@@ -17,7 +16,7 @@ class LocationChangesPageBuilderImpl(
   locationService: LocationService
 ) extends LocationChangesPageBuilder {
 
-  override def build(language: Language, locationKey: LocationKey, parameters: LocationChangesParameters): Option[LocationChangesPage] = {
+  override def build(language: Language, locationKey: LocationKey, parameters: ChangesParameters): Option[LocationChangesPage] = {
     if (locationKey == LocationKey(NetworkType.cycling, Country.nl, "example")) {
       Some(LocationChangesPageExample.page)
     }
@@ -26,11 +25,10 @@ class LocationChangesPageBuilderImpl(
     }
   }
 
-  private def buildPage(language: Language, locationKeyParam: LocationKey, parameters: LocationChangesParameters): Option[LocationChangesPage] = {
+  private def buildPage(language: Language, locationKeyParam: LocationKey, parameters: ChangesParameters): Option[LocationChangesPage] = {
     val locationKey = locationService.toIdBased(language, locationKeyParam)
     val summary = locationRepository.summary(locationKey)
-    val changesParameters = ChangesParameters(pageSize = parameters.pageSize, pageIndex = parameters.pageIndex)
-    val changeSets = locationRepository.changes(locationKey, changesParameters)
+    val changeSets = locationRepository.changes(locationKey, parameters)
     Some(
       LocationChangesPage(summary, changeSets)
     )

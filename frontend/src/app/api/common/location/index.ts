@@ -15,4 +15,3 @@ export * from './location-routes-page';
 export * from './location-changes-page';
 export * from './location-nodes-parameters';
 export * from './location-routes-parameters';
-export * from './location-changes-parameters';

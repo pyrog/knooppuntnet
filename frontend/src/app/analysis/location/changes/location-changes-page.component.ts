@@ -1,15 +1,15 @@
-import { inject } from "@angular/core";
-import { OnInit } from "@angular/core";
-import { ChangeDetectionStrategy } from "@angular/core";
-import { Component } from "@angular/core";
-import { ErrorComponent } from "@app/components/shared/error";
-import { PageComponent } from "@app/components/shared/page";
-import { RouterService } from "../../../shared/services/router.service";
-import { LocationPageHeaderComponent } from "../components/location-page-header.component";
-import { LocationResponseComponent } from "../components/location-response.component";
-import { LocationSidebarComponent } from "../location-sidebar.component";
-import { LocationChangesComponent } from "./components/location-changes.component";
-import { LocationChangesPageService } from "./location-changes-page.service";
+import { inject } from '@angular/core';
+import { OnInit } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
+import { ErrorComponent } from '@app/components/shared/error';
+import { PageComponent } from '@app/components/shared/page';
+import { RouterService } from '../../../shared/services/router.service';
+import { LocationPageHeaderComponent } from '../components/location-page-header.component';
+import { LocationResponseComponent } from '../components/location-response.component';
+import { LocationSidebarComponent } from '../location-sidebar.component';
+import { LocationChangesComponent } from './components/location-changes.component';
+import { LocationChangesPageService } from './location-changes-page.service';
 
 @Component({
   selector: 'kpn-location-changes-page',

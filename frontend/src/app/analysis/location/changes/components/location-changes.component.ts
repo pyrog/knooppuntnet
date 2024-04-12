@@ -1,14 +1,14 @@
-import { ChangeDetectionStrategy, Component, inject, input } from "@angular/core";
-import { LocationChangeSet } from "@api/common";
-import { ChangeNetworkAnalysisSummaryComponent } from "@app/analysis/components/change-set";
-import { ChangeLocationAnalysisSummaryComponent } from "@app/analysis/components/change-set";
-import { ChangesComponent } from "@app/analysis/components/changes";
-import { ItemComponent, ItemsComponent } from "@app/components/shared/items";
-import { LocationChangesPageService } from "../location-changes-page.service";
-import { LocationChangeComponent } from "./location-change.component";
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { LocationChangeSet } from '@api/common';
+import { ChangeNetworkAnalysisSummaryComponent } from '@app/analysis/components/change-set';
+import { ChangeLocationAnalysisSummaryComponent } from '@app/analysis/components/change-set';
+import { ChangesComponent } from '@app/analysis/components/changes';
+import { ItemComponent, ItemsComponent } from '@app/components/shared/items';
+import { LocationChangesPageService } from '../location-changes-page.service';
+import { LocationChangeComponent } from './location-change.component';
 
 @Component({
-  selector: "kpn-location-changes",
+  selector: 'kpn-location-changes',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="kpn-spacer-above">
@@ -48,12 +48,15 @@ export class LocationChangesComponent {
 
   changeSets = input.required<LocationChangeSet[]>();
 
-  onImpactChange(event) {
+  onImpactChange(impact: boolean): void {
+    this.service.setImpact(impact);
   }
 
-  onPageSizeChange(event) {
+  onPageSizeChange(pageSize: number): void {
+    this.service.setPageSize(pageSize);
   }
 
-  onPageIndexChange(event) {
+  onPageIndexChange(pageIndex: number): void {
+    this.service.setPageIndex(pageIndex);
   }
 }

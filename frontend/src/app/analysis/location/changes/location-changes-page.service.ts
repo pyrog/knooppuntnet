@@ -1,14 +1,15 @@
-import { computed } from "@angular/core";
-import { signal } from "@angular/core";
-import { inject } from "@angular/core";
-import { ChangesParameters } from "@api/common/changes/filter";
-import { LocationChangesPage } from "@api/common/location";
-import { ApiResponse } from "@api/custom";
-import { PreferencesService } from "@app/core";
-import { ApiService } from "@app/services";
-import { RouterService } from "../../../shared/services/router.service";
-import { UserService } from "../../../shared/user";
-import { LocationService } from "../location.service";
+import { computed } from '@angular/core';
+import { signal } from '@angular/core';
+import { inject } from '@angular/core';
+import { ChangesParameters } from '@api/common/changes/filter';
+import { LocationChangesPage } from '@api/common/location';
+import { ApiResponse } from '@api/custom';
+import { PreferencesService } from '@app/core';
+import { ApiService } from '@app/services';
+import { RouterService } from '../../../shared/services/router.service';
+import { UserService } from '../../../shared/user';
+import { LocationService } from '../location.service';
+import { ChangeOption } from '@app/kpn/common';
 
 export class LocationChangesPageService {
   private readonly apiService = inject(ApiService);
@@ -40,6 +41,46 @@ export class LocationChangesPageService {
       impact: false,
     };
     this._changesParameters.set(parameters);
+    this.load();
+  }
+
+  setPageSize(pageSize: number): void {
+    this.preferencesService.setPageSize(pageSize);
+    this.setChangeParameters({
+      ...this.changesParameters(),
+      pageIndex: 0,
+      pageSize,
+    });
+  }
+
+  setImpact(impact: boolean): void {
+    this.setChangeParameters({
+      ...this.changesParameters(),
+      pageIndex: 0,
+      impact,
+    });
+  }
+
+  setPageIndex(pageIndex: number): void {
+    this.setChangeParameters({
+      ...this.changesParameters(),
+      pageIndex,
+    });
+  }
+
+  setFilterOption(option: ChangeOption): void {
+    this.setChangeParameters({
+      ...this.changesParameters(),
+      year: option.year,
+      month: option.month,
+      day: option.day,
+      impact: option.impact,
+      pageIndex: 0,
+    });
+  }
+
+  private setChangeParameters(changeParameters: ChangesParameters): void {
+    this._changesParameters.set(changeParameters);
     this.load();
   }
 
