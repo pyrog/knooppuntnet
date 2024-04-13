@@ -27,7 +27,7 @@ import { LocationChangesPageService } from './location-changes-page.service';
       @if (service.response(); as response) {
         <div class="kpn-spacer-above">
           <kpn-location-response [response]="response">
-            <kpn-location-changes [changeSets]="response.result.changeSets" />
+            <kpn-location-changes [page]="response.result" />
           </kpn-location-response>
         </div>
       }

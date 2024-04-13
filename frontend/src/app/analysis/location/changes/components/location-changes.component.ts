@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
-import { LocationChangeSet } from '@api/common';
 import { ChangeNetworkAnalysisSummaryComponent } from '@app/analysis/components/change-set';
 import { ChangeLocationAnalysisSummaryComponent } from '@app/analysis/components/change-set';
 import { ChangesComponent } from '@app/analysis/components/changes';
 import { ItemComponent, ItemsComponent } from '@app/components/shared/items';
 import { LocationChangesPageService } from '../location-changes-page.service';
 import { LocationChangeComponent } from './location-change.component';
+import { LocationChangesPage } from '@api/common/location';
 
 @Component({
   selector: 'kpn-location-changes',
@@ -19,13 +19,12 @@ import { LocationChangeComponent } from './location-change.component';
         (impactChange)="onImpactChange($event)"
         (pageSizeChange)="onPageSizeChange($event)"
         (pageIndexChange)="onPageIndexChange($event)"
-        [totalCount]="99"
-        [changeCount]="changeSets().length"
+        [totalCount]="page().summary.changeCount"
+        [changeCount]="page().changeSets.length"
       >
         <kpn-items>
-          @for (changeSet of changeSets(); track $index) {
-            <!--            <kpn-item [index]="changeSet.rowIndex">-->
-            <kpn-item [index]="1">
+          @for (changeSet of page().changeSets; track $index) {
+            <kpn-item [index]="changeSet.rowIndex">
               <kpn-location-change [changeSet]="changeSet" />
             </kpn-item>
           }
@@ -46,7 +45,7 @@ import { LocationChangeComponent } from './location-change.component';
 export class LocationChangesComponent {
   protected readonly service = inject(LocationChangesPageService);
 
-  changeSets = input.required<LocationChangeSet[]>();
+  page = input.required<LocationChangesPage>();
 
   onImpactChange(impact: boolean): void {
     this.service.setImpact(impact);

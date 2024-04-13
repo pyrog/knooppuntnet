@@ -2,36 +2,29 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LocationChangeSet } from '@api/common';
 import { NetworkType } from '@api/custom';
 import { ChangeHeaderComponent } from '@app/analysis/components/change-set';
 import { ChangesSetElementRefsComponent } from '@app/analysis/components/change-set/components';
 import { Util } from '@app/components/shared';
 import { NetworkTypeIconComponent } from '@app/components/shared';
 import { Translations } from '@app/i18n';
+import { LocationChangeSetInfo } from '@api/common/location-change-set-info';
 
 @Component({
   selector: 'kpn-location-change',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="change-set">
-      <!--      <kpn-change-header-->
-      <!--        [changeKey]="changeSet().key"-->
-      <!--        [happy]="changeSet().happy"-->
-      <!--        [investigate]="changeSet().investigate"-->
-      <!--        [comment]="changeSet().comment"-->
-      <!--      />-->
       <kpn-change-header
         [changeKey]="changeSet().key"
-        [happy]="true"
-        [investigate]="true"
-        [comment]="'TODO'"
+        [happy]="changeSet().happy"
+        [investigate]="changeSet().investigate"
+        [comment]="changeSet().comment"
       />
 
       @for (locationChanges of changeSet().locationChanges; track locationChanges) {
         <div>
           <div class="kpn-line">
-            <kpn-network-type-icon [networkType]="locationChanges.networkType" />
             <div class="location-names">
               @for (
                 locationName of locationChanges.locationNames;
@@ -88,7 +81,7 @@ import { Translations } from '@app/i18n';
   ],
 })
 export class LocationChangeComponent {
-  changeSet = input.required<LocationChangeSet>();
+  changeSet = input.required<LocationChangeSetInfo>();
 
   locationLink(networkType: NetworkType, locationNames: string[], index: number): string {
     const country = locationNames[0].toLowerCase();
