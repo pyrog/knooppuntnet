@@ -19,7 +19,6 @@ class LocationChangesPageBuilderImpl(
   locationService: LocationService,
   changeSetInfoRepository: ChangeSetInfoRepository
 ) extends LocationChangesPageBuilder {
-
   override def build(language: Language, locationKey: LocationKey, parameters: ChangesParameters): Option[LocationChangesPage] = {
     if (locationKey == LocationKey(NetworkType.cycling, Country.nl, "example")) {
       Some(LocationChangesPageExample.page)
@@ -39,20 +38,21 @@ class LocationChangesPageBuilderImpl(
       val rowIndex = parameters.pageSize * parameters.pageIndex + index
       val comment = changeSetInfos.find(s => s.id == changeSet.key.changeSetId).flatMap(_.tags("comment"))
       val locationChangeInfos = changeSet.locationChanges.map { change =>
-        val locationNames = change.locationNames.dropWhile(_ != locationKey.name).drop(1).map(locationName => locationService.name(language, locationName))
+        val locationNames = change.locationNames.dropWhile(_ != locationKey.name).drop(1)
+        val locationInfos = locationService.toInfos(language, change.locationNames, locationNames).map { locationInfo =>
+          locationInfo.copy(link = locationKey.networkType + "/" + locationInfo.link)
+        }
         LocationChangesInfo(
           change.networkType,
-          locationNames,
+          locationInfos,
           change.routeChanges,
           change.nodeChanges,
           change.happy,
           change.investigate
         )
       }
-
       val happy = changeSet.locationChanges.forall(_.happy)
       val investigate = changeSet.locationChanges.exists(_.investigate)
-
       LocationChangeSetInfo(
         rowIndex,
         changeSet.key,
@@ -62,7 +62,6 @@ class LocationChangesPageBuilderImpl(
         locationChangeInfos
       )
     }
-
     Some(
       LocationChangesPage(summary, locationChangeSetInfos)
     )

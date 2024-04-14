@@ -3,8 +3,7 @@ import { Component } from '@angular/core';
 import { input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NetworkType } from '@api/custom';
-import { Util } from '@app/components/shared';
-import { Translations } from '@app/i18n';
+import { LocationInfo } from '@api/common/location-info';
 
 @Component({
   selector: 'kpn-node-location',
@@ -14,8 +13,8 @@ import { Translations } from '@app/i18n';
       <p i18n="@@node.location.none">None</p>
     }
     <div class="kpn-comma-list">
-      @for (name of locationNames(); track name; let i = $index) {
-        <a [routerLink]="locationLink(i)">{{ name }}</a>
+      @for (locationInfo of locations(); track locationInfo.name; let i = $index) {
+        <a [routerLink]="link(locationInfo)">{{ locationInfo.name }}</a>
       }
     </div>
   `,
@@ -24,28 +23,13 @@ import { Translations } from '@app/i18n';
 })
 export class NodeLocationComponent {
   networkType = input.required<NetworkType>();
-  locations = input.required<string[]>();
+  locations = input.required<LocationInfo[]>();
 
   hasLocation() {
     return this.locations() && this.locations().length > 0;
   }
 
-  locationNames(): string[] {
-    if (this.locations()) {
-      const country = this.locations()![0].toUpperCase();
-      const names = [country].concat(this.locations()!.slice(1));
-      return names.reverse();
-    }
-    return [];
-  }
-
-  locationLink(index: number): string {
-    const country = this.locations()![0].toLowerCase();
-    const countryName = Translations.get('country.' + Util.safeGet(() => country));
-    const locationParts = [countryName].concat(
-      this.locations()!.slice(1, this.locations()!.length - index)
-    );
-    const location = locationParts.join(':');
-    return `/analysis/${this.networkType()}/${country}/${location}/nodes`;
+  link(locationInfo: LocationInfo): string {
+    return `/analysis/${this.networkType()}/${locationInfo.link}/nodes`;
   }
 }

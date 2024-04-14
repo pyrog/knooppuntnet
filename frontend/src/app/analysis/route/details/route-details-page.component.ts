@@ -113,7 +113,7 @@ import { RouteDetailsPageService } from './route-details-page.service';
               <kpn-data title="Location" i18n-title="@@route.location">
                 <kpn-route-location
                   [networkType]="page.route.summary.networkType"
-                  [locationAnalysis]="page.route.analysis.locationAnalysis"
+                  [locationCandidateInfos]="page.route.locationCandidateInfos"
                 />
               </kpn-data>
               @if (page.route.analysis && showRouteDetails()) {

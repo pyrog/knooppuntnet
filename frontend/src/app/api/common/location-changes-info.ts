@@ -2,10 +2,11 @@
 
 import { NetworkType } from '@api/custom';
 import { ChangeSetElementRefs } from './change-set-element-refs';
+import { LocationInfo } from './location-info';
 
 export interface LocationChangesInfo {
   readonly networkType: NetworkType;
-  readonly locationNames: string[];
+  readonly locationInfos: LocationInfo[];
   readonly routeChanges: ChangeSetElementRefs;
   readonly nodeChanges: ChangeSetElementRefs;
   readonly happy: boolean;

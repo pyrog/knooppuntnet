@@ -1,6 +1,7 @@
 package kpn.server.api.analysis.pages.route
 
 import kpn.api.common.Language
+import kpn.api.common.location.LocationCandidateInfo
 import kpn.api.common.route.RouteDetailsPage
 import kpn.api.common.route.RouteDetailsPageData
 import kpn.core.doc.Label
@@ -15,7 +16,6 @@ class RouteDetailsPageBuilderImpl(
   changeSetRepository: ChangeSetRepository,
   locationService: LocationService
 ) extends RouteDetailsPageBuilder {
-
   override def build(language: Language, routeId: Long): Option[RouteDetailsPage] = {
     if (routeId == 1) {
       Some(RouteDetailsPageExample.page)
@@ -29,11 +29,13 @@ class RouteDetailsPageBuilderImpl(
     routeRepository.findById(routeId).map { route =>
       val changeCount = changeSetRepository.routeChangesCount(routeId)
       val networkReferences = routeRepository.networkReferences(routeId)
-
-      val routeAnalysis = route.analysis.copy(
-        locationAnalysis = locationService.replaceNames(language, route.analysis.locationAnalysis)
-      )
-
+      val locationCandidateInfos = {
+        route.analysis.locationAnalysis.candidates.map { candidate =>
+          val locationNames = candidate.location.names
+          val locationInfos = locationService.toInfos(language, locationNames, locationNames)
+          LocationCandidateInfo(locationInfos, candidate.percentage)
+        }
+      }
       val data = RouteDetailsPageData(
         route._id,
         route.labels.contains(Label.active),
@@ -45,7 +47,8 @@ class RouteDetailsPageBuilderImpl(
         route.lastSurvey,
         route.tags,
         route.facts,
-        routeAnalysis,
+        locationCandidateInfos,
+        route.analysis,
         route.tiles,
         route.nodeRefs
       )

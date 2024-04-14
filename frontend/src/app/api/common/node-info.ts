@@ -7,6 +7,7 @@ import { Day } from '@api/custom';
 import { Fact } from '@api/custom';
 import { Tags } from '@api/custom';
 import { Timestamp } from '@api/custom';
+import { LocationInfo } from './location-info';
 import { NodeName } from './node-name';
 
 export interface NodeInfo {
@@ -22,7 +23,7 @@ export interface NodeInfo {
   readonly lastSurvey: Day;
   readonly tags: Tags;
   readonly facts: Fact[];
-  readonly locations: string[];
+  readonly locations: LocationInfo[];
   readonly tiles: string[];
   readonly integrity: NodeIntegrity;
   readonly routeReferences: Reference[];

@@ -25,12 +25,11 @@ case class NodeInfo(
   lastSurvey: Option[Day],
   tags: Tags,
   facts: Seq[Fact],
-  locations: Seq[String],
+  locations: Seq[LocationInfo],
   tiles: Seq[String],
   integrity: Option[NodeIntegrity],
   routeReferences: Seq[Reference]
 ) extends Tagable with LatLon {
-
   def networkTypeName(networkType: NetworkType): String = {
     names.filter(_.networkType == networkType).map(_.name).mkString(" / ")
   }

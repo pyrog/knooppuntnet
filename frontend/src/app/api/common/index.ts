@@ -20,6 +20,7 @@ export * from './location-changes';
 export * from './location-changes-info';
 export * from './location-changes-tree';
 export * from './location-changes-tree-node';
+export * from './location-info';
 export * from './location-tree-item';
 export * from './network-changes';
 export * from './network-extra-member-node';

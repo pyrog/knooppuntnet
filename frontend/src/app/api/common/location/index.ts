@@ -6,6 +6,7 @@ export * from './locations-page';
 export * from './location-summary';
 export * from './location-map-page';
 export * from './location-candidate';
+export * from './location-candidate-info';
 export * from './location-edit-page';
 export * from './location-node-info';
 export * from './location-facts-page';

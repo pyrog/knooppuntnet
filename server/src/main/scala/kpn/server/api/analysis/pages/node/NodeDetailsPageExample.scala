@@ -1,5 +1,6 @@
 package kpn.server.api.analysis.pages.node
 
+import kpn.api.common.LocationInfo
 import kpn.api.common.NodeInfo
 import kpn.api.common.NodeName
 import kpn.api.common.common.Ref
@@ -16,7 +17,6 @@ import kpn.api.custom.Tags
 import kpn.api.custom.Timestamp
 
 object NodeDetailsPageExample {
-
   private val nodeInfo: NodeInfo = {
     NodeInfo(
       id = 1,
@@ -42,13 +42,16 @@ object NodeDetailsPageExample {
         Fact.NodeInvalidSurveyDate,
         Fact.Deleted
       ),
-      locations = Seq("NL", "North Brabant", "Roosendaal"),
+      locations = Seq(
+        LocationInfo("NL", "TODO"),
+        LocationInfo("North Brabant", "TODO"),
+        LocationInfo("Roosendaal", "TODO")
+      ),
       tiles = Seq.empty,
       integrity = None, // TODO MONGO move setup from nodeDetailsPage method to here
       routeReferences = Seq.empty // TODO MONGO move setup from nodeDetailsPage method to here
     )
   }
-
   val page: NodeDetailsPage = {
     NodeDetailsPage(
       nodeInfo,

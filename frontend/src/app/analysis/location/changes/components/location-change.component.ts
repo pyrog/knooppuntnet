@@ -2,12 +2,9 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NetworkType } from '@api/custom';
 import { ChangeHeaderComponent } from '@app/analysis/components/change-set';
 import { ChangesSetElementRefsComponent } from '@app/analysis/components/change-set/components';
-import { Util } from '@app/components/shared';
 import { NetworkTypeIconComponent } from '@app/components/shared';
-import { Translations } from '@app/i18n';
 import { LocationChangeSetInfo } from '@api/common/location-change-set-info';
 
 @Component({
@@ -27,17 +24,12 @@ import { LocationChangeSetInfo } from '@api/common/location-change-set-info';
           <div class="kpn-line">
             <div class="location-names">
               @for (
-                locationName of locationChanges.locationNames;
-                track locationName;
+                locationInfo of locationChanges.locationInfos;
+                track locationInfo;
                 let i = $index
               ) {
                 <div class="location-name">
-                  <a
-                    [routerLink]="
-                      locationLink(locationChanges.networkType, locationChanges.locationNames, i)
-                    "
-                    >{{ locationName }}</a
-                  >
+                  <a [routerLink]="locationLink(locationInfo.link)">{{ locationInfo.name }}</a>
                 </div>
               }
             </div>
@@ -56,12 +48,14 @@ import { LocationChangeSetInfo } from '@api/common/location-change-set-info';
   `,
   styles: `
     .change-set {
-      margin-top: 5px;
-      margin-bottom: 5px;
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
     }
 
     .location-names {
       display: inline;
+      padding-top: 0.6em;
+      padding-bottom: 0.3em;
     }
 
     .location-name {
@@ -83,11 +77,7 @@ import { LocationChangeSetInfo } from '@api/common/location-change-set-info';
 export class LocationChangeComponent {
   changeSet = input.required<LocationChangeSetInfo>();
 
-  locationLink(networkType: NetworkType, locationNames: string[], index: number): string {
-    const country = locationNames[0].toLowerCase();
-    const countryName = Translations.get('country.' + Util.safeGet(() => country));
-    const locationParts = [countryName].concat(locationNames.slice(1, index + 1));
-    const location = locationParts.join(':');
-    return `/analysis/${networkType}/${country}/${location}/nodes`;
+  locationLink(link: string): string {
+    return `/analysis/${link}/nodes`;
   }
 }

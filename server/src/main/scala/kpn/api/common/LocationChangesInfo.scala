@@ -4,7 +4,7 @@ import kpn.api.custom.NetworkType
 
 case class LocationChangesInfo(
   networkType: NetworkType,
-  locationNames: Seq[String],
+  locationInfos: Seq[LocationInfo],
   routeChanges: ChangeSetElementRefs,
   nodeChanges: ChangeSetElementRefs,
   happy: Boolean,

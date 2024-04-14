@@ -1,6 +1,7 @@
 // this file is generated, please do not modify
 
 import { RouteSummary } from '@api/common';
+import { LocationCandidateInfo } from '@api/common/location';
 import { Day } from '@api/custom';
 import { Fact } from '@api/custom';
 import { Tags } from '@api/custom';
@@ -18,6 +19,7 @@ export interface RouteDetailsPageData {
   readonly lastSurvey: Day;
   readonly tags: Tags;
   readonly facts: Fact[];
+  readonly locationCandidateInfos: LocationCandidateInfo[];
   readonly analysis: RouteInfoAnalysis;
   readonly tiles: string[];
   readonly nodeRefs: number[];

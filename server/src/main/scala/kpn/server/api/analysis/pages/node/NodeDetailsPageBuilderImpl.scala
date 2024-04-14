@@ -14,7 +14,6 @@ class NodeDetailsPageBuilderImpl(
   changeSetRepository: ChangeSetRepository,
   locationService: LocationService
 ) extends NodeDetailsPageBuilder {
-
   override def build(language: Language, nodeId: Long): Option[NodeDetailsPage] = {
     if (nodeId == 1L) {
       Some(NodeDetailsPageExample.page)
@@ -34,9 +33,7 @@ class NodeDetailsPageBuilderImpl(
           nodeRouteReferences.map(_.networkScope) ++
           networkReferences.map(_.networkScope)
         ).distinct.size > 1
-
-      val locations = nodeDoc.locations.map(locationId => locationService.name(language, locationId))
-
+      val locations = locationService.toInfos(language, nodeDoc.locations, nodeDoc.locations).reverse
       val nodeInfo = NodeInfo(
         id = nodeDoc._id,
         active = nodeDoc.active,
@@ -55,7 +52,6 @@ class NodeDetailsPageBuilderImpl(
         integrity = nodeDoc.integrity,
         routeReferences = Seq.empty
       )
-
       NodeDetailsPage(
         nodeInfo,
         mixedNetworkScopes,

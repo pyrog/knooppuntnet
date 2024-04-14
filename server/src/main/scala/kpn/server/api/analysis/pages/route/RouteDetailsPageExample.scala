@@ -19,7 +19,6 @@ import kpn.api.custom.Tags
 import kpn.api.custom.Timestamp
 
 object RouteDetailsPageExample {
-
   val page: RouteDetailsPage = {
     RouteDetailsPage(
       route(),
@@ -177,7 +176,6 @@ object RouteDetailsPageExample {
         Seq.empty
       )
     )
-
     RouteDetailsPageData(
       id = 1,
       active = true,
@@ -227,6 +225,7 @@ object RouteDetailsPageExample {
         Fact.RouteUnexpectedNode,
         Fact.RouteUnexpectedRelation,
       ),
+      locationCandidateInfos = Seq(),
       analysis,
       Seq.empty,
       analysis.map.nodeIds

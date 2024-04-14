@@ -2,6 +2,7 @@ package kpn.server.analyzer.engine.analysis.location
 
 import kpn.api.common.Language
 import kpn.api.common.Languages
+import kpn.api.common.LocationInfo
 import kpn.api.common.RouteLocationAnalysis
 import kpn.api.common.location.Location
 import kpn.api.common.location.LocationCandidate
@@ -12,8 +13,11 @@ import scala.annotation.tailrec
 
 @Component
 class LocationServiceImpl(locationConfiguration: LocationConfiguration) extends LocationService {
-
-  private val locationMap = locationConfiguration.locations.flatMap(_.allChilderen()).map(l => l.id -> l).toMap
+  private val locationMap = {
+    val countries = locationConfiguration.locations
+    val all = countries ++ countries.flatMap(_.allChilderen())
+    all.map(l => l.id -> l).toMap
+  }
 
   override def locationDefinition(locationId: String): Option[LocationDefinition] = {
     locationMap.get(locationId)
@@ -61,6 +65,18 @@ class LocationServiceImpl(locationConfiguration: LocationConfiguration) extends 
     }
   }
 
+  override def toInfos(language: Language, all: Seq[String], locations: Seq[String]): Seq[LocationInfo] = {
+    val country = all.head.toLowerCase
+    locations.map { location =>
+      val locationName = name(language, location)
+      val index = all.indexOf(location)
+      val translatedLocations = all.take(index + 1).map(n => name(language, n))
+      val mergedLocations = translatedLocations.mkString(":")
+      val link = s"$country/$mergedLocations"
+      LocationInfo(locationName, link)
+    }
+  }
+
   @tailrec
   private def lookup(
     language: Language,
@@ -68,7 +84,6 @@ class LocationServiceImpl(locationConfiguration: LocationConfiguration) extends 
     locationNames: Seq[String],
     foundLocationDefinition: Option[LocationDefinition]
   ): Option[LocationDefinition] = {
-
     if (locationNames.isEmpty) {
       foundLocationDefinition
     }
