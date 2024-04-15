@@ -25,6 +25,7 @@ export class SpinnerInterceptor implements HttpInterceptor {
     if (request.context.get(LOCAL_ERROR_HANDLING) === true) {
       result$ = next.handle(request);
     } else {
+      this.sharedStateService.setHttpError(null);
       result$ = next.handle(request).pipe(
         catchError((error) => {
           let httpError = 'error';
