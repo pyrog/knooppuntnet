@@ -95,7 +95,7 @@ export class PlanActionsComponent {
   protected readonly showUndoButton = computed(() => !this.pageWidthService.isVeryVerySmall());
   protected readonly showRedoButton = this.showUndoButton;
   protected readonly showResetButton = computed(
-    () => !(this.pageWidthService.isVerySmall || this.pageWidthService.isVeryVerySmall)
+    () => !(this.pageWidthService.isVerySmall() || this.pageWidthService.isVeryVerySmall())
   );
   protected readonly showReverseButton = this.showResetButton;
 

@@ -14,9 +14,15 @@ import { PageWidthService } from '@app/components/shared';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (showButtonText()) {
-      <button mat-stroked-button (click)="action.emit()" [disabled]="!enabled()" [title]="title()">
+      <button
+        mat-stroked-button
+        class="button-with-text"
+        (click)="action.emit()"
+        [disabled]="!enabled()"
+        [title]="title()"
+      >
         <mat-icon [svgIcon]="icon()" />
-        <span class="button-text">{{ text() }}</span>
+        <span>{{ text() }}</span>
       </button>
     } @else {
       <button mat-icon-button (click)="action.emit()" [disabled]="!enabled()" [title]="title()">
@@ -25,12 +31,17 @@ import { PageWidthService } from '@app/components/shared';
     }
   `,
   styles: `
-    .button-text {
-      padding-left: 10px;
-    }
-
     button {
       margin-right: 10px;
+    }
+
+    .button-with-text > mat-icon {
+      height: 18px;
+      line-height: 18px;
+    }
+
+    .button-with-text > span {
+      padding-left: 10px;
     }
   `,
   standalone: true,
