@@ -11,7 +11,6 @@ import { MapLayer } from '@app/ol/layers';
 import { OpenlayersMapService } from '@app/ol/services';
 import { MapZoomService } from '@app/ol/services';
 import { PoiTileLayerService } from '@app/ol/services';
-import { MapMode } from '@app/ol/services';
 import { MainMapStyleParameters } from '@app/ol/style';
 import { PoiService } from '@app/services';
 import { Subscriptions } from '@app/util';
@@ -56,13 +55,6 @@ export class PlannerMapService extends OpenlayersMapService {
   });
 
   private subcriptions = new Subscriptions();
-
-  // constructor() {
-  //   super();
-  //   effect(() => {
-  //     this.plannerStateService.setLayerStates(this.layerStates());
-  //   });
-  // }
 
   init(state: PlannerState): void {
     const registry = this.plannerMapLayerService.registerLayers(

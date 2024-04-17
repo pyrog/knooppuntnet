@@ -20,7 +20,7 @@ import { OpenlayersMapService } from '../services';
         @if (layerStates(); as layerStates) {
           <div (click)="$event.stopPropagation()">
             @for (layerState of layerStates; track layerState) {
-              <div [hidden]="!layerState.enabled">
+              <div [hidden]="!layerState.enabled || layerState.id === 'pois'">
                 <mat-checkbox
                   (click)="$event.stopPropagation()"
                   [checked]="layerState.visible"

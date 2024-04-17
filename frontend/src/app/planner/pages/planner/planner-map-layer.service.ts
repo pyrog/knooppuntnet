@@ -16,9 +16,11 @@ import { MapLayerRegistry } from '@app/ol/layers';
 import { PoiTileLayerService } from '@app/ol/services';
 import { MainMapStyleParameters } from '@app/ol/style';
 import { MainMapStyle } from '@app/ol/style';
+import { PoiService } from '@app/services';
 
 @Injectable()
 export class PlannerMapLayerService {
+  private readonly poiService = inject(PoiService);
   private readonly poiTileLayerService = inject(PoiTileLayerService);
 
   registerLayers(
@@ -62,7 +64,12 @@ export class PlannerMapLayerService {
 
     registry.register(urlLayerIds, TileDebug256Layer.build(), false);
     registry.register(urlLayerIds, TileDebug512Layer.build(), false);
-    registry.register(urlLayerIds, this.poiTileLayerService.buildLayer(), true, false);
+
+    let poiDefaultVisible = false;
+    if (urlLayerIds.length === 0) {
+      poiDefaultVisible = this.poiService.isEnabled();
+    }
+    registry.register(urlLayerIds, this.poiTileLayerService.buildLayer(), poiDefaultVisible, true);
 
     return registry;
   }

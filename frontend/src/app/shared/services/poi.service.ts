@@ -45,6 +45,12 @@ export class PoiService {
   isEnabled(): boolean {
     if (this.poiPreferences != null) {
       return this.poiPreferences.enabled;
+    } else {
+      const json = this.browserStorageService.get('poi-config');
+      if (json !== null) {
+        const pref = PoiPreferences.fromJSON(JSON.parse(json));
+        return pref.enabled;
+      }
     }
     return false;
   }
