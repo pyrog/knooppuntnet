@@ -42,7 +42,7 @@ object Mongo {
   }
 
   def url: String = {
-    val properties = new File(Dirs.root, "/kpn/conf/osm.properties")
+    val properties = new File(Dirs.root, "conf/osm.properties")
     val config = new Properties()
     config.load(new FileReader(properties))
     config.getProperty("mongodb.url")

@@ -5,7 +5,7 @@
 
   <groupId>knooppuntnet</groupId>
   <artifactId>server</artifactId>
-  <version>4.3.10</version>
+  <version>4.3.11</version>
   <name>server</name>
   <description>knooppuntnet server</description>
 
@@ -218,17 +218,17 @@
       <version>4.1.0</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-api</artifactId>
-      <version>2.20.0</version>
-    </dependency>
+    <!--    <dependency>-->
+    <!--      <groupId>org.apache.logging.log4j</groupId>-->
+    <!--      <artifactId>log4j-api</artifactId>-->
+    <!--      <version>2.20.0</version>-->
+    <!--    </dependency>-->
 
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-core</artifactId>
-      <version>2.20.0</version>
-    </dependency>
+    <!--    <dependency>-->
+    <!--      <groupId>org.apache.logging.log4j</groupId>-->
+    <!--      <artifactId>log4j-core</artifactId>-->
+    <!--      <version>2.20.0</version>-->
+    <!--    </dependency>-->
 
     <dependency>
       <groupId>jline</groupId>

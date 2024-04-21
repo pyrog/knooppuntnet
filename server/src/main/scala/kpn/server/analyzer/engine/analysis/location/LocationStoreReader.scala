@@ -1,6 +1,7 @@
 package kpn.server.analyzer.engine.analysis.location
 
 import kpn.api.custom.Country
+import kpn.core.tools.config.Dirs
 import kpn.core.tools.location.LocationGeometry
 import kpn.core.tools.location.LocationNameDefinitions
 import kpn.core.util.Log
@@ -18,7 +19,7 @@ class LocationStoreReader {
 
   private val log = Log(classOf[LocationStoreReader])
 
-  private val root = "/kpn/locations"
+  private val root = s"${Dirs.root}/locations"
 
   def read(): LocationStore = {
     val countries: Seq[LocationStoreCountry] = Country.all.map { country =>

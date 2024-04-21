@@ -4,10 +4,16 @@ import java.io.File
 import java.io.FileNotFoundException
 
 object Dirs {
+
   def root: File = {
-    val filename = System.getenv("KPN_ROOT")
-    if (filename == null) {
-      throw new FileNotFoundException("KPN_ROOT environment variable undefined")
+    val filename = {
+      val env = System.getenv("KPN_ROOT")
+      if (env == null) {
+        "/kpn"
+      }
+      else {
+        env
+      }
     }
     val file = new File(filename)
     if (!file.exists()) {
@@ -15,6 +21,7 @@ object Dirs {
     }
     file
   }
+
   def apply(): Dirs = new Dirs(root)
 }
 
@@ -33,5 +40,4 @@ class Dirs(val root: File) {
   val analysisStatus1: File = new File(status, "analysis1")
   val analysisStatus2: File = new File(status, "analysis2")
   val analysisStatus3: File = new File(status, "analysis3")
-
 }
