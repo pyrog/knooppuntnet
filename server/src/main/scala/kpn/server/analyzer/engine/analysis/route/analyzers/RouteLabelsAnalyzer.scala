@@ -16,7 +16,15 @@ class RouteLabelsAnalyzer(context: RouteAnalysisContext) {
     val basicLabels = buildBasicLabels()
     val factLabels = context.facts.map(fact => Label.fact(fact))
     val networkTypeLabels = Seq(Label.networkType(context.scopedNetworkType.networkType))
-    val locationLabels = context.locationAnalysis.toSeq.flatMap(_.locationNames).map(location => Label.location(location))
+    val locationLabels = {
+      val analysisLabels = context.locationAnalysis.toSeq.flatMap(_.locationNames).map(location => Label.location(location))
+      if (analysisLabels.isEmpty) {
+        context.country.map(country => Seq(Label.location(country.domain))).getOrElse(Seq.empty)
+      }
+      else {
+        analysisLabels
+      }
+    }
     val labels = (basicLabels ++ factLabels ++ networkTypeLabels ++ locationLabels).sorted
     context.copy(labels = labels)
   }

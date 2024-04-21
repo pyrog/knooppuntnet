@@ -3,10 +3,12 @@ package kpn.server.repository
 import kpn.api.common.common.Reference
 import kpn.api.common.route.RouteMapInfo
 import kpn.api.common.route.RouteNameInfo
+import kpn.api.custom.Country
 import kpn.api.custom.NetworkType
 import kpn.core.doc.RouteDoc
 import kpn.core.util.Log
 import kpn.database.actions.routes.MongoQueryKnownRouteIds
+import kpn.database.actions.routes.MongoQueryRouteCountry
 import kpn.database.actions.routes.MongoQueryRouteElementIds
 import kpn.database.actions.routes.MongoQueryRouteIds
 import kpn.database.actions.routes.MongoQueryRouteMapInfo
@@ -69,5 +71,9 @@ class RouteRepositoryImpl(database: Database) extends RouteRepository {
 
   override def routeTileInfosById(routeId: Long): Option[RouteTileInfo] = {
     new MongoQueryRouteTileInfo(database).findById(routeId)
+  }
+
+  override def routeCountry(routeId: Long): Option[Country] = {
+    new MongoQueryRouteCountry(database).execute(routeId)
   }
 }

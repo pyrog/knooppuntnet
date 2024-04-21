@@ -11,13 +11,15 @@ import kpn.server.analyzer.engine.analysis.route.analyzers.RouteLocationAnalyzer
 import kpn.server.analyzer.engine.analysis.route.analyzers.RouteTileAnalyzer
 import kpn.server.analyzer.engine.context.AnalysisContext
 import kpn.server.analyzer.engine.tile.OldLinesTileCalculatorImpl
-import kpn.server.analyzer.engine.tile.RouteTileCalculatorImpl
 import kpn.server.analyzer.engine.tile.OldTileCalculatorImpl
+import kpn.server.analyzer.engine.tile.RouteTileCalculatorImpl
+import kpn.server.repository.RouteRepository
+import org.scalamock.scalatest.MockFactory
 
 import scala.xml.InputSource
 import scala.xml.XML
 
-object CaseStudy {
+object CaseStudy extends MockFactory {
 
   def routeAnalysis(name: String): RouteAnalysis = {
     val filename = s"/case-studies/$name.xml"
@@ -28,7 +30,8 @@ object CaseStudy {
     val linesTileCalculator = new OldLinesTileCalculatorImpl(tileCalculator)
     val routeTileCalculator = new RouteTileCalculatorImpl(linesTileCalculator)
     val routeTileAnalyzer = new RouteTileAnalyzer(routeTileCalculator)
-    val routeCountryAnalyzer = new RouteCountryAnalyzer(locationAnalyzer)
+    val routeRepository = stub[RouteRepository]
+    val routeCountryAnalyzer = new RouteCountryAnalyzer(locationAnalyzer, routeRepository)
     val routeLocationAnalyzer = new RouteLocationAnalyzerMock()
     val routeAnalyzer = new MasterRouteAnalyzerImpl(
       analysisContext,

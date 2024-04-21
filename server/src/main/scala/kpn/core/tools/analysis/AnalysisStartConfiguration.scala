@@ -38,8 +38,8 @@ import kpn.server.analyzer.engine.context.AnalysisContext
 import kpn.server.analyzer.engine.context.ElementIds
 import kpn.server.analyzer.engine.tile.OldLinesTileCalculatorImpl
 import kpn.server.analyzer.engine.tile.OldNodeTileCalculatorImpl
-import kpn.server.analyzer.engine.tile.RouteTileCalculatorImpl
 import kpn.server.analyzer.engine.tile.OldTileCalculatorImpl
+import kpn.server.analyzer.engine.tile.RouteTileCalculatorImpl
 import kpn.server.overpass.OverpassRepository
 import kpn.server.overpass.OverpassRepositoryImpl
 import kpn.server.repository.AnalysisRepository
@@ -101,7 +101,7 @@ class AnalysisStartConfiguration(options: AnalysisStartToolOptions) {
   val masterRouteAnalyzer: MasterRouteAnalyzer = {
     val routeLocator = new RouteLocatorImpl(locationAnalyzer)
     val routeLocationAnalyzer = new RouteLocationAnalyzerImpl(routeRepository, routeLocator)
-    val routeCountryAnalyzer = new RouteCountryAnalyzer(locationAnalyzer)
+    val routeCountryAnalyzer = new RouteCountryAnalyzer(locationAnalyzer, routeRepository)
     new MasterRouteAnalyzerImpl(
       analysisContext,
       routeCountryAnalyzer,

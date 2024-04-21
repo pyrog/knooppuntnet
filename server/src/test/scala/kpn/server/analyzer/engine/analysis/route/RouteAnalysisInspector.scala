@@ -13,8 +13,9 @@ import kpn.server.analyzer.engine.analysis.route.analyzers.RouteLocationAnalyzer
 import kpn.server.analyzer.engine.analysis.route.analyzers.RouteTileAnalyzer
 import kpn.server.analyzer.engine.context.AnalysisContext
 import kpn.server.analyzer.engine.tile.OldLinesTileCalculatorImpl
-import kpn.server.analyzer.engine.tile.RouteTileCalculatorImpl
 import kpn.server.analyzer.engine.tile.OldTileCalculatorImpl
+import kpn.server.analyzer.engine.tile.RouteTileCalculatorImpl
+import kpn.server.repository.RouteRepository
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.Assertions
 
@@ -75,7 +76,8 @@ class RouteAnalysisInspector extends MockFactory with SharedTestObjects {
     val routeTileCalculator = new RouteTileCalculatorImpl(linesTileCalculator)
     val routeTileAnalyzer = new RouteTileAnalyzer(routeTileCalculator)
     val locationAnalyzer = new LocationAnalyzerFixed()
-    val routeCountryAnalyzer = new RouteCountryAnalyzer(locationAnalyzer)
+    val routeRepository = stub[RouteRepository]
+    val routeCountryAnalyzer = new RouteCountryAnalyzer(locationAnalyzer, routeRepository)
     val routeLocationAnalyzer: RouteLocationAnalyzer = new RouteLocationAnalyzerMock()
     val routeAnalyzer = new MasterRouteAnalyzerImpl(
       analysisContext,
@@ -172,5 +174,4 @@ class RouteAnalysisInspector extends MockFactory with SharedTestObjects {
       }
     }
   }
-
 }

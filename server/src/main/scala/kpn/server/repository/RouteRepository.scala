@@ -3,6 +3,7 @@ package kpn.server.repository
 import kpn.api.common.common.Reference
 import kpn.api.common.route.RouteMapInfo
 import kpn.api.common.route.RouteNameInfo
+import kpn.api.custom.Country
 import kpn.api.custom.NetworkType
 import kpn.core.doc.RouteDoc
 import kpn.server.analyzer.engine.changes.changes.ReferencedElementIds
@@ -34,4 +35,5 @@ trait RouteRepository {
 
   def routeTileInfosById(routeId: Long): Option[RouteTileInfo]
 
+  def routeCountry(routeId: Long): Option[Country]
 }

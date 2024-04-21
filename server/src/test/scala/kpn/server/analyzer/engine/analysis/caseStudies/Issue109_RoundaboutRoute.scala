@@ -12,13 +12,15 @@ import kpn.server.analyzer.engine.analysis.route.analyzers.RouteLocationAnalyzer
 import kpn.server.analyzer.engine.analysis.route.analyzers.RouteTileAnalyzer
 import kpn.server.analyzer.engine.context.AnalysisContext
 import kpn.server.analyzer.engine.tile.OldLinesTileCalculatorImpl
-import kpn.server.analyzer.engine.tile.RouteTileCalculatorImpl
 import kpn.server.analyzer.engine.tile.OldTileCalculatorImpl
+import kpn.server.analyzer.engine.tile.RouteTileCalculatorImpl
+import kpn.server.repository.RouteRepository
+import org.scalamock.scalatest.MockFactory
 
 import scala.xml.InputSource
 import scala.xml.XML
 
-class Issue109_RoundaboutRoute extends UnitTest {
+class Issue109_RoundaboutRoute extends UnitTest with MockFactory {
 
   test("analysis") {
     val analysisContext = new AnalysisContext()
@@ -27,7 +29,8 @@ class Issue109_RoundaboutRoute extends UnitTest {
     val linesTileCalculator = new OldLinesTileCalculatorImpl(tileCalculator)
     val routeTileCalculator = new RouteTileCalculatorImpl(linesTileCalculator)
     val routeTileAnalyzer = new RouteTileAnalyzer(routeTileCalculator)
-    val routeCountryAnalyzer = new RouteCountryAnalyzer(locationAnalyzer)
+    val routeRepository = stub[RouteRepository]
+    val routeCountryAnalyzer = new RouteCountryAnalyzer(locationAnalyzer, routeRepository)
     val routeLocationAnalyzer = new RouteLocationAnalyzerMock()
     val routeAnalyzer = new MasterRouteAnalyzerImpl(
       analysisContext,

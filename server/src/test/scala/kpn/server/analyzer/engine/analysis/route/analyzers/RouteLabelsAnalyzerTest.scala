@@ -50,6 +50,30 @@ class RouteLabelsAnalyzerTest extends UnitTest with SharedTestObjects {
     labels should not contain "broken"
   }
 
+  test("no location analysis - country location is included") {
+    val context = buildContext().copy(
+      locationAnalysis = Some(
+        RouteLocationAnalysis(
+          None,
+          Seq.empty,
+          Seq.empty,
+        )
+      )
+
+    )
+    RouteLabelsAnalyzer.analyze(context).labels should equal(
+      Seq(
+        Label.active,
+        "broken",
+        Label.fact(Fact.RouteBroken),
+        Label.facts,
+        Label.location(Country.be.domain),
+        Label.networkType(NetworkType.hiking),
+        Label.survey,
+      )
+    )
+  }
+
   private def buildContext(): RouteAnalysisContext = {
     val data = new RouteTestData("01-02").data
     val relation = data.relations(1L)
@@ -60,6 +84,7 @@ class RouteLabelsAnalyzerTest extends UnitTest with SharedTestObjects {
       analysisContext = analysisContext,
       relation,
       scopedNetworkTypeOption = Some(ScopedNetworkType.rwn),
+      country = Some(Country.be),
       lastSurvey = Some(Day(2020, 8)),
       facts = Seq(Fact.RouteBroken),
       locationAnalysis = Some(

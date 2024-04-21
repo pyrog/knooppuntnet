@@ -1,5 +1,8 @@
 package kpn.server.analyzer.engine.analysis.route.analyzers
 
+import kpn.api.common.RouteLocationAnalysis
+import kpn.api.common.location.Location
+import kpn.api.common.route.RouteMap
 import kpn.server.analyzer.engine.analysis.location.RouteLocator
 import kpn.server.analyzer.engine.analysis.route.domain.RouteAnalysisContext
 import kpn.server.repository.RouteRepository
@@ -26,15 +29,34 @@ class RouteLocationAnalyzerImpl(routeRepository: RouteRepository, routeLocator: 
                   context.copy(locationAnalysis = Some(route.analysis.locationAnalysis))
                 }
                 else {
-                  val routeLocationAnalysis = routeLocator.locate(routeMap)
-                  context.copy(locationAnalysis = Some(routeLocationAnalysis))
+                  locate(context, routeMap)
                 }
 
               case None =>
-                val routeLocationAnalysis = routeLocator.locate(routeMap)
-                context.copy(locationAnalysis = Some(routeLocationAnalysis))
+                locate(context, routeMap)
             }
         }
+    }
+  }
+
+  private def locate(context: RouteAnalysisContext, routeMap: RouteMap): RouteAnalysisContext = {
+    val routeLocationAnalysis = routeLocator.locate(routeMap)
+    if (routeLocationAnalysis.location.isEmpty && context.country.nonEmpty) {
+      val country = context.country.get.domain
+      context.copy(
+        locationAnalysis = Some(
+          RouteLocationAnalysis(
+            location = Some(
+              Location(Seq(country))
+            ),
+            candidates = Seq.empty,
+            locationNames = Seq(country)
+          )
+        )
+      )
+    }
+    else {
+      context.copy(locationAnalysis = Some(routeLocationAnalysis))
     }
   }
 }
