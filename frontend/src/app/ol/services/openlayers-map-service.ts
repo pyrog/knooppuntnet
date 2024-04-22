@@ -149,7 +149,7 @@ export abstract class OpenlayersMapService {
     //   .filter((mapLayer) => mapLayer.layer.getVisible() === true)
     //   .map((mapLayer) => mapLayer.id)
     //   .join(',');
-    // console.log(['layerStates', this.layerStates]);
+    // console.log(['layerStates', this.layerStates()]);
     // console.log(`updateLayerVisibility: ${visibleLayers}`);
   }
 

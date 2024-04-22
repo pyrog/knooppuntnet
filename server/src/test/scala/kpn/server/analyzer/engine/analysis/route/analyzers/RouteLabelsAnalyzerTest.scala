@@ -59,7 +59,6 @@ class RouteLabelsAnalyzerTest extends UnitTest with SharedTestObjects {
           Seq.empty,
         )
       )
-
     )
     RouteLabelsAnalyzer.analyze(context).labels should equal(
       Seq(

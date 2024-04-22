@@ -92,7 +92,7 @@ strong {
   stroke: gray;
 }
 
-.kpn-link, .kpn-link path, .kpn-link line, .kpn-link polyline  {
+.kpn-link, .kpn-link path, .kpn-link line, .kpn-link polyline {
   color: blue !important;
 }
 
@@ -655,7 +655,7 @@ input[type=number] {
 }
 
 .tryout-tabs .mat-mdc-tab-labels {
-   flex-wrap: wrap;
+  flex-wrap: wrap;
   border-bottom: 1px solid lightgray;
 }
 
@@ -700,3 +700,8 @@ input[type=number] {
   padding-right: 2em !important;
 }
 
+.planner-network-type-selector .mat-button-toggle-label-content {
+  line-height: 34px !important;
+  color: rgba(0, 0, 0, 0.8) !important;
+  padding: 0 !important;
+}
