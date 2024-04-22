@@ -113,13 +113,13 @@ export abstract class OpenlayersMapService {
     const visible = change.visible;
 
     const mapLayerStates = this._layerStates().map((layerState) => {
-      if (layerState.id == BackgroundLayer.id && layerId == OsmLayer.id && visible) {
+      if (layerState.id === BackgroundLayer.id && layerId === OsmLayer.id && visible) {
         return {
           ...layerState,
           visible: false,
         };
       }
-      if (layerState.id == OsmLayer.id && layerId == BackgroundLayer.id && visible) {
+      if (layerState.id === OsmLayer.id && layerId === BackgroundLayer.id && visible) {
         return {
           ...layerState,
           visible: false,

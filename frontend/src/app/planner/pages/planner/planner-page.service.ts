@@ -87,7 +87,7 @@ export class PlannerPageService {
   setNetworkType(networkType: NetworkType): void {
     this.plannerStateService.setNetworkType(networkType);
     this.plannerService.context.setNetworkType(networkType);
-    this.plannerMapService.updateLayerVisibility();
+    this.plannerMapService.networkTypeChanged(networkType);
   }
 
   setMapMode(mapMode: MapMode): void {
