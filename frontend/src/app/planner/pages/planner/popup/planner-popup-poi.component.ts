@@ -78,20 +78,25 @@ export class PlannerPopupPoiComponent {
   protected response = signal<ApiResponse<PoiPage>>(null);
 
   constructor() {
-    effect(() => {
-      const poiClick = this.poiClick();
-      if (poiClick !== null) {
-        this.plannerService.context.cursor.setStyleWait();
-        this.apiService
-          .poi(poiClick.poiId.elementType, poiClick.poiId.elementId)
-          .subscribe((response) => {
-            this.response.set(response);
-            this.openPopup(poiClick.coordinate);
-            this.plannerService.context.cursor.setStyleDefault();
-            this.plannerService.context.highlighter.reset();
-          });
+    effect(
+      () => {
+        const poiClick = this.poiClick();
+        if (poiClick !== null) {
+          this.plannerService.context.cursor.setStyleWait();
+          this.apiService
+            .poi(poiClick.poiId.elementType, poiClick.poiId.elementId)
+            .subscribe((response) => {
+              this.response.set(response);
+              this.openPopup(poiClick.coordinate);
+              this.plannerService.context.cursor.setStyleDefault();
+              this.plannerService.context.highlighter.reset();
+            });
+        }
+      },
+      {
+        allowSignalWrites: true,
       }
-    });
+    );
   }
 
   mainTags(): InterpretedTags {
