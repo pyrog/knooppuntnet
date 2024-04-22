@@ -95,17 +95,7 @@ export class PlannerMapService extends OpenlayersMapService {
 
     MapGeocoder.install(this.map);
 
-    this.finalizeSetup();
-
-    // TODO SIGNAL
-    // this.plannerStateService.setMapPosition(this.mapPosition);
-    // this.plannerStateService.setLayerStates(this.layerStates);
-    //
-    // this.subcriptions.add(
-    //   this.mapPosition$
-    //     .pipe(skip(1))
-    //     .subscribe((mapPosition) => this.plannerStateService.setMapPosition(mapPosition))
-    // );
+    this.finalizeSetup(true);
   }
 
   override destroy() {
