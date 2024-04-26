@@ -6,6 +6,7 @@ import kpn.api.custom.Tag
 import kpn.api.custom.Tags
 import kpn.api.custom.Timestamp
 import kpn.core.common.TimestampUtil
+import kpn.core.tools.config.Dirs
 import kpn.server.json.Json
 import org.apache.commons.io.FileUtils
 import org.springframework.http.HttpEntity
@@ -53,7 +54,8 @@ object FindDeletedNodesHistoryTool {
     )
 
     val analysisCollection = deletedNodeIds().map { nodeId =>
-      val xmlString = FileUtils.readFileToString(new File(s"/kpn/deleted/$nodeId.xml"), "UTF-8")
+      val file = new File(Dirs.root, s"deleted/$nodeId.xml")
+      val xmlString = FileUtils.readFileToString(file, "UTF-8")
       val xml = XML.loadString(xmlString)
       val historyEntries = (xml \ "node").map { n =>
         val visible = false // (n \ "@visible").text.toBoolean
@@ -184,7 +186,8 @@ object FindDeletedNodesHistoryTool {
     val response: ResponseEntity[String] = restTemplate.exchange(url, HttpMethod.GET, entity, classOf[String])
     if (response.getStatusCode == HttpStatus.OK) {
       val xmlString = response.getBody
-      FileUtils.writeStringToFile(new File(s"/kpn/deleted/$nodeId.xml"), xmlString, "UTF-8")
+      val file = new File(Dirs.root, s"/deleted/$nodeId.xml")
+      FileUtils.writeStringToFile(file, xmlString, "UTF-8")
     }
   }
 

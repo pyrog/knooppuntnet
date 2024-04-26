@@ -4,6 +4,7 @@ import kpn.api.custom.Relation
 import kpn.api.custom.Timestamp
 import kpn.core.data.DataBuilder
 import kpn.core.loadOld.Parser
+import kpn.core.tools.config.Dirs
 import org.apache.commons.io.FileUtils
 
 import java.io.File
@@ -13,15 +14,15 @@ import scala.xml.XML
 class MonitorRouteLoaderFileImpl extends MonitorRouteLoader {
 
   def loadInitial(timestamp: Timestamp, routeId: Long): Option[Relation] = {
-    load(s"/kpn/wrk/begin/$routeId.xml", routeId)
+    load(s"${Dirs.root}/wrk/begin/$routeId.xml", routeId)
   }
 
   def loadBefore(changeSetId: Long, timestamp: Timestamp, routeId: Long): Option[Relation] = {
-    load(s"/kpn/wrk/$changeSetId/$routeId-before.xml", routeId)
+    load(s"${Dirs.root}/wrk/$changeSetId/$routeId-before.xml", routeId)
   }
 
   def loadAfter(changeSetId: Long, timestamp: Timestamp, routeId: Long): Option[Relation] = {
-    load(s"/kpn/wrk/$changeSetId/$routeId-after.xml", routeId)
+    load(s"${Dirs.root}/wrk/$changeSetId/$routeId-after.xml", routeId)
   }
 
   private def load(filename: String, routeId: Long): Option[Relation] = {
@@ -30,5 +31,4 @@ class MonitorRouteLoaderFileImpl extends MonitorRouteLoader {
     val rawData = new Parser().parse(xml.head)
     Some(new DataBuilder(rawData).data.relations(routeId))
   }
-
 }

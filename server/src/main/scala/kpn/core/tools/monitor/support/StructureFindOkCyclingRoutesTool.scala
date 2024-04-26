@@ -2,6 +2,7 @@ package kpn.core.tools.monitor.support
 
 import kpn.api.custom.NetworkType
 import kpn.core.doc.Label
+import kpn.core.tools.config.Dirs
 import kpn.database.base.Database
 import kpn.database.base.Id
 import kpn.database.util.Mongo
@@ -45,7 +46,7 @@ class StructureFindOkCyclingRoutesTool(database: Database) {
     val ids = database.routes.aggregate[Id](pipeline).map(_._id).sorted
     println(s"${ids.size} routes")
     FileUtils.writeStringToFile(
-      new File("/kpn/cycling-ok-routes.txt"),
+      new File(Dirs.root, "cycling-ok-routes.txt"),
       ids.map(_.toString).mkString("\n"),
       Charset.forName("UTF-8")
     )

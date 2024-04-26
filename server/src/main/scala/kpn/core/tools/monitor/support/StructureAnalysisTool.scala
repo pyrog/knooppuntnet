@@ -4,6 +4,7 @@ import kpn.core.data.DataBuilder
 import kpn.core.loadOld.Parser
 import kpn.core.overpass.OverpassQueryExecutorRemoteImpl
 import kpn.core.overpass.QueryRelation
+import kpn.core.tools.config.Dirs
 import kpn.server.analyzer.engine.monitor.structure.StructureElementAnalyzer
 import org.apache.commons.io.FileUtils
 
@@ -23,7 +24,8 @@ class StructureAnalysisTool {
   private val overpassQueryExecutor = new OverpassQueryExecutorRemoteImpl()
 
   def analyze(): Unit = {
-    val ids = FileUtils.readLines(new File("/kpn/cycling-nok-routes.txt"), Charset.forName("UTF-8")).asScala
+    val filename = s"${Dirs.root}/cycling-nok-routes.txt"
+    val ids = FileUtils.readLines(new File(filename), Charset.forName("UTF-8")).asScala
     ids.zipWithIndex.foreach { case (id, index) =>
       val relationId = id.toLong
       val xmlString = overpassQueryExecutor.executeQuery(None, QueryRelation(relationId))

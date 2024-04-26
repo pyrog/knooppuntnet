@@ -1,10 +1,11 @@
 package kpn.server.api.analysis.pages.poi.analyzers
 
-import java.io.File
-
+import kpn.core.tools.config.Dirs
 import kpn.server.api.analysis.pages.poi.PoiAnalysisContext
 import kpn.server.api.analysis.pages.poi.PoiAnalyzer
 import org.apache.commons.codec.digest.DigestUtils
+
+import java.io.File
 
 object PoiImageAnalyzer extends PoiAnalyzer {
 
@@ -33,9 +34,9 @@ class PoiImageAnalyzer(context: PoiAnalysisContext) {
 
         val imageThumbnail = {
           val id = context.poi.elementId.toString
-          val dir = s"/images/${id.charAt(id.length - 2)}/${id.charAt(id.length - 1)}"
+          val dir = s"images/${id.charAt(id.length - 2)}/${id.charAt(id.length - 1)}"
           val cachedFileName = s"$dir/${context.poi.elementType}-$id.jpg"
-          if (new File("/kpn" + cachedFileName).exists()) {
+          if (new File(Dirs.root, cachedFileName).exists()) {
             Some(cachedFileName)
           }
           else {

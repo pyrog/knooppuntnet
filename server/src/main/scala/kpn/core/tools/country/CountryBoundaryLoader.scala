@@ -1,12 +1,12 @@
 package kpn.core.tools.country
 
-import java.io.File
-
 import kpn.api.custom.Country
 import kpn.core.overpass.OverpassQueryExecutorImpl
+import kpn.core.tools.config.Dirs
 import org.apache.commons.io.FileUtils
 import org.xml.sax.SAXParseException
 
+import java.io.File
 import scala.xml.XML
 
 class CountryBoundaryLoader {
@@ -27,7 +27,8 @@ class CountryBoundaryLoader {
 
   def countryData(country: Country, countryId: Long): SkeletonData = {
     val response = executor.execute(s"relation($countryId);>>;out skel;")
-    FileUtils.writeStringToFile(new File(s"/kpn/country/debug/${country.domain}.xml"), response, "UTF-8")
+    val filename = s"${Dirs.root}/country/debug/${country.domain}.xml"
+    FileUtils.writeStringToFile(new File(filename), response, "UTF-8")
     val xml = XML.loadString(response)
     new SkeletonParser().parse(xml.head).copy(countryRelationId = countryId)
   }

@@ -1,6 +1,7 @@
 package kpn.core.tools.monitor.support
 
 import kpn.api.common.monitor.MonitorRouteSegment
+import kpn.core.tools.config.Dirs
 import kpn.core.util.Log
 import kpn.database.base.Database
 import kpn.database.base.Id
@@ -9,6 +10,7 @@ import kpn.server.analyzer.engine.tiles.domain.CoordinateTransform.toWorldCoordi
 import kpn.server.analyzer.engine.tiles.domain.Tile
 import kpn.server.monitor.repository.MonitorRelationRepositoryImpl
 import kpn.server.monitor.repository.MonitorRouteRepositoryImpl
+import no.ecc.vectortile.VectorTileEncoder
 import org.apache.commons.io.FileUtils
 import org.geotools.data.geojson.GeoJSONReader
 import org.locationtech.jts.geom.Coordinate
@@ -22,7 +24,6 @@ import org.mongodb.scala.model.Filters.equal
 import org.mongodb.scala.model.Projections.excludeId
 import org.mongodb.scala.model.Projections.fields
 import org.mongodb.scala.model.Projections.include
-import no.ecc.vectortile.VectorTileEncoder
 
 import java.io.File
 
@@ -173,7 +174,7 @@ class MonitorTileTool(config: MonitorTileToolConfig) {
   }
 
   private def writeTile(tile: Tile, tileBytes: Array[Byte]): Unit = {
-    val fileName = s"/kpn/tiles/monitor/${tile.z}/${tile.x}/${tile.y}.mvt"
+    val fileName = s"${Dirs.root}/tiles/monitor/${tile.z}/${tile.x}/${tile.y}.mvt"
     val file = new File(fileName)
     if (file.exists()) {
       val existingTile: Array[Byte] = FileUtils.readFileToByteArray(file: File)

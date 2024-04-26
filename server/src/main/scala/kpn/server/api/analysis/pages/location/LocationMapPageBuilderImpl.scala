@@ -5,12 +5,12 @@ import kpn.api.common.location.LocationMapPage
 import kpn.api.custom.Country
 import kpn.api.custom.LocationKey
 import kpn.api.custom.NetworkType
+import kpn.core.tools.config.Dirs
 import kpn.core.util.GeometryUtil
 import kpn.server.analyzer.engine.analysis.location.LocationService
 import kpn.server.repository.LocationRepository
 import org.apache.commons.io.FileUtils
 import org.locationtech.jts.io.geojson.GeoJsonReader
-import org.locationtech.jts.io.geojson.GeoJsonWriter
 import org.springframework.stereotype.Component
 
 import java.io.File
@@ -34,7 +34,7 @@ class LocationMapPageBuilderImpl(
     val locationKey = locationService.toIdBased(language, locationKeyParam)
     val summary = locationRepository.summary(locationKey)
     // TODO try first: ${locationKey.name}-minimized.geojson"
-    val filename = s"/kpn/locations/${locationKey.country.domain}/geometries/${locationKey.name}.json"
+    val filename = s"${Dirs.root}/locations/${locationKey.country.domain}/geometries/${locationKey.name}.json"
     var geoJson = FileUtils.readFileToString(new File(filename), "UTF-8")
     geoJson = geoJson.replace("EPSG:0", "EPSG:4326")
     val geometry = new GeoJsonReader().read(geoJson)

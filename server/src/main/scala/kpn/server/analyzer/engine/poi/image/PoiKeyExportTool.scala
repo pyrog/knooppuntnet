@@ -1,5 +1,6 @@
 package kpn.server.analyzer.engine.poi.image
 
+import kpn.core.tools.config.Dirs
 import kpn.core.util.Log
 import kpn.database.base.Database
 import kpn.database.base.StringId
@@ -35,7 +36,7 @@ class PoiKeyExportTool(database: Database) {
       val ids = database.pois.aggregate[StringId](pipeline, log).map(_._id)
       (s"${ids.size} pois", ids)
     }
-    val out = new PrintWriter(new FileWriter("/kpn/pois/pois.txt"))
+    val out = new PrintWriter(new FileWriter(s"${Dirs.root}/pois/pois.txt"))
     poiRefStrings.foreach(out.println)
     out.close()
   }

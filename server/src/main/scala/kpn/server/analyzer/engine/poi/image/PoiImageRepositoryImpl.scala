@@ -1,12 +1,13 @@
 package kpn.server.analyzer.engine.poi.image
 
-import java.io.File
-
+import kpn.core.tools.config.Dirs
 import kpn.server.analyzer.engine.poi.PoiRef
+
+import java.io.File
 
 class PoiImageRepositoryImpl {
 
-  private val root = "/kpn/images"
+  private val root = s"${Dirs.root}/images"
 
   def exists(poiRef: PoiRef): Boolean = {
     file(poiRef).exists()

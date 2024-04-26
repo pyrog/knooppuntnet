@@ -1,5 +1,6 @@
 package kpn.core.overpass
 
+import kpn.core.tools.config.Dirs
 import kpn.core.util.Log
 
 import java.io.BufferedInputStream
@@ -33,7 +34,7 @@ class OverpassQueryExecutorImpl extends OverpassQueryExecutor {
 
   private def doExecute(attempt: Int, queryString: String): Option[String] = {
 
-    val processBuilder = new java.lang.ProcessBuilder("/kpn/overpass/bin/osm3s_query", "--progress", "--verbose" /*, "--db-dir=/kpn/database"*/)
+    val processBuilder = new java.lang.ProcessBuilder(s"${Dirs.root}/overpass/bin/osm3s_query", "--progress", "--verbose" /*, "--db-dir=/kpn/database"*/)
     val process = processBuilder.start()
     val pid = process.pid().toString
 

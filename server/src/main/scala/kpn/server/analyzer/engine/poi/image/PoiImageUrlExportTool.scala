@@ -2,6 +2,7 @@ package kpn.server.analyzer.engine.poi.image
 
 import kpn.api.common.PoiAnalysis
 import kpn.api.common.poi.Poi
+import kpn.core.tools.config.Dirs
 import kpn.core.util.Log
 import kpn.database.base.Database
 import kpn.database.util.Mongo
@@ -26,7 +27,7 @@ class PoiImageUrlExportTool(database: Database) {
 
   private val batchSize = 1000
   private val log = Log(classOf[PoiImageUrlExportTool])
-  private val out = new PrintWriter(new FileWriter("/kpn/pois/poi-links.txt"))
+  private val out = new PrintWriter(new FileWriter(s"${Dirs.root}/pois/poi-links.txt"))
 
   def exportPois(): Unit = {
     try {
@@ -43,7 +44,7 @@ class PoiImageUrlExportTool(database: Database) {
   }
 
   private def readPoiIds(): Seq[String] = {
-    val source = Source.fromFile("/kpn/pois/pois.txt")
+    val source = Source.fromFile(s"${Dirs.root}/pois/pois.txt")
     try {
       source.getLines().toSeq
     }

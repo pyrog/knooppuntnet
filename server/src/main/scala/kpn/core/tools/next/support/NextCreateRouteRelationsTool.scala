@@ -4,6 +4,7 @@ import kpn.core.data.Data
 import kpn.core.loadOld.Parser
 import kpn.core.overpass.OverpassQueryExecutor
 import kpn.core.overpass.OverpassQueryExecutorRemoteImpl
+import kpn.core.tools.config.Dirs
 import kpn.core.tools.next.database.NextDatabase
 import kpn.core.tools.next.database.NextDatabaseImpl
 import kpn.core.tools.next.domain.NextRouteRelation
@@ -46,7 +47,8 @@ class NextCreateRouteRelationsTool(database: NextDatabase, overpassQueryExecutor
   }
 
   private def collectRouteIds(): Seq[Long] = {
-    val allRouteIds = FileUtils.readFileToString(new File("/kpn/next/route-ids.txt"), "UTF-8").split("\n").map(_.toLong)
+    val file = new File(Dirs.root, "next/route-ids.txt")
+    val allRouteIds = FileUtils.readFileToString(file, "UTF-8").split("\n").map(_.toLong)
     val loadedRouteIds = database.routeRelations.stringIds().map(_.toLong)
     (allRouteIds.toSet -- loadedRouteIds.toSet).toSeq.sorted
   }

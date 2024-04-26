@@ -1,10 +1,11 @@
 package kpn.core.tools.country
 
-import java.io.FileWriter
-
 import kpn.api.custom.Country
+import kpn.core.tools.config.Dirs
 import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.io.WKTWriter
+
+import java.io.FileWriter
 
 object CountryBoundaryTool {
 
@@ -16,7 +17,7 @@ object CountryBoundaryTool {
       val writer = new WKTWriter()
       polygons.zipWithIndex.foreach { case (polygon, index) =>
         val suffix = "%02d".format(index + 1)
-        val filename = s"/kpn/country/${country.domain}-$suffix.poly"
+        val filename = s"${Dirs.root}/country/${country.domain}-$suffix.poly"
         val w = new FileWriter(filename)
         try {
           writer.writeFormatted(polygon, w)

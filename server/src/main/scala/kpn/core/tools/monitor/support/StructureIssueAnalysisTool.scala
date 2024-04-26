@@ -1,5 +1,6 @@
 package kpn.core.tools.monitor.support
 
+import kpn.core.tools.config.Dirs
 import kpn.database.base.Database
 import kpn.database.util.Mongo
 import kpn.server.repository.RouteRepositoryImpl
@@ -22,7 +23,8 @@ class StructureIssueAnalysisTool(database: Database) {
   val routeRepository = new RouteRepositoryImpl(database)
 
   def analyze(): Unit = {
-    val routeIds = FileUtils.readLines(new File("/kpn/cycling-nok-routes.txt"), Charset.forName("UTF-8")).asScala.map(_.toLong)
+    val filename = s"${Dirs.root}/cycling-nok-routes.txt"
+    val routeIds = FileUtils.readLines(new File(filename), Charset.forName("UTF-8")).asScala.map(_.toLong)
     routeIds.zipWithIndex.foreach { case (routeId, index) =>
       routeRepository.findById(routeId) match {
         case None => println(s"${index + 1}/${routeIds.size} $routeId not found")

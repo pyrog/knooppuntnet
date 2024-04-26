@@ -1,6 +1,7 @@
 package kpn.core.tools.location
 
 import kpn.api.custom.Country
+import kpn.core.tools.config.Dirs
 import org.apache.commons.io.FileUtils
 import org.locationtech.jts.io.geojson.GeoJsonReader
 
@@ -10,13 +11,12 @@ object LocationGeometryExplorationTool {
   def main(args: Array[String]): Unit = {
     new LocationGeometryExplorationTool().printLocationsWithWrongCoordinateReferenceSystem()
   }
-
 }
 
 class LocationGeometryExplorationTool {
   def printLocationsWithGeometryCollectionWithMultipleElements(): Unit = {
     Country.all.foreach { country =>
-      val dir = s"/kpn/locations/${country.domain}/geometries"
+      val dir = s"${Dirs.root}/locations/${country.domain}/geometries"
       new File(dir).listFiles().foreach { file =>
         val geoJson = FileUtils.readFileToString(file, "UTF-8")
         val geometry = new GeoJsonReader().read(geoJson)
@@ -31,7 +31,7 @@ class LocationGeometryExplorationTool {
 
   def printLocationsWithWrongCoordinateReferenceSystem(): Unit = {
     val geoJsons = Country.all.flatMap { country =>
-      val dir = s"/kpn/locations/${country.domain}/geometries"
+      val dir = s"${Dirs.root}/locations/${country.domain}/geometries"
       new File(dir).listFiles().flatMap { file =>
         val geoJson = FileUtils.readFileToString(file, "UTF-8")
         if (geoJson.contains("EPSG:0")) {
@@ -45,12 +45,11 @@ class LocationGeometryExplorationTool {
     }
     geoJsons.foreach(println)
     println(s"${geoJsons.size} locations with wrong coordinate reference system")
-
   }
 
   def printRootGeometryTypes(): Unit = {
     val geometryTypeMap = Country.all.flatMap { country =>
-      val dir = s"/kpn/locations/${country.domain}/geometries"
+      val dir = s"${Dirs.root}/locations/${country.domain}/geometries"
       new File(dir).listFiles().map { file =>
         val geoJson = FileUtils.readFileToString(file, "UTF-8")
         val geometryType = geoJson.takeWhile(_ != ',').drop("""{"type":"""".length).dropRight(1)

@@ -1,18 +1,19 @@
 package kpn.core.tools.support
 
+import kpn.core.tools.config.Dirs
+import org.springframework.mail.SimpleMailMessage
+import org.springframework.mail.javamail.JavaMailSenderImpl
+
 import java.io.File
 import java.io.FileReader
 import java.util.Properties
-
-import org.springframework.mail.SimpleMailMessage
-import org.springframework.mail.javamail.JavaMailSenderImpl
 
 class ToolMailSender {
 
   private val mailSender = new JavaMailSenderImpl()
 
   private val properties = new Properties()
-  properties.load(new FileReader(new File("/kpn/conf/server.properties")))
+  properties.load(new FileReader(new File(Dirs.root, "conf/server.properties")))
   mailSender.setHost(properties.getProperty("spring.mail.host"))
   mailSender.setPort(properties.getProperty("spring.mail.port").toInt)
   mailSender.setUsername(properties.getProperty("spring.mail.username"))
@@ -34,5 +35,4 @@ class ToolMailSender {
     message.setText(text)
     mailSender.send(Array(message): _*)
   }
-
 }

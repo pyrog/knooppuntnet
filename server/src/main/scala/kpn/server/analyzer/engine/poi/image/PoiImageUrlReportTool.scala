@@ -1,5 +1,7 @@
 package kpn.server.analyzer.engine.poi.image
 
+import kpn.core.tools.config.Dirs
+
 import java.net.MalformedURLException
 import java.net.URL
 
@@ -11,7 +13,7 @@ object PoiImageUrlReportTool {
 
 class PoiImageUrlReportTool {
   def report(): Unit = {
-    val poiLinks = PoiLink.linksFromFile("/kpn/pois/poi-links.txt")
+    val poiLinks = PoiLink.linksFromFile(s"${Dirs.root}/pois/poi-links.txt")
     val hosts = poiLinks.flatMap { poiLink =>
       try {
         val host = new URL(poiLink.url).getHost

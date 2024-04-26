@@ -1,5 +1,6 @@
 package kpn.server.opendata.common
 
+import kpn.core.tools.config.Dirs
 import kpn.core.util.Log
 import kpn.server.opendata.flanders.FlandersNode
 import kpn.server.opendata.flanders.FlandersNodeParser
@@ -46,16 +47,15 @@ class OpenDataTileBuilderTool {
     }
   }
 
-
   private def readFlandersHikingNodes(): Seq[FlandersNode] = {
     log.info("Read hiking nodes")
-    val filename = "/kpn/opendata/flanders/knoop_wandel.xml"
+    val filename = s"${Dirs.root}/opendata/flanders/knoop_wandel.xml"
     new FlandersNodeParser().parse(toXml(filename), "knoop_wandel")
   }
 
   private def readFlandersHikingRoutes(): Seq[FlandersRoute] = {
     log.info("Read hiking routes")
-    val filename = "/kpn/opendata/flanders/traject_wandel.xml"
+    val filename = s"${Dirs.root}/opendata/flanders/traject_wandel.xml"
     new FlandersRouteParser().parse(toXml(filename), "traject_wandel")
   }
 
@@ -69,13 +69,13 @@ class OpenDataTileBuilderTool {
 
   private def readFlandersCyclingNodes(): Seq[FlandersNode] = {
     log.info("Read cycling nodes")
-    val filename = "/kpn/opendata/flanders/knoop_fiets.xml"
+    val filename = s"${Dirs.root}/opendata/flanders/knoop_fiets.xml"
     new FlandersNodeParser().parse(toXml(filename), "knoop_fiets")
   }
 
   private def readFlandersCyclingRoutes(): Seq[FlandersRoute] = {
     log.info("Read cycling routes")
-    val filename = "/kpn/opendata/flanders/traject_fiets.xml"
+    val filename = s"${Dirs.root}/opendata/flanders/traject_fiets.xml"
     new FlandersRouteParser().parse(toXml(filename), "traject_fiets")
   }
 
@@ -89,14 +89,14 @@ class OpenDataTileBuilderTool {
 
   private def readNetherlandsNodes(): Seq[RoutedatabankNode] = {
     log.info("Read nodes")
-    val filename = "/kpn/opendata/netherlands/Wandelknooppunten (wgs84).json"
+    val filename = s"${Dirs.root}/opendata/netherlands/Wandelknooppunten (wgs84).json"
     val inputStream = new FileInputStream(filename)
     new RoutedatabankNodeReader().read(inputStream)
   }
 
   private def readNetherlandsRoutes(): Seq[RoutedatabankRoute] = {
     log.info("Read routes")
-    val filename = "/kpn/opendata/netherlands/Wandelnetwerken (wgs84).json"
+    val filename = s"${Dirs.root}/opendata/netherlands/Wandelnetwerken (wgs84).json"
     val inputStream = new FileInputStream(filename)
     new RoutedatabankRouteReader().read(inputStream)
   }

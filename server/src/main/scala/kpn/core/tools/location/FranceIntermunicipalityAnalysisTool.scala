@@ -5,6 +5,7 @@ import kpn.core.loadOld.OsmDataXmlReader
 import kpn.core.overpass.OverpassQueryExecutorRemoteImpl
 import kpn.core.overpass.QueryRelation
 import kpn.core.overpass.QueryString
+import kpn.core.tools.config.Dirs
 import kpn.core.tools.location.FranceIntermunicipalityAnalysisTool.intermunicipalitiesDir
 import kpn.core.tools.location.FranceIntermunicipalityAnalysisTool.rootDir
 import org.apache.commons.io.FileUtils
@@ -16,7 +17,7 @@ import scala.xml.XML
 
 object FranceIntermunicipalityAnalysisTool {
 
-  private val rootDir = "/kpn/locations"
+  private val rootDir = s"${Dirs.root}/locations"
   private val intermunicipalitiesDir = rootDir + "/fr-intermunicipalities"
 
   def main(args: Array[String]): Unit = {
@@ -165,7 +166,7 @@ class FranceIntermunicipalityAnalysisTool {
   }
 
   private def loadMunicipalities(): Seq[InterpretedLocationJson] = {
-    InterpretedLocationJson.load(s"/kpn/locations/osm-boundaries-2021-11-01/fr-level-8.geojson.gz")
+    InterpretedLocationJson.load(s"${Dirs.root}/locations/osm-boundaries-2021-11-01/fr-level-8.geojson.gz")
       .filter(_.tags.contains("ref:INSEE"))
       .sortBy(_.tags("ref:INSEE"))
   }

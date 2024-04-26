@@ -4,6 +4,7 @@ import kpn.core.gpx.GpxFile
 import kpn.core.gpx.GpxSegment
 import kpn.core.gpx.GpxWriter
 import kpn.core.gpx.WayPoint
+import kpn.core.tools.config.Dirs
 import kpn.database.base.Database
 import kpn.database.util.Mongo
 import kpn.server.repository.NetworkRepositoryImpl
@@ -25,7 +26,6 @@ class NetworkGpxTool(database: Database) {
   private val routeRepository = new RouteRepositoryImpl(database)
   private val networkRepository = new NetworkRepositoryImpl(database)
 
-
   def produce(): Unit = {
 
     networkRepository.findById(14346399L) match {
@@ -38,7 +38,6 @@ class NetworkGpxTool(database: Database) {
           }
           routeRepository.findById(routeId)
         }
-
 
         val trackSegments = routeDocs.flatMap { routeDoc =>
           val map = routeDoc.analysis.map
@@ -68,7 +67,7 @@ class NetworkGpxTool(database: Database) {
         }.distinct
 
         val file = GpxFile(14346399L, 14346399L, "Vallées d'Aigueblanche", wayPoints, gpxSegments)
-        FileUtils.writeStringToFile(new File("/kpn/example.gpx"), new GpxWriter(file).string, "UTF-8")
+        FileUtils.writeStringToFile(new File(Dirs.root, "example.gpx"), new GpxWriter(file).string, "UTF-8")
     }
     println("done")
   }

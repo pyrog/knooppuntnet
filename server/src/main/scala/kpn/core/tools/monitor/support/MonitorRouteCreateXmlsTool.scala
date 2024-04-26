@@ -7,11 +7,12 @@ import kpn.core.loadOld.Parser
 import kpn.core.overpass.OverpassQueryExecutor
 import kpn.core.overpass.OverpassQueryExecutorImpl
 import kpn.core.overpass.QueryRelation
+import kpn.core.tools.config.Dirs
 import kpn.core.util.Log
 import kpn.server.analyzer.engine.changes.ChangeSetContext
+import kpn.server.analyzer.engine.changes.OsmChangeRepositoryImpl
 import kpn.server.analyzer.engine.changes.changes.ChangeSetBuilder
 import kpn.server.analyzer.engine.changes.changes.RelationAnalyzerHelper
-import kpn.server.analyzer.engine.changes.OsmChangeRepositoryImpl
 import kpn.server.analyzer.engine.context.ElementIdMap
 import kpn.server.analyzer.engine.monitor.changes.MonitorChangeImpactAnalyzerImpl
 import org.apache.commons.io.FileUtils
@@ -51,7 +52,7 @@ class MonitorRouteCreateXmlsTool(overpassQueryExecutor: OverpassQueryExecutor, r
 
   private val elementIdMap = ElementIdMap()
   private val monitorChangeImpactAnalyzer = new MonitorChangeImpactAnalyzerImpl()
-  private val osmChangeRepository = new OsmChangeRepositoryImpl(new File("/kpn/replicate"))
+  private val osmChangeRepository = new OsmChangeRepositoryImpl(new File(s"${Dirs.root}/replicate"))
   private val log = Log(classOf[MonitorRouteCreateXmlsTool])
 
   def analyze(): Unit = {
@@ -85,7 +86,7 @@ class MonitorRouteCreateXmlsTool(overpassQueryExecutor: OverpassQueryExecutor, r
             changeSet,
             elementIds
           )
-          val dir = s"/kpn/wrk/${changeSet.id}"
+          val dir = s"${Dirs.root}/wrk/${changeSet.id}"
           new File(dir).mkdir()
           writeXml(routeId, s"$dir/$routeId-before.xml", context.timestampBefore)
           val xmlString = writeXml(routeId, s"$dir/$routeId-after.xml", context.timestampAfter)
@@ -97,7 +98,7 @@ class MonitorRouteCreateXmlsTool(overpassQueryExecutor: OverpassQueryExecutor, r
 
   private def initialLoad(timestamp: Timestamp): Unit = {
     routeIds.foreach { routeId =>
-      val xmlString = writeXml(routeId, s"/kpn/wrk/begin/$routeId.xml", timestamp)
+      val xmlString = writeXml(routeId, s"${Dirs.root}/wrk/begin/$routeId.xml", timestamp)
       updateElementIdMap(routeId, xmlString)
     }
   }

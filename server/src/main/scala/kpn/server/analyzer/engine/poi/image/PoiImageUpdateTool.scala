@@ -1,6 +1,7 @@
 package kpn.server.analyzer.engine.poi.image
 
 import kpn.api.common.PoiState
+import kpn.core.tools.config.Dirs
 import kpn.core.util.Log
 import kpn.database.base.Database
 import kpn.database.util.Mongo
@@ -30,7 +31,7 @@ class PoiImageUpdateTool(database: Database) {
   private var poiNumber = 0
 
   def update(): Unit = {
-    val poiLinks = PoiLink.linksFromFile("/kpn/pois/poi-links.txt")
+    val poiLinks = PoiLink.linksFromFile(s"${Dirs.root}/pois/poi-links.txt")
     val todoPoiLinks = poiLinks.filter(poiLink => !imageRepo.exists(poiLink.toRef))
     poiCount = todoPoiLinks.size
     val urlsByHost = buildUrlsByHost(poiLinks)

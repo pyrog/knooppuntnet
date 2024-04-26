@@ -1,9 +1,11 @@
 package kpn.core.replicate
 
+import kpn.core.tools.config.Dirs
+
 import java.io.File
 
 case class UpdaterToolOptions(
-  rootDir: File = new File("/kpn"),
+  rootDir: File = Dirs.root,
   actionsDatabaseName: String = ""
 ) {
 
@@ -20,7 +22,6 @@ case class UpdaterToolOptions(
   def overpassQuery: File = new File(rootDir, "overpass/bin/osm3s_query")
 
   def overpassUpdate: File = new File(rootDir, "overpass/bin/update_from_dir")
-
 }
 
 object UpdaterToolOptions {

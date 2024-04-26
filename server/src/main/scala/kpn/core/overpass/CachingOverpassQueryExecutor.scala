@@ -1,12 +1,13 @@
 package kpn.core.overpass
 
-import java.io.File
-
 import kpn.api.custom.Timestamp
 import kpn.core.common.TimestampUtil
+import kpn.core.tools.config.Dirs
 import kpn.core.util.GZipFile
 import kpn.core.util.Log
 import org.apache.commons.io.FileUtils
+
+import java.io.File
 
 class CachingOverpassQueryExecutor(cacheRootDir: File, val overpassQueryExecutor: OverpassQueryExecutor) extends OverpassQueryExecutor {
 
@@ -27,7 +28,7 @@ class CachingOverpassQueryExecutor(cacheRootDir: File, val overpassQueryExecutor
 
         // temp code
         if (!cacheFile.exists()) {
-          val oldCacheDir = new File("/kpn/cache-old/", TimestampUtil.cacheDir(t))
+          val oldCacheDir = new File(s"${Dirs.root}/cache-old/", TimestampUtil.cacheDir(t))
           val oldCacheFile = new File(oldCacheDir, query.name + ".xml.gz")
           if (oldCacheFile.exists()) {
             log.debug(s"Re-using request result ${query.name}.xml.gz")

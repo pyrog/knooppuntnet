@@ -21,55 +21,55 @@ class OperationActions {
   }
 
   def startMainDispatcher(): String = {
-    Process("/kpn/scripts/dispatcher.sh").!!
+    Process(s"${Dirs.root}/scripts/dispatcher.sh").!!
   }
 
   def startAreasDispatcher(): String = {
-    Process("/kpn/scripts/areas_dispatcher.sh").!!
+    Process(s"${Dirs.root}/scripts/areas_dispatcher.sh").!!
   }
 
   def startReplicator(): String = {
-    Process("/kpn/scripts/replicator.sh").!!
+    Process(s"${Dirs.root}/scripts/replicator.sh").!!
   }
 
   def startUpdater(): String = {
-    Process("/kpn/scripts/updater.sh").!!
+    Process(s"${Dirs.root}/scripts/updater.sh").!!
   }
 
   def startAnalyzer1(): String = {
-    Process("/kpn/scripts/analyzer-1.sh").!!
+    Process(s"${Dirs.root}/scripts/analyzer-1.sh").!!
   }
 
   def startAnalyzer2(): String = {
-    Process("/kpn/scripts/analyzer-2.sh").!!
+    Process(s"${Dirs.root}/scripts/analyzer-2.sh").!!
   }
 
   def startAnalyzer3(): String = {
-    Process("/kpn/scripts/analyzer-3.sh").!!
+    Process(s"${Dirs.root}/scripts/analyzer-3.sh").!!
   }
 
   def startServer(): String = {
-    Process("/kpn/scripts/server.sh").!!
+    Process(s"${Dirs.root}/scripts/server.sh").!!
   }
 
   def startServerHistory(): String = {
-    Process("/kpn/scripts/server-history.sh").!!
+    Process(s"${Dirs.root}/scripts/server-history.sh").!!
   }
 
   def startChangeSetInfoTool(): String = {
-    Process("/kpn/scripts/change-set-info-tool.sh").!!
+    Process(s"${Dirs.root}/scripts/change-set-info-tool.sh").!!
   }
 
   def startChangeSetInfoTool2(): String = {
-    Process("/kpn/scripts/change-set-info-tool-2.sh").!!
+    Process(s"${Dirs.root}/scripts/change-set-info-tool-2.sh").!!
   }
 
   def stopMainDispatcher(): String = {
-    Process("/kpn/overpass/bin/dispatcher --terminate --osm-base").!!
+    Process(s"${Dirs.root}/overpass/bin/dispatcher --terminate --osm-base").!!
   }
 
   def stopAreasDispatcher(): String = {
-    Process("/kpn/overpass/bin/dispatcher --terminate --areas").!!
+    Process(s"${Dirs.root}/overpass/bin/dispatcher --terminate --areas").!!
   }
 
   def stopReplicator(): String = {
@@ -116,5 +116,4 @@ class OperationActions {
     new Stop().stop("5244")
     ""
   }
-
 }

@@ -3,6 +3,7 @@ package kpn.server.api.status
 import kpn.api.common.status.ActionTimestamp
 import kpn.core.metrics.SystemStatus
 import kpn.core.metrics.SystemStatusValue
+import kpn.core.tools.config.Dirs
 import kpn.core.util.Log
 import kpn.server.json.Json
 import kpn.server.repository.MetricsRepository
@@ -55,9 +56,9 @@ class SystemStatusMonitorImpl(
 
   private def allSystemStatusValues(): Seq[SystemStatusValue] = {
     Seq(
-      systemStatusValues("/kpn/scripts/status-backend.sh"),
-      systemStatusValues("rsh kpn-frontend /kpn/scripts/status-frontend.sh"),
-      systemStatusValues("rsh kpn-database /kpn/scripts/status-database.sh"),
+      systemStatusValues(s"${Dirs.root}/scripts/status-backend.sh"),
+      systemStatusValues(s"rsh kpn-frontend /kpn/scripts/status-frontend.sh"),
+      systemStatusValues(s"rsh kpn-database /kpn/scripts/status-database.sh"),
       databaseInfo()
     ).flatten
   }
@@ -138,5 +139,4 @@ class SystemStatusMonitorImpl(
       DatabaseSampleConfig("old-frontend-changesets", "kpn-frontend", "changesets2"),
     )
   }
-
 }

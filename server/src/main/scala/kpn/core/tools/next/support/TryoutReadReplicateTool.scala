@@ -3,6 +3,7 @@ package kpn.core.tools.next.support
 import com.jcraft.jsch.ChannelSftp
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.Session
+import kpn.core.tools.config.Dirs
 import org.apache.commons.io.IOUtils
 
 import java.nio.charset.StandardCharsets
@@ -49,13 +50,15 @@ class MonitorReadReplicateTool {
   }
 
   private def readStatusFile(channel: ChannelSftp): Unit = {
-    val inputStream = channel.get("/kpn/status/analysis2")
+    val filename = s"${Dirs.root}/status/analysis2"
+    val inputStream = channel.get(filename)
     val string = IOUtils.toString(inputStream, StandardCharsets.UTF_8)
     println(string)
   }
 
   private def readStateFile(channel: ChannelSftp): Unit = {
-    val inputStream = channel.get("/kpn/replicate/005/981/121.state.txt")
+    val filename = s"${Dirs.root}/replicate/005/981/121.state.txt"
+    val inputStream = channel.get(filename)
     val string = IOUtils.toString(inputStream, StandardCharsets.UTF_8)
     println("---")
     println(string)
@@ -63,7 +66,8 @@ class MonitorReadReplicateTool {
   }
 
   private def readMinuteDiffFile(channel: ChannelSftp): Unit = {
-    val gzippedInputStream = channel.get("/kpn/replicate/005/981/121.osc.gz")
+    val filename = s"${Dirs.root}/replicate/005/981/121.osc.gz"
+    val gzippedInputStream = channel.get(filename)
     val inputStream = new GZIPInputStream(gzippedInputStream)
     val string = IOUtils.toString(inputStream, StandardCharsets.UTF_8)
     println(string)

@@ -1,5 +1,6 @@
 package kpn.core.tools.location
 
+import kpn.core.tools.config.Dirs
 import kpn.server.analyzer.engine.analysis.location.LocationTree
 import kpn.server.json.Json
 import org.apache.commons.io.FileUtils
@@ -16,7 +17,7 @@ object LocationBuilderTool {
 
 class LocationBuilderTool {
 
-  private val root = "/kpn/locations"
+  private val root = s"${Dirs.root}/locations"
   private val boundaryVersion = "osm-boundaries-2021-11-01"
   private val boundaryVersion2 = "osm-boundaries-2023-06-05"
 

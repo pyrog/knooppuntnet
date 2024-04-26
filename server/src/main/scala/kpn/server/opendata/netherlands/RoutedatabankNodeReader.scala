@@ -1,5 +1,6 @@
 package kpn.server.opendata.netherlands
 
+import kpn.core.tools.config.Dirs
 import kpn.core.util.Log
 
 import java.io.FileInputStream
@@ -7,7 +8,7 @@ import java.io.InputStream
 
 object RoutedatabankNodeReader {
   def main(args: Array[String]): Unit = {
-    val filename = "/kpn/opendata/netherlands/Wandelknooppunten (wgs84).json"
+    val filename = s"${Dirs.root}/opendata/netherlands/Wandelknooppunten (wgs84).json"
     val inputStream = new FileInputStream(filename)
     new RoutedatabankNodeReader().read(inputStream)
   }

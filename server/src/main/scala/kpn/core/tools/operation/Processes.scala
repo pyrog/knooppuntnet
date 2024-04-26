@@ -5,23 +5,23 @@ object Processes {
   def webServerProcesses(lines: List[String]): Seq[ProcessInfo] = {
     assertHeader(lines.head)
     Seq(
-      processInfo(lines.tail, "server", "/kpn/java/bin/java -Dname=server "),
-      processInfo(lines.tail, "server-experimental", "/kpn/java/bin/java -Dname=server-experimental "),
-      processInfo(lines.tail, "server-mail", "/kpn/java/bin/java -Dname=server-mail "),
+      processInfo(lines.tail, "server", "java/bin/java -Dname=server "),
+      processInfo(lines.tail, "server-experimental", "java/bin/java -Dname=server-experimental "),
+      processInfo(lines.tail, "server-mail", "java/bin/java -Dname=server-mail "),
       processInfo(lines.tail, "nginx", "nginx: master process"),
-      processInfo(lines.tail, "mongod", "mongod --config /kpn/conf/mongod.conf"),
+      processInfo(lines.tail, "mongod", "mongod --config "),
     )
   }
 
   def analysisServerProcesses(lines: List[String]): Seq[ProcessInfo] = {
     Seq(
-      processInfo(lines.tail, "main-dispatcher", "/kpn/overpass/bin/dispatcher"),
+      processInfo(lines.tail, "main-dispatcher", "overpass/bin/dispatcher"),
       processInfo(lines.tail, "replicator", "name=replicator "),
       processInfo(lines.tail, "updater", "name=updater "),
-      processInfo(lines.tail, "server", "/kpn/java/bin/java -Dname=server"),
-      processInfo(lines.tail, "lsyncd", "lsyncd /kpn/conf/lsyncd.conf"),
+      processInfo(lines.tail, "server", "java/bin/java -Dname=server"),
+      processInfo(lines.tail, "lsyncd", "conf/lsyncd.conf"),
       processInfo(lines.tail, "nginx", "nginx: master process"),
-      processInfo(lines.tail, "update_from_dir", "/kpn/overpass/bin/update_from_dir"),
+      processInfo(lines.tail, "update_from_dir", "overpass/bin/update_from_dir"),
     ) ++ processInfos(lines.tail, "query", "overpass/bin/osm3s_query")
   }
 

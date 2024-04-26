@@ -2,6 +2,7 @@ package kpn.core.tools.next.support
 
 import kpn.core.overpass.OverpassQueryExecutor
 import kpn.core.overpass.OverpassQueryExecutorRemoteImpl
+import kpn.core.tools.config.Dirs
 import org.apache.commons.io.FileUtils
 
 import java.io.File
@@ -50,8 +51,9 @@ class MonitorExploreRelationsTool(overpassQueryExecutor: OverpassQueryExecutor) 
   }
 
   private def saveRouteIds(routeInfos: Seq[RouteInfo]): Unit = {
-    val routeIds = routeInfos.flatMap(_.routeIds).toSet.toSeq.sorted.map(_.toString)
-    FileUtils.writeStringToFile(new File("/kpn/next/route-ids.txt"), routeIds.mkString("\n"), "UTF-8")
+    val file = new File(Dirs.root, "next/route-ids.txt")
+    val routeIds = routeInfos.flatMap(_.routeIds).distinct.sorted.map(_.toString)
+    FileUtils.writeStringToFile(file, routeIds.mkString("\n"), "UTF-8")
     println(s"\nsaved routeIds")
   }
 

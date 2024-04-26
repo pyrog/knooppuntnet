@@ -1,5 +1,10 @@
 package kpn.server.analyzer.engine.elevation
 
+import kpn.core.tools.config.Dirs
+import kpn.server.analyzer.engine.tiles.domain.Point
+import org.apache.commons.io.IOUtils
+import org.springframework.stereotype.Component
+
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStream
@@ -7,10 +12,6 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.ShortBuffer
 import java.util.zip.GZIPInputStream
-
-import kpn.server.analyzer.engine.tiles.domain.Point
-import org.apache.commons.io.IOUtils
-import org.springframework.stereotype.Component
 
 @Component
 class ElevationRepositoryImpl extends ElevationRepository {
@@ -42,7 +43,7 @@ class ElevationRepositoryImpl extends ElevationRepository {
   }
 
   private def loadTileBuffer(tilename: String) = {
-    val filename = s"/kpn/tiles/hgt/$tilename.hgt.gz"
+    val filename = s"${Dirs.root}/tiles/hgt/$tilename.hgt.gz"
     val f = new File(filename)
     if (f.exists) {
       Some(hgtFileToBuffer(filename))
@@ -63,5 +64,4 @@ class ElevationRepositoryImpl extends ElevationRepository {
       gis.close()
     }
   }
-
 }

@@ -4,6 +4,7 @@ import kpn.api.custom.NetworkType
 import kpn.api.custom.Relation
 import kpn.core.data.DataBuilder
 import kpn.core.loadOld.Parser
+import kpn.core.tools.config.Dirs
 import kpn.core.util.Log
 import kpn.server.analyzer.engine.analysis.route.segment.FragmentAnalyzer
 import kpn.server.analyzer.engine.analysis.route.segment.SegmentBuilder
@@ -42,11 +43,10 @@ class MonitorChangeProcessorDemo {
     }
 
     log.info("segments.size=" + segments.size)
-
   }
 
   private def loadRelation(): Relation = {
-    val filename = s"/kpn/wrk/begin/$routeId.xml"
+    val filename = s"${Dirs.root}/wrk/begin/$routeId.xml"
     val xmlString = FileUtils.readFileToString(new File(filename), Charset.forName("UTF-8"))
     val xml = XML.loadString(xmlString)
     val rawData = new Parser().parse(xml.head)
