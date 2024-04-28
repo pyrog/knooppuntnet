@@ -8,15 +8,15 @@ import { RouteNodeComponent } from './route-node.component';
   selector: 'kpn-route-start-nodes',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <!-- eslint-disable @angular-eslint/template/i18n -->
-    @if (analysis().map.startNodes.length === 0) {
-      <p>?</p>
-    }
     @for (node of analysis().map.startNodes; track node) {
       <p>
         <kpn-route-node [node]="node" title="marker-icon-green-small.png" />
       </p>
+    } @empty {
+      <!-- eslint-disable @angular-eslint/template/i18n -->
+      <p>?</p>
     }
+
     @for (node of analysis().map.startTentacleNodes; track node) {
       <p>
         <kpn-route-node [node]="node" title="marker-icon-orange-small.png" />

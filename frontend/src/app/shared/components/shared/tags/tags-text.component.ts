@@ -7,12 +7,10 @@ import { Tags } from '@api/custom';
   selector: 'kpn-tags-text',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    @if (tags().tags.length === 0) {
+    @for (tag of tags().tags; track tag) {
+      <div>{{ tag.key }} = {{ tag.value }}</div>
+    } @empty {
       <ng-container i18n="@@tags.no-tags" class="no-tags">No tags</ng-container>
-    } @else {
-      @for (tag of tags().tags; track tag) {
-        <div>{{ tag.key }} = {{ tag.value }}</div>
-      }
     }
   `,
   styles: `

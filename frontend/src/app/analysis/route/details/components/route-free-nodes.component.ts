@@ -8,14 +8,13 @@ import { RouteNodeComponent } from './route-node.component';
   selector: 'kpn-route-free-nodes',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <!-- eslint-disable @angular-eslint/template/i18n -->
-    @if (analysis().map.freeNodes.length === 0) {
-      <p>?</p>
-    }
     @for (node of analysis().map.freeNodes; track node) {
       <p>
         <kpn-route-node [node]="node" title="marker-icon-blue-small.png" />
       </p>
+    } @empty {
+      <!-- eslint-disable @angular-eslint/template/i18n -->
+      <p>?</p>
     }
   `,
   standalone: true,

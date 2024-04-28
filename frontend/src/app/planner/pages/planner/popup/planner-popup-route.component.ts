@@ -31,13 +31,12 @@ import { PlannerService } from '../planner.service';
             @if (response.result.networkReferences.length !== 1) {
               <span class="kpn-label" i18n="@@map.route-popup.networks">Networks</span>
             }
-            @if (response.result.networkReferences.length === 0) {
-              <span i18n="@@map.route-popup.no-networks">None</span>
-            }
             @for (ref of response.result.networkReferences; track ref) {
               <div class="reference">
                 <a [routerLink]="'/analysis/network/' + ref.id">{{ ref.name }}</a>
               </div>
+            } @empty {
+              <span i18n="@@map.route-popup.no-networks">None</span>
             }
           </div>
           <p class="more-details">

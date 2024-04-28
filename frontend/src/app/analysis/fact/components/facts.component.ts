@@ -16,10 +16,6 @@ import { Facts } from './facts';
   selector: 'kpn-facts',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    @if (filteredFactInfos.length === 0) {
-      <div i18n="@@facts.none">None</div>
-    }
-
     @for (factInfo of filteredFactInfos; track $index) {
       <div class="fact">
         <div>
@@ -59,6 +55,8 @@ import { Facts } from './facts';
           <kpn-fact-description [factInfo]="factInfo" />
         </div>
       </div>
+    } @empty {
+      <div i18n="@@facts.none">None</div>
     }
   `,
   styles: `

@@ -9,10 +9,7 @@ import { NodeNetworkReferenceComponent } from './node-network-reference.componen
   selector: 'kpn-node-network-references',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    @if (references().length === 0) {
-      <p i18n="@@node.network-references.none">None</p>
-    }
-    @for (reference of references(); track reference) {
+    @for (reference of references(); track reference.id) {
       <p>
         <kpn-node-network-reference
           [nodeInfo]="nodeInfo()"
@@ -20,6 +17,8 @@ import { NodeNetworkReferenceComponent } from './node-network-reference.componen
           [mixedNetworkScopes]="mixedNetworkScopes()"
         />
       </p>
+    } @empty {
+      <p i18n="@@node.network-references.none">None</p>
     }
   `,
   standalone: true,

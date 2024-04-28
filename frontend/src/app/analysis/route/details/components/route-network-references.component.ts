@@ -9,9 +9,6 @@ import { NetworkTypeIconComponent } from '@app/components/shared';
   selector: 'kpn-route-network-references',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    @if (references().length === 0) {
-      <div i18n="@@route.no-network-references">None</div>
-    }
     @for (reference of references(); track reference) {
       <div class="kpn-line">
         <kpn-network-type-icon [networkType]="reference.networkType" />
@@ -22,6 +19,8 @@ import { NetworkTypeIconComponent } from '@app/components/shared';
           {{ reference.name }}
         </a>
       </div>
+    } @empty {
+      <div i18n="@@route.no-network-references">None</div>
     }
   `,
   standalone: true,

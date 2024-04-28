@@ -8,13 +8,12 @@ import { IconRouteLinkComponent } from '@app/components/shared/link';
   selector: 'kpn-node-route-references',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    @if (references().length === 0) {
-      <p i18n="@@node.route-references.none">None</p>
-    }
     @for (reference of references(); track reference) {
       <p>
         <kpn-icon-route-link [reference]="reference" [mixedNetworkScopes]="mixedNetworkScopes()" />
       </p>
+    } @empty {
+      <p i18n="@@node.route-references.none">None</p>
     }
   `,
   standalone: true,
