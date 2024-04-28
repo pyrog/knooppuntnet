@@ -19,7 +19,7 @@ export class NetworkBitmapTileLayer {
         source: new XYZ({
           minZoom: ZoomLevel.bitmapTileMinZoom,
           maxZoom: ZoomLevel.bitmapTileMaxZoom,
-          url: `/tiles-history/${networkType}/${mapMode}/{z}/{x}/{y}.png`,
+          url: `/tiles/${networkType}/${mapMode}/{z}/{x}/{y}.png`,
         }),
       }),
       networkType,

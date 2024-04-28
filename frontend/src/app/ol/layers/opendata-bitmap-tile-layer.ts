@@ -10,7 +10,7 @@ export class OpendataBitmapTileLayer {
       source: new XYZ({
         minZoom: ZoomLevel.bitmapTileMinZoom,
         maxZoom: ZoomLevel.bitmapTileMaxZoom,
-        url: `/tiles-history/opendata/${dir}/{z}/{x}/{y}.png`,
+        url: `/tiles/opendata/${dir}/{z}/{x}/{y}.png`,
       }),
     });
 

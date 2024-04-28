@@ -18,7 +18,6 @@ export default [
   {
     context: [
       "/tiles/**",
-      "/tiles-history/**",
       "/images/**",
       "/videos/**",
       "/assets/**",

@@ -23,7 +23,7 @@ export class OpendataVectorTileLayer {
       minZoom: ZoomLevel.vectorTileMinZoom,
       maxZoom: ZoomLevel.vectorTileMaxZoom,
       format: new MVT(),
-      url: `/tiles-history/opendata/${dir}/{z}/{x}/{y}.mvt`,
+      url: `/tiles/opendata/${dir}/{z}/{x}/{y}.mvt`,
     });
 
     const layer = new VectorTileLayer({

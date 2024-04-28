@@ -9,7 +9,7 @@ nohup /kpn/java/bin/java \
   -Dcom.sun.management.jmxremote.ssl=false \
   -cp /kpn/bin/server.jar \
   -Dloader.main=kpn.core.tools.poi.PoiTileUpdateTool org.springframework.boot.loader.launch.PropertiesLauncher \
-  --tile-dir /kpn/tiles-history \
+  --tile-dir /kpn/tiles \
   --host kpn-web \
   --poi-database kpn-prod \
   --task-database kpn-prod \

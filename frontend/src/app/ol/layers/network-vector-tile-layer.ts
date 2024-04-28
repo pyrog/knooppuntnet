@@ -15,7 +15,7 @@ export class NetworkVectorTileLayer {
       minZoom: ZoomLevel.vectorTileMinZoom,
       maxZoom: ZoomLevel.vectorTileMaxZoom,
       format: new MVT(),
-      url: '/tiles-history/' + networkType + '/{z}/{x}/{y}.mvt',
+      url: `/tiles/${networkType}/{z}/{x}/{y}.mvt`,
     });
 
     const layer = new VectorTileLayer({
@@ -44,7 +44,7 @@ export class NetworkVectorTileLayer {
       minZoom: ZoomLevel.vectorTileMinZoom,
       maxZoom: ZoomLevel.vectorTileMaxZoom,
       format: new MVT(),
-      url: '/tiles-history/' + networkType + '/{z}/{x}/{y}.mvt',
+      url: `/tiles/${networkType}/{z}/{x}/{y}.mvt`,
     });
 
     const layer = new VectorTileLayer({

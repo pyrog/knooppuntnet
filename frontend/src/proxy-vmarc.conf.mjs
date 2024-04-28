@@ -4,7 +4,6 @@ export default [
       "/api/**",
       "/admin-api/**",
       "/tiles/**",
-      "/tiles-history/**",
       "/images/**",
       "/videos/**",
       "/assets/**",

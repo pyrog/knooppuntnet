@@ -11,7 +11,7 @@ export class NetworkNodesBitmapTileLayer {
       source: new XYZ({
         minZoom: ZoomLevel.bitmapTileMinZoom,
         maxZoom: ZoomLevel.bitmapTileMaxZoom,
-        url: `/tiles-history/${networkType}/analysis/{z}/{x}/{y}.png`,
+        url: `/tiles/${networkType}/analysis/{z}/{x}/{y}.png`,
       }),
     });
     const name = Translations.get(`network-type.${networkType}`);

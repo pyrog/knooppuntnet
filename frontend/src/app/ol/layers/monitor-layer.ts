@@ -14,7 +14,7 @@ export class MonitorLayer {
       minZoom: 2,
       maxZoom: 14,
       format: new MVT(),
-      url: '/tiles-history/monitor/{z}/{x}/{y}.mvt',
+      url: '/tiles/monitor/{z}/{x}/{y}.mvt',
     });
 
     const layer = new VectorTileLayer({

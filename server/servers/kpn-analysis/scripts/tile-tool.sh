@@ -9,6 +9,6 @@ nohup /kpn/java/bin/java \
   -Xmx3G \
   -cp /kpn/bin/server.jar \
   -Dloader.main=kpn.core.tools.tile.TileTool org.springframework.boot.loader.launch.PropertiesLauncher \
-  -t /kpn/tiles-history \
+  -t /kpn/tiles \
   -h kpn-web \
   -d kpn-prod >> /kpn/logs/tile-tool-stdout.log 2>&1 &
