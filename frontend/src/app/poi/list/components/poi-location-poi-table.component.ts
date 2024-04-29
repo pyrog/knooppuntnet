@@ -1,12 +1,8 @@
 import { computed } from '@angular/core';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
-import { OnChanges } from '@angular/core';
-import { SimpleChanges } from '@angular/core';
 import { Component } from '@angular/core';
-import { OnInit } from '@angular/core';
 import { input } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import { LocationPoiInfo } from '@api/common/poi';
@@ -27,8 +23,7 @@ import { PoiLocationPoisPageService } from '../poi-location-pois-page.service';
       [showFirstLastButtons]="false"
       [showPageSizeSelection]="true"
     />
-
-    <table mat-table [dataSource]="dataSource">
+    <table mat-table [dataSource]="pois()">
       <ng-container matColumnDef="nr">
         <th mat-header-cell *matHeaderCellDef i18n="@@location-pois.table.nr">Nr</th>
         <td mat-cell *matCellDef="let poi">{{ poi.rowIndex + 1 }}</td>
@@ -102,14 +97,13 @@ import { PoiLocationPoisPageService } from '../poi-location-pois-page.service';
   standalone: true,
   imports: [PaginatorComponent, MatTableModule, RouterLink],
 })
-export class PoiLocationPoiTableComponent implements OnInit, OnChanges {
+export class PoiLocationPoiTableComponent {
   pois = input.required<LocationPoiInfo[]>();
   poiCount = input.required<number>();
 
   private readonly pageWidthService = inject(PageWidthService);
   protected readonly service = inject(PoiLocationPoisPageService);
 
-  protected readonly dataSource = new MatTableDataSource<LocationPoiInfo>();
   protected readonly displayedColumns = computed(() => {
     if (this.pageWidthService.isVeryLarge()) {
       return ['nr', 'layer', 'id', 'description', 'address', 'link', 'image'];
@@ -121,16 +115,6 @@ export class PoiLocationPoiTableComponent implements OnInit, OnChanges {
 
     return ['nr', 'layer', 'id', 'description', 'address', 'link', 'image'];
   });
-
-  ngOnInit(): void {
-    this.dataSource.data = this.pois();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['pois']) {
-      this.dataSource.data = this.pois();
-    }
-  }
 
   onPageSizeChange(pageSize: number) {
     this.service.setPageSize(pageSize);

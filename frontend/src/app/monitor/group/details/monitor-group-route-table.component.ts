@@ -1,10 +1,8 @@
-import { OnInit } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
@@ -21,7 +19,7 @@ import { ActionButtonRelationComponent } from '../../../analysis/components/acti
   selector: 'kpn-monitor-group-route-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <table mat-table [dataSource]="dataSource">
+    <table mat-table [dataSource]="routes()">
       <ng-container matColumnDef="nr">
         <th mat-header-cell *matHeaderCellDef class="nr" i18n="@@monitor.group.route-table.nr">
           Nr
@@ -271,12 +269,10 @@ import { ActionButtonRelationComponent } from '../../../analysis/components/acti
     ActionButtonRelationComponent,
   ],
 })
-export class MonitorGroupRouteTableComponent implements OnInit {
+export class MonitorGroupRouteTableComponent {
   admin = input.required<boolean>();
   groupName = input.required<string>();
   routes = input.required<MonitorRouteDetail[]>();
-
-  readonly dataSource = new MatTableDataSource<MonitorRouteDetail>();
 
   private readonly columns = [
     'nr',
@@ -300,10 +296,6 @@ export class MonitorGroupRouteTableComponent implements OnInit {
     'reference-distance',
     'deviation-distance',
   ];
-
-  ngOnInit(): void {
-    this.dataSource.data = this.routes();
-  }
 
   displayedColumns(admin: boolean): string[] {
     if (admin) {

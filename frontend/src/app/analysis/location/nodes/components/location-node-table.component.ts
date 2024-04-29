@@ -1,12 +1,8 @@
 import { computed } from '@angular/core';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
-import { OnChanges } from '@angular/core';
-import { SimpleChanges } from '@angular/core';
 import { Component } from '@angular/core';
-import { OnInit } from '@angular/core';
 import { input } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatTableModule } from '@angular/material/table';
 import { TimeInfo } from '@api/common';
 import { LocationNodeInfo } from '@api/common/location';
@@ -41,7 +37,7 @@ import { LocationNodeRoutesComponent } from './location-node-routes.component';
       [showPageSizeSelection]="true"
     />
 
-    <table mat-table [dataSource]="dataSource">
+    <table mat-table [dataSource]="nodes()">
       <ng-container matColumnDef="nr">
         <th mat-header-cell *matHeaderCellDef i18n="@@location-nodes.table.nr">Nr</th>
         <td mat-cell *matCellDef="let node">{{ node.rowIndex + 1 }}</td>
@@ -133,7 +129,7 @@ import { LocationNodeRoutesComponent } from './location-node-routes.component';
     PaginatorComponent,
   ],
 })
-export class LocationNodeTableComponent implements OnInit, OnChanges {
+export class LocationNodeTableComponent {
   timeInfo = input.required<TimeInfo>();
   nodes = input.required<LocationNodeInfo[]>();
   nodeCount = input.required<number>();
@@ -146,7 +142,6 @@ export class LocationNodeTableComponent implements OnInit, OnChanges {
   private readonly pageWidthService = inject(PageWidthService);
   private readonly editService = inject(EditService);
 
-  protected readonly dataSource = new MatTableDataSource<LocationNodeInfo>();
   protected readonly displayedColumns = computed(() => {
     if (this.pageWidthService.isVeryLarge()) {
       return [
@@ -167,16 +162,6 @@ export class LocationNodeTableComponent implements OnInit, OnChanges {
 
     return ['nr', 'node', 'expectedRouteCount', 'routes'];
   });
-
-  ngOnInit(): void {
-    this.dataSource.data = this.nodes();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['nodes']) {
-      this.dataSource.data = this.nodes();
-    }
-  }
 
   onPageSizeChange(pageSize: number) {
     this.service.setPageSize(pageSize);

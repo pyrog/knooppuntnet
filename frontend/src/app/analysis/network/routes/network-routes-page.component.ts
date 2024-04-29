@@ -26,18 +26,20 @@ import { NetworkRoutesPageService } from './network-routes-page.service';
           @if (!response.result) {
             <p i18n="@@network-page.network-not-found">Network not found</p>
           } @else {
-            <p>
-              <kpn-situation-on [timestamp]="response.situationOn" />
-            </p>
-            @if (response.result.routes.length === 0) {
-              <p i18n="@@network-routes.no-routes">No network routes in network</p>
-            } @else {
-              <kpn-network-route-table
-                [timeInfo]="response.result.timeInfo"
-                [surveyDateInfo]="response.result.surveyDateInfo"
-                [networkType]="response.result.networkType"
-                [routes]="response.result.routes"
-              />
+            @if (response.result; as page) {
+              <p>
+                <kpn-situation-on [timestamp]="response.situationOn" />
+              </p>
+              @if (page.routes.length === 0) {
+                <p i18n="@@network-routes.no-routes">No network routes in network</p>
+              } @else {
+                <kpn-network-route-table
+                  [timeInfo]="page.timeInfo"
+                  [surveyDateInfo]="page.surveyDateInfo"
+                  [networkType]="page.networkType"
+                  [routes]="service.filteredRoutes()"
+                />
+              }
             }
           }
         </div>

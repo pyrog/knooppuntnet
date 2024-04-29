@@ -1,4 +1,3 @@
-import { effect } from '@angular/core';
 import { viewChild } from '@angular/core';
 import { computed } from '@angular/core';
 import { inject } from '@angular/core';
@@ -6,6 +5,7 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { input } from '@angular/core';
+import { effect } from '@angular/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTableModule } from '@angular/material/table';
@@ -36,7 +36,7 @@ import { NetworkRouteAnalysisComponent } from './network-route-analysis.componen
       editLinkTitle="Load the routes in this page in JOSM"
       [pageSize]="service.pageSize()"
       (pageSizeChange)="onPageSizeChange($event)"
-      [length]="routes()?.length"
+      [length]="service.totalRouteCount()"
       [showPageSizeSelection]="true"
       [showFirstLastButtons]="true"
     />
@@ -198,9 +198,14 @@ export class NetworkRouteTableComponent implements OnInit {
   });
 
   constructor() {
-    effect(() => {
-      this.dataSource.data = this.service.filteredRoutes();
-    });
+    effect(
+      () => {
+        this.dataSource.data = this.routes();
+      },
+      {
+        allowSignalWrites: true,
+      }
+    );
   }
 
   ngOnInit(): void {

@@ -1,11 +1,9 @@
 import { NgClass } from '@angular/common';
-import { OnInit } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Params } from '@angular/router';
@@ -23,7 +21,7 @@ import { MonitorRouteGapComponent } from '../monitor-route-gap.component';
   selector: 'kpn-monitor-route-details-structure',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <table mat-table [dataSource]="dataSource">
+    <table mat-table [dataSource]="structureRows()">
       <ng-container matColumnDef="nr">
         <th mat-header-cell *matHeaderCellDef i18n="@@monitor.route.relation-table.nr">Nr</th>
         <td mat-cell *matCellDef="let row; let i = index">
@@ -319,14 +317,12 @@ import { MonitorRouteGapComponent } from '../monitor-route-gap.component';
     ActionButtonRelationComponent,
   ],
 })
-export class MonitorRouteDetailsStructureComponent implements OnInit {
+export class MonitorRouteDetailsStructureComponent {
   admin = input.required<boolean>();
   groupName = input.required<string>();
   routeName = input.required<string>();
   structureRows = input.required<MonitorRouteRelationStructureRow[]>();
   referenceType = input.required<string>();
-
-  readonly dataSource = new MatTableDataSource<MonitorRouteRelationStructureRow>();
 
   private readonly mainColumns = [
     'nr',
@@ -350,10 +346,6 @@ export class MonitorRouteDetailsStructureComponent implements OnInit {
     'reference-distance',
     'deviation-distance',
   ];
-
-  ngOnInit(): void {
-    this.dataSource.data = this.structureRows();
-  }
 
   displayedColumns(admin: boolean) {
     let columns = [...this.mainColumns];

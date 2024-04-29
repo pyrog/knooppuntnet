@@ -1,10 +1,8 @@
-import { OnInit } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import { MonitorGroupDetail } from '@api/common/monitor';
@@ -13,7 +11,7 @@ import { MonitorGroupDetail } from '@api/common/monitor';
   selector: 'kpn-monitor-group-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <table mat-table [dataSource]="dataSource">
+    <table mat-table [dataSource]="groups()">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef i18n="@@monitor.group.table.name">Name</th>
         <td mat-cell *matCellDef="let group">
@@ -70,15 +68,9 @@ import { MonitorGroupDetail } from '@api/common/monitor';
   standalone: true,
   imports: [MatButtonModule, MatIconModule, MatTableModule, RouterLink],
 })
-export class MonitorGroupTableComponent implements OnInit {
+export class MonitorGroupTableComponent {
   admin = input.required<boolean>();
   groups = input.required<MonitorGroupDetail[]>();
-
-  readonly dataSource = new MatTableDataSource<MonitorGroupDetail>();
-
-  ngOnInit(): void {
-    this.dataSource.data = this.groups();
-  }
 
   displayedColumns(admin: boolean) {
     if (admin) {

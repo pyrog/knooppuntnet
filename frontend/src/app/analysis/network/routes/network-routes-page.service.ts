@@ -7,8 +7,8 @@ import { PreferencesService } from '@app/core';
 import { ApiService } from '@app/services';
 import { RouterService } from '../../../shared/services/router.service';
 import { NetworkService } from '../network.service';
-import { NetworkRouteFilter } from './components/network-route-filter';
 import { NetworkRouteFilterCriteria } from './components/network-route-filter-criteria';
+import { NetworkRouteFilter } from './components/network-route-filter';
 
 export class NetworkRoutesPageService {
   private readonly apiService = inject(ApiService);
@@ -23,6 +23,7 @@ export class NetworkRoutesPageService {
   private readonly timeInfo = computed(() => this.response()?.result?.timeInfo);
   private readonly surveyDateInfo = computed(() => this.response()?.result?.surveyDateInfo);
   private readonly routes = computed(() => this.response()?.result?.routes ?? []);
+  readonly totalRouteCount = computed(() => this.routes().length);
 
   private readonly filterCriteria = signal<NetworkRouteFilterCriteria>(
     new NetworkRouteFilterCriteria()

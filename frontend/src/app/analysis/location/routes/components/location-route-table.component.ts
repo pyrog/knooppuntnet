@@ -1,13 +1,9 @@
 import { computed } from '@angular/core';
 import { inject } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
-import { SimpleChanges } from '@angular/core';
-import { OnChanges } from '@angular/core';
 import { Component } from '@angular/core';
-import { OnInit } from '@angular/core';
 import { input } from '@angular/core';
 import { MatSortModule } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatTableModule } from '@angular/material/table';
 import { TimeInfo } from '@api/common';
 import { LocationRouteInfo } from '@api/common/location';
@@ -42,7 +38,7 @@ import { LocationRouteAnalysisComponent } from './location-route-analysis';
       [showFirstLastButtons]="true"
     />
 
-    <table mat-table matSort [dataSource]="dataSource">
+    <table mat-table matSort [dataSource]="routes()">
       <ng-container matColumnDef="nr">
         <th mat-header-cell *matHeaderCellDef i18n="@@location-routes.table.nr">Nr</th>
         <td mat-cell *matCellDef="let route">{{ route.rowIndex + 1 }}</td>
@@ -141,7 +137,7 @@ import { LocationRouteAnalysisComponent } from './location-route-analysis';
     SymbolComponent,
   ],
 })
-export class LocationRouteTableComponent implements OnInit, OnChanges {
+export class LocationRouteTableComponent {
   timeInfo = input.required<TimeInfo>();
   routes = input.required<LocationRouteInfo[]>();
   routeCount = input.required<number>();
@@ -151,7 +147,6 @@ export class LocationRouteTableComponent implements OnInit, OnChanges {
 
   protected readonly service = inject(LocationRoutesPageService);
 
-  protected readonly dataSource = new MatTableDataSource<LocationRouteInfo>();
   protected readonly displayedColumns = computed(() => {
     if (this.pageWidthService.isVeryLarge()) {
       return ['nr', 'analysis', 'symbol', 'route', 'distance', 'last-survey', 'lastEdit'];
@@ -163,16 +158,6 @@ export class LocationRouteTableComponent implements OnInit, OnChanges {
 
     return ['nr', 'analysis', 'route', 'distance'];
   });
-
-  ngOnInit(): void {
-    this.dataSource.data = this.routes();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['routes']) {
-      this.dataSource.data = this.routes();
-    }
-  }
 
   onPageSizeChange(pageSize: number) {
     this.service.setPageSize(pageSize);
