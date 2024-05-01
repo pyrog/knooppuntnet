@@ -30,7 +30,6 @@ import { PoiNameService } from '@app/services';
 import { SpinnerInterceptor } from '@app/spinner';
 import { SpinnerService } from '@app/spinner';
 import * as Sentry from '@sentry/angular-ivy';
-import { provideOAuthClient } from 'angular-oauth2-oidc';
 import { MarkdownModule } from 'ngx-markdown';
 import { UserService } from './shared/user';
 
@@ -81,7 +80,6 @@ export const appConfig: ApplicationConfig = {
     MatDialog,
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
-    provideOAuthClient(),
     { provide: UserService },
   ],
 };
