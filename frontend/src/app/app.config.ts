@@ -14,8 +14,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
-import { withPreloading } from '@angular/router';
-import { PreloadAllModules } from '@angular/router';
 import { Router } from '@angular/router';
 import { appRoutes } from '@app/*';
 import { EditService } from '@app/components/shared';
@@ -36,8 +34,8 @@ import { UserService } from './shared/user';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(
-      appRoutes,
-      withPreloading(PreloadAllModules)
+      appRoutes
+      // withPreloading(PreloadAllModules)
       // withDebugTracing()
     ),
     importProvidersFrom(

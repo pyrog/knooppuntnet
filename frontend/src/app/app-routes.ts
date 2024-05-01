@@ -1,15 +1,17 @@
 import { Routes } from '@angular/router';
-import { TryoutFilterPageComponent } from './tryout/filter/tryout-filter-page.component';
-import { TryoutTabsPageComponent } from './tryout/tabs/tryout-tabs-page.component';
 
 export const appRoutes: Routes = [
   {
     path: 'tryout-filter',
-    component: TryoutFilterPageComponent,
+    loadComponent: () =>
+      import('./tryout/filter/tryout-filter-page.component').then(
+        (m) => m.TryoutFilterPageComponent
+      ),
   },
   {
     path: 'tryout-tabs',
-    component: TryoutTabsPageComponent,
+    loadComponent: () =>
+      import('./tryout/tabs/tryout-tabs-page.component').then((m) => m.TryoutTabsPageComponent),
   },
   {
     path: 'analysis',

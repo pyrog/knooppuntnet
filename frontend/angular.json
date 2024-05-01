@@ -78,6 +78,8 @@
           "configurations": {
             "production": {
               "localize": true,
+              "sourceMap": true,
+              "namedChunks": true,
               "budgets": [
                 {
                   "type": "initial",
