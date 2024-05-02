@@ -1917,7 +1917,7 @@ Mogelijke waarden bij andere knooppuntnetwerken zijn *"horse"*, *"motorboat"* , 
       </trans-unit>
       <trans-unit datatype="html" id="location-nodes.no-nodes">
         <source>No nodes</source>
-        <target>Knooppunten</target>
+        <target>Geen knooppunten</target>
       </trans-unit>
       <trans-unit datatype="html" id="location.location-not-found">
         <source>Location not found</source>
@@ -4630,7 +4630,7 @@ Mogelijke waarden bij andere knooppuntnetwerken zijn *"horse"*, *"motorboat"* , 
       </trans-unit>
       <trans-unit datatype="html" id="monitor.route.properties.relation.question-unanswered">
         <source>Please answer the question</source>
-        <target>Beantwoord de vraag </target>
+        <target>Kies een antwoord</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.route.properties.relation.missing">
         <source>Provide a valid OSM route relation id</source>
@@ -4646,7 +4646,7 @@ Mogelijke waarden bij andere knooppuntnetwerken zijn *"horse"*, *"motorboat"* , 
       </trans-unit>
       <trans-unit datatype="html" id="monitor.route.properties.reference-type.required">
         <source>Please answer the question</source>
-        <target>Beantwoord de vraag</target>
+        <target>Kies een antwoord</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.route.properties.reference-details.file">
         <source>Select the file that contains the GPX trace:</source>
@@ -5313,7 +5313,7 @@ Mogelijke waarden bij andere knooppuntnetwerken zijn *"horse"*, *"motorboat"* , 
       </trans-unit>
       <trans-unit datatype="html" id="subset-facts.node-ref">
         <source>node</source>
-        <target>node</target>
+        <target>knooppunt</target>
       </trans-unit>
       <trans-unit datatype="html" id="subset-facts.route-ref">
         <source>route</source>
@@ -5321,7 +5321,7 @@ Mogelijke waarden bij andere knooppuntnetwerken zijn *"horse"*, *"motorboat"* , 
       </trans-unit>
       <trans-unit datatype="html" id="subset-facts.osm-node-ref">
         <source>node</source>
-        <target>node</target>
+        <target>knooppunt</target>
       </trans-unit>
       <trans-unit datatype="html" id="subset-facts.osm-way-ref">
         <source>way</source>
@@ -5329,7 +5329,7 @@ Mogelijke waarden bij andere knooppuntnetwerken zijn *"horse"*, *"motorboat"* , 
       </trans-unit>
       <trans-unit datatype="html" id="subset-facts.osm-relation-ref">
         <source>relation</source>
-        <target>relation</target>
+        <target>relatie</target>
       </trans-unit>
       <trans-unit datatype="html" id="subset-facts.in">
         <source>in</source>
@@ -5337,31 +5337,31 @@ Mogelijke waarden bij andere knooppuntnetwerken zijn *"horse"*, *"motorboat"* , 
       </trans-unit>
       <trans-unit datatype="html" id="subset-facts.networks">
         <source>networks</source>
-        <target>networks</target>
+        <target>netwerken</target>
       </trans-unit>
       <trans-unit datatype="html" id="subset-facts.network">
         <source>network</source>
-        <target>network</target>
+        <target>netwerk</target>
       </trans-unit>
       <trans-unit datatype="html" id="subset-facts.fact">
         <source>fact</source>
-        <target>fact</target>
+        <target>feit</target>
       </trans-unit>
       <trans-unit datatype="html" id="subset-facts.facts">
         <source>facts</source>
-        <target>facts</target>
+        <target>feiten</target>
       </trans-unit>
       <trans-unit datatype="html" id="icon.network.tooltip">
         <source>node network</source>
-        <target>node network</target>
+        <target>knooppuntnetwerk</target>
       </trans-unit>
       <trans-unit datatype="html" id="icon.node.tooltip">
         <source>node</source>
-        <target>node</target>
+        <target>knooppunt</target>
       </trans-unit>
       <trans-unit datatype="html" id="icon.relation.tooltip">
         <source>relation</source>
-        <target>relation</target>
+        <target>relatie</target>
       </trans-unit>
       <trans-unit datatype="html" id="icon.route.tooltip">
         <source>route</source>

@@ -512,7 +512,7 @@ Andere mögliche Werte sind *"horse"*, *"motorboat"*, *"canoe"* und *"inline_ska
       </trans-unit>
       <trans-unit datatype="html" id="integrity-indicator.gray.text">
         <source>This network node does not have an *"<x equiv-text="{{ tag }}" id="INTERPOLATION"/>"* tag. This is OK because the use of this tag is optional.</source>
-        <target>Diese Netzwerkrelation hat kein *"<x equiv-text="{{tag}}" id="INTERPOLATION"/>"* -Tag. Dies ist in Ordnung, da die Verwendung dieses Tags optional ist.</target>
+        <target>Dieser Netzwerkknoten hat kein *"<x equiv-text="{{tag}}" id="INTERPOLATION"/>"*-Tag. Dies ist in Ordnung, da die Verwendung dieses Tags optional ist.</target>
       </trans-unit>
       <trans-unit datatype="html" id="integrity-indicator.green.title">
         <source>OK - expected route count</source>

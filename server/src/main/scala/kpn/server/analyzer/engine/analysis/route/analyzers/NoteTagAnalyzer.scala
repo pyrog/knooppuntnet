@@ -25,6 +25,6 @@ object NoteTagAnalyzer {
   private def isAcceptedNodeName(name: String): Boolean = {
     val trimmedName = name.trim()
     // StringUtils.isNumeric(trimmedName) || trimmedName == "?" || trimmedName == "START"
-    trimmedName.length > 0
+    trimmedName.nonEmpty
   }
 }
