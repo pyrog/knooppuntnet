@@ -6,9 +6,11 @@ import { input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MonitorRouteSaveStep } from '../monitor-route-save-step';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-monitor-route-form-save-step',
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <div #stepDiv class="kpn-line kpn-spacer-below">
       <div class="icon">

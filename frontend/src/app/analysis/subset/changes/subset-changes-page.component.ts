@@ -14,9 +14,11 @@ import { UserLinkLoginComponent } from '../../../shared/user';
 import { SubsetPageHeaderBlockComponent } from '../components/subset-page-header-block.component';
 import { SubsetChangesSidebarComponent } from './components/subset-changes-sidebar.component';
 import { SubsetChangesPageService } from './subset-changes-page.service';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-subset-changes-page',
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <kpn-page>
       <kpn-subset-page-header-block

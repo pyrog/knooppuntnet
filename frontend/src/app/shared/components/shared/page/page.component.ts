@@ -2,6 +2,7 @@ import { input } from '@angular/core';
 import { computed } from '@angular/core';
 import { inject } from '@angular/core';
 import { Component } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { SidebarBackComponent } from '@app/components/shared/sidebar';
@@ -13,6 +14,7 @@ import { PageFooterComponent } from './page-footer.component';
 
 @Component({
   selector: 'kpn-page',
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <mat-sidenav-container>
       <mat-sidenav

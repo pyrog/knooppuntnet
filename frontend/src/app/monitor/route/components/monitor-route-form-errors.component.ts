@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { input } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-monitor-route-form-errors',
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     @for (error of errors(); track $index) {
       <p class="kpn-error error">
@@ -36,9 +38,9 @@ import { input } from '@angular/core';
   `,
   styles: `
     .error {
-       margin-left: 2rem;
-       margin-bottom: 2rem;
-     }
+      margin-left: 2rem;
+      margin-bottom: 2rem;
+    }
   `,
   standalone: true,
 })

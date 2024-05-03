@@ -36,9 +36,11 @@ import { MonitorRoutePropertiesStep3RelationComponent } from './monitor-route-pr
 import { MonitorRoutePropertiesStep4ReferenceTypeComponent } from './monitor-route-properties-step-4-reference-type.component';
 import { MonitorRoutePropertiesStep5ReferenceDetailsComponent } from './monitor-route-properties-step-5-reference-details.component';
 import { MonitorRoutePropertiesStep6CommentComponent } from './monitor-route-properties-step-6-comment.component';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-monitor-route-properties',
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <mat-stepper orientation="vertical" [linear]="initialProperties() === null">
       @if (mode() === 'update') {

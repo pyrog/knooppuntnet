@@ -15,9 +15,11 @@ import { VersionService } from '@app/services';
 import { SpinnerService } from '@app/spinner';
 import { Subscriptions } from '@app/util';
 import { setTag } from '@sentry/angular-ivy';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-root',
+  changeDetection: ChangeDetectionStrategy.Default,
   template: ` <router-outlet /> `,
   styles: `
     header {

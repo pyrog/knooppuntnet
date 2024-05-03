@@ -9,9 +9,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MonitorRouteGroup } from '@api/common/monitor';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-monitor-route-properties-step-1-group',
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <mat-form-field class="group">
       <mat-label i18n="@@monitor.route.properties.group">Group</mat-label>

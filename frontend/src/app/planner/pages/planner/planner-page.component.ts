@@ -17,10 +17,12 @@ import { PoiMenuComponent } from './poi/poi-menu.component';
 import { PlannerPopupComponent } from './popup/planner-popup.component';
 import { PlannerSidebarComponent } from './sidebar/planner-sidebar.component';
 import { PlannerToolbarComponent } from './sidebar/planner-toolbar.component';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-planner-page',
   // TODO changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <kpn-page>
       <kpn-planner-popup />

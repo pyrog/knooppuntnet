@@ -8,9 +8,11 @@ import { MonitorRouteUpdate } from '@api/common/monitor/monitor-route-update';
 import { MonitorWebsocketService } from '../../monitor-websocket.service';
 import { MonitorRouteFormSaveComponent } from './monitor-route-form-save.component';
 import { MonitorRoutePropertiesComponent } from './monitor-route-properties.component';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-monitor-route-form',
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <div [ngClass]="{ hidden: saving }">
       <kpn-monitor-route-properties

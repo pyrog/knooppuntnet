@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DocLinkComponent } from '@app/components/shared/link';
 import { PlanComponent } from './plan.component';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-planner-sidebar-planner',
   // TODO changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>

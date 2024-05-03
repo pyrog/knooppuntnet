@@ -6,10 +6,12 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PoiService } from '@app/services';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-poi-group',
   // TODO changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <mat-expansion-panel>
       <mat-expansion-panel-header>

@@ -10,9 +10,11 @@ import { MonitorWebsocketService } from '../../monitor-websocket.service';
 import { MonitorRouteSaveStep } from '../monitor-route-save-step';
 import { MonitorRouteFormErrorsComponent } from './monitor-route-form-errors.component';
 import { MonitorRouteFormSaveStepComponent } from './monitor-route-form-save-step.component';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-monitor-route-form-save',
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <div>
       @if (command()) {

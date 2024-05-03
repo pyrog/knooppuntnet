@@ -5,10 +5,12 @@ import { PlannerSideBarAppearanceComponent } from './planner-side-bar-appearance
 import { PlannerSideBarLegendComponent } from './planner-side-bar-legend.component';
 import { PlannerSideBarOptionsComponent } from './planner-side-bar-options.component';
 import { PlannerSideBarPlannerComponent } from './planner-side-bar-planner.component';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-planner-sidebar',
   // TODO changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <kpn-planner-sidebar-planner />
     <kpn-planner-sidebar-appearance />

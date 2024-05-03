@@ -15,9 +15,11 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { Subscriptions } from '@app/util';
 import { MonitorRouteInfoComponent } from '../add/monitor-route-info.component';
 import { MonitorRoutePropertiesStep3RelationService } from './monitor-route-properties-step-3-relation.service';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-monitor-route-properties-step-3-relation',
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <div class="question">
       <p i18n="@@monitor.route.properties.relation.question">

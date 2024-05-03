@@ -61,7 +61,7 @@ export abstract class OpenlayersMapService {
     );
     effect(() => {
       const mapPosition = this.mapPosition();
-      if (this.shouldUpdateUrl) {
+      if (mapPosition && this.shouldUpdateUrl) {
         this.updateUrl(mapPosition);
       }
     });

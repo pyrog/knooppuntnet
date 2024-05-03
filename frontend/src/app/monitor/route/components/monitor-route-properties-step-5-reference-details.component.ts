@@ -8,9 +8,11 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { Timestamp } from '@api/custom';
 import { TimestampPipe } from '@app/components/shared/format';
 import { DayInputComponent } from '@app/components/shared/format';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-monitor-route-properties-step-5-reference-details',
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <div [ngClass]="{ hidden: referenceType().value !== 'osm-now' }">
       <p i18n="@@monitor.route.properties.reference-details.osm-now">

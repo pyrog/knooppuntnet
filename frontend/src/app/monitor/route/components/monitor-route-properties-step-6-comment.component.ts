@@ -6,9 +6,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-monitor-route-properties-step-6-comment',
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <mat-form-field appearance="fill" class="comment">
       <mat-label i18n="@@monitor.route.properties.comment.label"

@@ -5,9 +5,11 @@ import { FormGroupDirective } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-monitor-group-name',
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <mat-form-field>
       <mat-label i18n="@@monitor.group.name.label">Name</mat-label>

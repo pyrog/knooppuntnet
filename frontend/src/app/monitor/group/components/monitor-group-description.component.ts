@@ -5,9 +5,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-monitor-group-description',
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <mat-form-field class="description">
       <mat-label i18n="@@monitor.group.description.label">Description </mat-label>

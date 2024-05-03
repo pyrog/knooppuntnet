@@ -7,10 +7,12 @@ import { PoiService } from '@app/services';
 import { PlannerStateService } from '../planner-state.service';
 import { PlannerMapService } from '../planner-map.service';
 import { PoiMenuOptionComponent } from './poi-menu-option.component';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-poi-menu',
   // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <mat-divider></mat-divider>
 

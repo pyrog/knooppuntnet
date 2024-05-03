@@ -15,9 +15,11 @@ import { RouterService } from '../../shared/services/router.service';
 import { UserLinkLoginComponent } from '../../shared/user';
 import { ChangesPageService } from './changes-page.service';
 import { ChangesSidebarComponent } from './components/changes-sidebar.component';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-changes-page',
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <kpn-page>
       <ul class="breadcrumb">

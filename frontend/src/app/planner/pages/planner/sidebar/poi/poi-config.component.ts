@@ -7,10 +7,12 @@ import { MatRadioChange } from '@angular/material/radio';
 import { MatRadioModule } from '@angular/material/radio';
 import { PoiService } from '@app/services';
 import { Subscriptions } from '@app/util';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-poi-config',
   // TODO changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <div class="poi-config">
       <div class="col-icon">

@@ -7,9 +7,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MonitorRouteDescriptionComponent } from './monitor-route-description.component';
 import { MonitorRouteNameComponent } from './monitor-route-name.component';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-monitor-route-properties-step-2-name',
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <kpn-monitor-route-name [ngForm]="ngForm()" [name]="name()" />
     <kpn-monitor-route-description [ngForm]="ngForm()" [description]="description()" />

@@ -6,9 +6,11 @@ import { FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatStepperModule } from '@angular/material/stepper';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-monitor-route-properties-step-4-reference-type',
+  changeDetection: ChangeDetectionStrategy.Default,
   template: `
     <div class="question">
       <p i18n="@@monitor.route.properties.reference-type.question">
