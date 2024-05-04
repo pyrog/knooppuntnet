@@ -71,7 +71,7 @@ class TranslationDeclutterTool(root: String) {
     transformer.transform(new DOMSource(doc), new StreamResult(writer))
     val xmlString = writer.getBuffer.toString
     val lines = xmlString.split("\n")
-    val whithoutBlankLines = lines.filter(line => line.trim.length > 0).mkString("\n")
+    val whithoutBlankLines = lines.filter(line => line.trim.nonEmpty).mkString("\n")
     FileUtils.writeStringToFile(file, whithoutBlankLines, "UTF-8")
   }
 }

@@ -30,7 +30,7 @@ class PoiTileBuilderImpl(
       )
 
       val tileBytes = poiVectorTileBuilder.build(tileData)
-      if (tileBytes.length > 0) {
+      if (tileBytes.nonEmpty) {
         vectorTileRepository.saveOrUpdate("poi", tile, tileBytes)
       }
 

@@ -39,7 +39,7 @@ class TileFileBuilderImpl(
     }
     else {
       val tileBytes = new VectorTileBuilder().build(tileData)
-      if (tileBytes.length > 0) {
+      if (tileBytes.nonEmpty) {
         vectorTileRepository.saveOrUpdate(tileData.networkType.name, tileData.tile, tileBytes)
       }
     }

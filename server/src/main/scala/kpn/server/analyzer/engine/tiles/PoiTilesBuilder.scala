@@ -2,10 +2,10 @@ package kpn.server.analyzer.engine.tiles
 
 import kpn.core.poi.PoiConfiguration
 import kpn.core.poi.PoiInfo
-import kpn.server.analyzer.engine.tiles.domain.TilePois
-import kpn.server.analyzer.engine.tiles.vector.PoiVectorTileBuilder
 import kpn.core.util.Log
 import kpn.server.analyzer.engine.tile.OldNodeTileCalculator
+import kpn.server.analyzer.engine.tiles.domain.TilePois
+import kpn.server.analyzer.engine.tiles.vector.PoiVectorTileBuilder
 
 class PoiTilesBuilder(
   tileBuilder: PoiVectorTileBuilder,
@@ -45,7 +45,7 @@ class PoiTilesBuilder(
       )
 
       val tileBytes = tileBuilder.build(tileData)
-      if (tileBytes.length > 0) {
+      if (tileBytes.nonEmpty) {
         tileFileRepository.saveOrUpdate("poi", tilePois.tile, tileBytes)
       }
     }
@@ -79,5 +79,4 @@ class PoiTilesBuilder(
     }
     map.toMap
   }
-
 }
