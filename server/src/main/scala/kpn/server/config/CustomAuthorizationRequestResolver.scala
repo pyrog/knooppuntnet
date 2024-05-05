@@ -1,6 +1,7 @@
 package kpn.server.config
 
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.context.annotation.Profile
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver
@@ -8,6 +9,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequ
 import org.springframework.stereotype.Component
 
 @Component
+@Profile(Array("!dev"))
 class CustomAuthorizationRequestResolver(
   clientRegistrationRepository: ClientRegistrationRepository
 ) extends OAuth2AuthorizationRequestResolver {
