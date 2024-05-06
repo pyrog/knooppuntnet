@@ -19,25 +19,9 @@ class MongoQueryLocationChangesTest extends UnitTest with SharedTestObjects {
       val change2 = setup.locationChanges()
       val change3 = setup.locationChanges()
 
-      setup.changeSetSummary1(
-        locationChanges = Seq(
-          change1a,
-          change1b,
-          change1c,
-        )
-      )
-
-      setup.changeSetSummary2(
-        locationChanges = Seq(
-          change2,
-        ),
-      )
-
-      setup.changeSetSummary3(
-        locationChanges = Seq(
-          change3,
-        ),
-      )
+      setup.changeSetSummary1(locationChanges = Seq(change1a, change1b, change1c))
+      setup.changeSetSummary2(locationChanges = Seq(change2))
+      setup.changeSetSummary3(locationChanges = Seq(change3))
 
       setup.count() should equal(3)
       setup.changes().shouldMatchTo(
@@ -66,46 +50,24 @@ class MongoQueryLocationChangesTest extends UnitTest with SharedTestObjects {
     withDatabase() { database =>
       val setup = new MongoQueryLocationChangesTestSetup(database)
 
-      val change1a = setup.locationChanges(
-        locationNames = Seq("be", "be-1", "be-1-a"),
-      )
-
-      val change1b = setup.locationChanges(
-        locationNames = Seq("be", "be-1", "be-1-a"),
-      )
-
-      val change1c = setup.locationChanges(
-        locationNames = Seq("be", "be-1", "be-1-b"),
-      )
-
-      val change2 = setup.locationChanges(
-        locationNames = Seq("be", "be-1", "be-1-a"),
-      )
-
-      val change3 = setup.locationChanges(
-        locationNames = Seq("be", "be-1", "be-1-b"),
-      )
+      val change1a = setup.locationChanges(locationNames = Seq("be", "be-1", "be-1-a"))
+      val change1b = setup.locationChanges(locationNames = Seq("be", "be-1", "be-1-a"))
+      val change1c = setup.locationChanges(locationNames = Seq("be", "be-1", "be-1-b"))
+      val change2 = setup.locationChanges(locationNames = Seq("be", "be-1", "be-1-a"))
+      val change3 = setup.locationChanges(locationNames = Seq("be", "be-1", "be-1-b"))
 
       setup.changeSetSummary1(
-        locationChanges = Seq(
-          change1a,
-          change1b,
-          change1c
-        ),
+        locationChanges = Seq(change1a, change1b, change1c),
         locations = Seq("be", "be-1", "be-1-a", "be-1-b"),
       )
 
       setup.changeSetSummary2(
-        locationChanges = Seq(
-          change2,
-        ),
+        locationChanges = Seq(change2),
         locations = Seq("be", "be-1", "be-1-a"),
       )
 
       setup.changeSetSummary3(
-        locationChanges = Seq(
-          change3,
-        ),
+        locationChanges = Seq(change3),
         locations = Seq("be", "be-1", "be-1-b"),
       )
 
@@ -204,40 +166,17 @@ class MongoQueryLocationChangesTest extends UnitTest with SharedTestObjects {
       val setup = new MongoQueryLocationChangesTestSetup(database)
 
       val change1a = setup.locationChanges()
-
       val change1b = setup.locationChanges()
-
       val change1c = setup.locationChanges(networkType = NetworkType.cycling)
-
       val change2 = setup.locationChanges()
-
       val change3 = setup.locationChanges(networkType = NetworkType.cycling)
 
-      setup.changeSetSummary1(
-        locationChanges = Seq(
-          change1a,
-          change1b,
-          change1c,
-        )
-      )
+      setup.changeSetSummary1(locationChanges = Seq(change1a, change1b, change1c))
+      setup.changeSetSummary2(locationChanges = Seq(change2))
+      setup.changeSetSummary3(locationChanges = Seq(change3))
 
-      setup.changeSetSummary2(
-        locationChanges = Seq(
-          change2,
-        )
-      )
-
-      setup.changeSetSummary3(
-        locationChanges = Seq(
-          change3,
-        )
-      )
-
-      val hikingCount = setup.count(NetworkType.hiking)
-      hikingCount should equal(2)
-      val hikingChanges = setup.changes(NetworkType.hiking)
-
-      hikingChanges.shouldMatchTo(
+      setup.count(NetworkType.hiking) should equal(2)
+      setup.changes(NetworkType.hiking).shouldMatchTo(
         Seq(
           LocationChangeSet(
             _id = "201:20",

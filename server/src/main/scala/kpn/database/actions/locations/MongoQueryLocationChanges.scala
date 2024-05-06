@@ -98,7 +98,7 @@ class MongoQueryLocationChanges(database: Database) {
 
   def executeCount(networkType: NetworkType, locationName: String, parameters: ChangesParameters): Long = {
 
-    val pipeline = new PipelineBuilder(networkType, locationName, parameters).buildCountQuery()
+    val pipeline = new PipelineBuilder(networkType, locationName, parameters).buildCountPipeline()
 
     if (log.isTraceEnabled) {
       log.trace(Mongo.pipelineString(pipeline))
@@ -114,37 +114,43 @@ class MongoQueryLocationChanges(database: Database) {
   private class PipelineBuilder(networkType: NetworkType, locationName: String, parameters: ChangesParameters) {
 
     def build(): Seq[Bson] = {
-      Seq(
-        mainFilter(),
-        project(
-          fields(
-            include("key"),
-            include("locationChanges"),
-          )
-        ),
-        unwind("$locationChanges"),
-        locationChangesFilter(),
-        group(
-          Document(
-            "id" -> "$_id",
-            "key" -> "$key"
+      commonStages() ++
+        Seq(
+          group(
+            Document(
+              "id" -> "$_id",
+              "key" -> "$key"
+            ),
+            push("locationChanges", "$locationChanges")
           ),
-          push("locationChanges", "$locationChanges")
-        ),
-        sort(orderBy(descending("_id.key.time"))),
-        skip((parameters.pageSize * parameters.pageIndex).toInt),
-        limit(parameters.pageSize.toInt),
-        project(
-          fields(
-            computed("_id", "$_id.id"),
-            computed("key", "$_id.key"),
-            include("locationChanges"),
+          sort(orderBy(descending("_id.key.time"))),
+          skip((parameters.pageSize * parameters.pageIndex).toInt),
+          limit(parameters.pageSize.toInt),
+          project(
+            fields(
+              computed("_id", "$_id.id"),
+              computed("key", "$_id.key"),
+              include("locationChanges"),
+            )
           )
         )
-      )
     }
 
-    def buildCountQuery(): Seq[Bson] = {
+    def buildCountPipeline(): Seq[Bson] = {
+      commonStages() ++
+        Seq(
+          group(
+            Document(
+              "id" -> "$_id",
+              "key" -> "$key"
+            ),
+            push("locationChanges", "$locationChanges")
+          ),
+          count()
+        )
+    }
+
+    private def commonStages(): Seq[Bson] = {
       Seq(
         mainFilter(),
         project(
@@ -155,14 +161,6 @@ class MongoQueryLocationChanges(database: Database) {
         ),
         unwind("$locationChanges"),
         locationChangesFilter(),
-        group(
-          Document(
-            "id" -> "$_id",
-            "key" -> "$key"
-          ),
-          push("locationChanges", "$locationChanges")
-        ),
-        count()
       )
     }
 
