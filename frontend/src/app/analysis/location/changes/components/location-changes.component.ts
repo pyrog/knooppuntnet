@@ -19,7 +19,7 @@ import { LocationChangesPage } from '@api/common/location';
         (impactChange)="onImpactChange($event)"
         (pageSizeChange)="onPageSizeChange($event)"
         (pageIndexChange)="onPageIndexChange($event)"
-        [totalCount]="page().summary.changeCount"
+        [totalCount]="page().changesCount"
         [changeCount]="page().changeSets.length"
       >
         <kpn-items>

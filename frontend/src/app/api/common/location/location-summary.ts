@@ -4,5 +4,4 @@ export interface LocationSummary {
   readonly factCount: number;
   readonly nodeCount: number;
   readonly routeCount: number;
-  readonly changeCount: number;
 }

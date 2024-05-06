@@ -1,13 +1,13 @@
 package kpn.server.repository
 
+import kpn.api.common.LocationChangeSet
+import kpn.api.common.changes.filter.ChangesParameters
 import kpn.api.common.location.LocationFact
 import kpn.api.common.location.LocationNodeInfo
 import kpn.api.common.location.LocationNodesParameters
 import kpn.api.common.location.LocationRouteInfo
 import kpn.api.common.location.LocationRoutesParameters
 import kpn.api.common.location.LocationSummary
-import kpn.api.common.LocationChangeSet
-import kpn.api.common.changes.filter.ChangesParameters
 import kpn.api.custom.Country
 import kpn.api.custom.LocationKey
 import kpn.api.custom.LocationNodesType
@@ -35,4 +35,5 @@ trait LocationRepository {
 
   def changes(locationKey: LocationKey, parameters: ChangesParameters): Seq[LocationChangeSet]
 
+  def changesCount(locationKey: LocationKey, parameters: ChangesParameters): Long
 }

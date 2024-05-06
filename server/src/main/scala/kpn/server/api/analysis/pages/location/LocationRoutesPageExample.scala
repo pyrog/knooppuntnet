@@ -12,7 +12,7 @@ object LocationRoutesPageExample {
   def page: LocationRoutesPage = {
     LocationRoutesPage(
       TimeInfoBuilder.timeInfo,
-      LocationSummary(10, 20, 30, 40),
+      LocationSummary(10, 20, 30),
       40,
       40,
       30,

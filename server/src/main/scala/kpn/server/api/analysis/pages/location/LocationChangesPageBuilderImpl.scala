@@ -32,6 +32,7 @@ class LocationChangesPageBuilderImpl(
     val locationKey = locationService.toIdBased(language, locationKeyParam)
     val summary = locationRepository.summary(locationKey)
     val changeSets = locationRepository.changes(locationKey, parameters)
+    val changesCount = locationRepository.changesCount(locationKey, parameters)
     val changeSetIds = changeSets.map(_.key.changeSetId)
     val changeSetInfos = changeSetInfoRepository.all(changeSetIds)
     val locationChangeSetInfos = changeSets.zipWithIndex.map { case (changeSet, index) =>
@@ -63,7 +64,7 @@ class LocationChangesPageBuilderImpl(
       )
     }
     Some(
-      LocationChangesPage(summary, locationChangeSetInfos)
+      LocationChangesPage(summary, locationChangeSetInfos, changesCount)
     )
   }
 }

@@ -10,7 +10,7 @@ object LocationFactsPageExample {
 
   def page: LocationFactsPage = {
     LocationFactsPage(
-      LocationSummary(10, 20, 30, 40),
+      LocationSummary(10, 20, 30),
       Seq(
         LocationFact("route", Fact.RouteNotForward, Seq(Ref(101, "01-02"), Ref(102, "02-03"))),
         LocationFact("route", Fact.RouteNotBackward, Seq(Ref(101, "01-02"), Ref(102, "02-03"))),

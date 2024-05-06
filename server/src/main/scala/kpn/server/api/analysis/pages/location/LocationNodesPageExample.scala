@@ -15,7 +15,7 @@ object LocationNodesPageExample {
   def page: LocationNodesPage = {
     LocationNodesPage(
       TimeInfoBuilder.timeInfo,
-      LocationSummary(10, 20, 30, 40),
+      LocationSummary(10, 20, 30),
       30,
       30,
       20,

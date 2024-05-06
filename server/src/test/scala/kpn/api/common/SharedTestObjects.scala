@@ -888,6 +888,24 @@ trait SharedTestObjects extends MockFactory {
     )
   }
 
+  def newLocationChanges(
+    networkType: NetworkType,
+    locationNames: Seq[String],
+    routeChanges: ChangeSetElementRefs = ChangeSetElementRefs(),
+    nodeChanges: ChangeSetElementRefs = ChangeSetElementRefs(),
+    happy: Boolean = false,
+    investigate: Boolean = false
+  ): LocationChanges = {
+    LocationChanges(
+      networkType,
+      locationNames,
+      routeChanges,
+      nodeChanges,
+      happy,
+      investigate
+    )
+  }
+
   def newChangeSetElementRef(
     id: Long,
     name: String,

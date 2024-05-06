@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeNetworkAnalysisSummaryComponent } from '@app/analysis/components/change-set';
 import { ChangeLocationAnalysisSummaryComponent } from '@app/analysis/components/change-set';
 import { ChangesComponent } from '@app/analysis/components/changes';
@@ -14,7 +15,6 @@ import { UserLinkLoginComponent } from '../../../shared/user';
 import { SubsetPageHeaderBlockComponent } from '../components/subset-page-header-block.component';
 import { SubsetChangesSidebarComponent } from './components/subset-changes-sidebar.component';
 import { SubsetChangesPageService } from './subset-changes-page.service';
-import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-subset-changes-page',

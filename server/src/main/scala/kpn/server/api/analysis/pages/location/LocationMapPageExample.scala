@@ -8,7 +8,7 @@ object LocationMapPageExample {
 
   def page: LocationMapPage = {
     LocationMapPage(
-      LocationSummary(10, 20, 30, 40),
+      LocationSummary(10, 20, 30),
       Bounds(),
       ""
     )

@@ -30,8 +30,7 @@ class LocationRepositoryImpl(database: Database) extends LocationRepository {
     LocationSummary(
       factCount(locationKey.networkType, locationKey.name),
       nodeCount(locationKey, LocationNodesType.all),
-      routeCount(locationKey, LocationRoutesType.all),
-      0
+      routeCount(locationKey, LocationRoutesType.all)
     )
   }
 
@@ -84,5 +83,9 @@ class LocationRepositoryImpl(database: Database) extends LocationRepository {
 
   override def changes(locationKey: LocationKey, parameters: ChangesParameters): Seq[LocationChangeSet] = {
     new MongoQueryLocationChanges(database).execute(locationKey.networkType, locationKey.name, parameters)
+  }
+
+  override def changesCount(locationKey: LocationKey, parameters: ChangesParameters): Long = {
+    new MongoQueryLocationChanges(database).executeCount(locationKey.networkType, locationKey.name, parameters)
   }
 }

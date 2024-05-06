@@ -5,11 +5,13 @@ import kpn.api.common.changes.filter.ChangesParameters
 import kpn.api.custom.NetworkType
 import kpn.core.util.Log
 import kpn.database.actions.locations.MongoQueryLocationChanges.log
+import kpn.database.base.CountResult
 import kpn.database.base.Database
 import kpn.database.util.Mongo
-import org.mongodb.scala.Document
 import org.bson.conversions.Bson
+import org.mongodb.scala.Document
 import org.mongodb.scala.model.Accumulators.push
+import org.mongodb.scala.model.Aggregates.count
 import org.mongodb.scala.model.Aggregates.filter
 import org.mongodb.scala.model.Aggregates.group
 import org.mongodb.scala.model.Aggregates.limit
@@ -31,7 +33,7 @@ object MongoQueryLocationChanges {
   private val log = Log(classOf[MongoQueryLocationChanges])
 
   def main(args: Array[String]): Unit = {
-    Mongo.executeIn("kpn-prod") { database =>
+    Mongo.executeIn("kpn-laptop") { database =>
       val parameters = ChangesParameters(
         pageSize = 6,
         impact = false,
@@ -72,6 +74,8 @@ object MongoQueryLocationChanges {
         }
       }
       println("---")
+      val count = query.executeCount(NetworkType.hiking, "nl-1-gd", parameters)
+      println(s"--- total count=$count")
     }
   }
 }
@@ -89,6 +93,21 @@ class MongoQueryLocationChanges(database: Database) {
     log.debugElapsed {
       val changes = database.changes.aggregate[LocationChangeSet](pipeline, allowDiskUse = true)
       (s"${changes.size} location changes", changes)
+    }
+  }
+
+  def executeCount(networkType: NetworkType, locationName: String, parameters: ChangesParameters): Long = {
+
+    val pipeline = new PipelineBuilder(networkType, locationName, parameters).buildCountQuery()
+
+    if (log.isTraceEnabled) {
+      log.trace(Mongo.pipelineString(pipeline))
+    }
+
+    log.debugElapsed {
+      val countResults = database.changes.aggregate[CountResult](pipeline, allowDiskUse = true)
+      val totalCount = countResults.map(_.count).sum
+      (s"$totalCount total location changes counted", totalCount)
     }
   }
 
@@ -122,6 +141,28 @@ class MongoQueryLocationChanges(database: Database) {
             include("locationChanges"),
           )
         )
+      )
+    }
+
+    def buildCountQuery(): Seq[Bson] = {
+      Seq(
+        mainFilter(),
+        project(
+          fields(
+            include("key"),
+            include("locationChanges"),
+          )
+        ),
+        unwind("$locationChanges"),
+        locationChangesFilter(),
+        group(
+          Document(
+            "id" -> "$_id",
+            "key" -> "$key"
+          ),
+          push("locationChanges", "$locationChanges")
+        ),
+        count()
       )
     }
 

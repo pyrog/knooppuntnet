@@ -7,8 +7,9 @@ object LocationChangesPageExample {
 
   def page: LocationChangesPage = {
     LocationChangesPage(
-      LocationSummary(10, 20, 30, 40),
-      Seq.empty
+      LocationSummary(10, 20, 30),
+      Seq.empty,
+      0
     )
   }
 }
