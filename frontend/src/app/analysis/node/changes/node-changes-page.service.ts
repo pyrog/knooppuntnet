@@ -2,6 +2,9 @@ import { signal } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { inject } from '@angular/core';
 import { computed } from '@angular/core';
+import { Params } from '@angular/router';
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ChangesParameters } from '@api/common/changes/filter';
 import { NodeChangesPage } from '@api/common/node';
 import { ApiResponse } from '@api/custom';
@@ -21,6 +24,8 @@ export class NodeChangesPageService {
   private readonly routerService = inject(RouterService);
   private readonly preferencesService = inject(PreferencesService);
   private readonly userService = inject(UserService);
+  private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
 
   readonly loggedIn = this.userService.loggedIn;
 
@@ -30,9 +35,9 @@ export class NodeChangesPageService {
   private readonly _changesParameters = signal<ChangesParameters>(null);
   readonly changesParameters = this._changesParameters.asReadonly();
 
-  readonly impact = this.preferencesService.impact;
-  readonly pageSize = this.preferencesService.pageSize;
-  readonly pageIndex = computed(() => this.changesParameters()?.pageIndex);
+  readonly impact = computed(() => this.changesParameters().impact);
+  readonly pageSize = computed(() => this.changesParameters().pageSize);
+  readonly pageIndex = computed(() => this.changesParameters().pageIndex);
   readonly filterOptions = computed(() => this.response()?.result?.filterOptions);
 
   onInit(): void {
@@ -89,13 +94,26 @@ export class NodeChangesPageService {
   }
 
   private load(): void {
-    this.apiService
-      .nodeChanges(this.nodeService.nodeId(), this.changesParameters())
-      .subscribe((response) => {
-        if (response.result) {
-          this.nodeService.updateNode(response.result.nodeName, response.result.changeCount);
-        }
-        this._response.set(response);
-      });
+    const promise = this.navigate(this.changesParameters());
+    promise.then(() => {
+      this.apiService
+        .nodeChanges(this.nodeService.nodeId(), this.changesParameters())
+        .subscribe((response) => {
+          if (response.result) {
+            this.nodeService.updateNode(response.result.nodeName, response.result.changeCount);
+          }
+          this._response.set(response);
+        });
+    });
+  }
+
+  private navigate(changesParameters: ChangesParameters): Promise<boolean> {
+    const queryParams: Params = {
+      ...changesParameters,
+    };
+    return this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams,
+    });
   }
 }

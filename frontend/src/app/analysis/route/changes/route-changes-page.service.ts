@@ -2,6 +2,9 @@ import { signal } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { inject } from '@angular/core';
 import { computed } from '@angular/core';
+import { Params } from '@angular/router';
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ChangesParameters } from '@api/common/changes/filter';
 import { RouteChangesPage } from '@api/common/route';
 import { ApiResponse } from '@api/custom';
@@ -21,6 +24,8 @@ export class RouteChangesPageService {
   private readonly routerService = inject(RouterService);
   private readonly preferencesService = inject(PreferencesService);
   private readonly userService = inject(UserService);
+  private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
 
   readonly loggedIn = this.userService.loggedIn;
 
@@ -30,9 +35,9 @@ export class RouteChangesPageService {
   private readonly _changesParameters = signal<ChangesParameters>(null);
   readonly changesParameters = this._changesParameters.asReadonly();
 
-  readonly impact = this.preferencesService.impact;
-  readonly pageSize = this.preferencesService.pageSize;
-  readonly pageIndex = computed(() => this.changesParameters()?.pageIndex);
+  readonly impact = computed(() => this.changesParameters().impact);
+  readonly pageSize = computed(() => this.changesParameters().pageSize);
+  readonly pageIndex = computed(() => this.changesParameters().pageIndex);
   readonly filterOptions = computed(() => this.response()?.result?.filterOptions);
 
   onInit(): void {
@@ -45,7 +50,6 @@ export class RouteChangesPageService {
     const preferencesPageSize = this.preferencesService.pageSize();
     const changesParameters = pageParams.changesParameters(preferencesImpact, preferencesPageSize);
     this._changesParameters.set(changesParameters);
-    // TODO SIGNAL update query params (effect() on changesParameters?)
     this.load();
   }
 
@@ -56,7 +60,6 @@ export class RouteChangesPageService {
       pageIndex: 0,
       pageSize,
     });
-    // TODO SIGNAL update query params
     this.load();
   }
 
@@ -67,7 +70,6 @@ export class RouteChangesPageService {
       pageIndex: 0,
       impact,
     });
-    // TODO SIGNAL update query params
     this.load();
   }
 
@@ -76,7 +78,6 @@ export class RouteChangesPageService {
       ...this.changesParameters(),
       pageIndex,
     });
-    // TODO SIGNAL update query params
     this.load();
   }
 
@@ -89,21 +90,33 @@ export class RouteChangesPageService {
       impact: option.impact,
       pageIndex: 0,
     });
-    // TODO SIGNAL update query params
     this.load();
   }
 
   private load(): void {
-    this.apiService
-      .routeChanges(this.routeService.routeId(), this.changesParameters())
-      .subscribe((response) => {
-        if (response.result) {
-          const name = response.result.routeNameInfo.routeName;
-          const networkType = response.result.routeNameInfo.networkType;
-          const changeCount = response.result.changeCount;
-          this.routeService.updateRoute(networkType, name, changeCount);
-        }
-        this._response.set(response);
-      });
+    const promise = this.navigate(this.changesParameters());
+    promise.then(() => {
+      this.apiService
+        .routeChanges(this.routeService.routeId(), this.changesParameters())
+        .subscribe((response) => {
+          if (response.result) {
+            const name = response.result.routeNameInfo.routeName;
+            const networkType = response.result.routeNameInfo.networkType;
+            const changeCount = response.result.changeCount;
+            this.routeService.updateRoute(networkType, name, changeCount);
+          }
+          this._response.set(response);
+        });
+    });
+  }
+
+  private navigate(changesParameters: ChangesParameters): Promise<boolean> {
+    const queryParams: Params = {
+      ...changesParameters,
+    };
+    return this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams,
+    });
   }
 }

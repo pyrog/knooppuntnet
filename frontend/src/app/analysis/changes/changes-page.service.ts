@@ -38,8 +38,8 @@ export class ChangesPageService {
   readonly response = this._response.asReadonly();
 
   onInit(): void {
-    const uniqueQueryParams = Util.uniqueParams(this.routerService.queryParams);
-    const pageParams = new PageParams(uniqueQueryParams);
+    const uniqueQueryParams = Util.uniqueParams(this.routerService.queryParams());
+    const pageParams = new PageParams(this.routerService.params(), uniqueQueryParams);
     const strategy = pageParams.strategy(this.preferencesService.strategy());
     const changesParameters = pageParams.changesParameters(
       this.preferencesService.impact(),

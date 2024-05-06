@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ChangeLocationAnalysisSummaryComponent } from '@app/analysis/components/change-set';
 import { ChangeNetworkAnalysisSummaryComponent } from '@app/analysis/components/change-set';
@@ -15,7 +16,6 @@ import { RouterService } from '../../shared/services/router.service';
 import { UserLinkLoginComponent } from '../../shared/user';
 import { ChangesPageService } from './changes-page.service';
 import { ChangesSidebarComponent } from './components/changes-sidebar.component';
-import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'kpn-changes-page',

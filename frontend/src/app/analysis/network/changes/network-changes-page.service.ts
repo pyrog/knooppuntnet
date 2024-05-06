@@ -1,6 +1,9 @@
 import { signal } from '@angular/core';
 import { computed } from '@angular/core';
 import { inject } from '@angular/core';
+import { Params } from '@angular/router';
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ChangesParameters } from '@api/common/changes/filter';
 import { NetworkChangesPage } from '@api/common/network';
 import { ApiResponse } from '@api/custom';
@@ -19,6 +22,8 @@ export class NetworkChangesPageService {
   private readonly preferencesService = inject(PreferencesService);
   private readonly routerService = inject(RouterService);
   private readonly userService = inject(UserService);
+  private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
 
   private readonly _response = signal<ApiResponse<NetworkChangesPage>>(null);
   private readonly _changesParameters = signal<ChangesParameters>(null);
@@ -85,13 +90,26 @@ export class NetworkChangesPageService {
   }
 
   private load(): void {
-    this.apiService
-      .networkChanges(this.networkService.networkId(), this.changesParameters())
-      .subscribe((response) => {
-        if (response.result) {
-          this.networkService.setSummary(response.result.network);
-        }
-        this._response.set(response);
-      });
+    const promise = this.navigate(this.changesParameters());
+    promise.then(() => {
+      this.apiService
+        .networkChanges(this.networkService.networkId(), this.changesParameters())
+        .subscribe((response) => {
+          if (response.result) {
+            this.networkService.setSummary(response.result.network);
+          }
+          this._response.set(response);
+        });
+    });
+  }
+
+  private navigate(changesParameters: ChangesParameters): Promise<boolean> {
+    const queryParams: Params = {
+      ...changesParameters,
+    };
+    return this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams,
+    });
   }
 }
