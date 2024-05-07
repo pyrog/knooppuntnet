@@ -1,6 +1,7 @@
 package kpn.server.repository
 
 import kpn.api.common.LocationChangeSet
+import kpn.api.common.changes.filter.ChangesFilterOption
 import kpn.api.common.changes.filter.ChangesParameters
 import kpn.api.common.location.LocationFact
 import kpn.api.common.location.LocationNodeInfo
@@ -83,6 +84,11 @@ class LocationRepositoryImpl(database: Database) extends LocationRepository {
 
   override def changes(locationKey: LocationKey, parameters: ChangesParameters): Seq[LocationChangeSet] = {
     new MongoQueryLocationChanges(database).execute(locationKey.networkType, locationKey.name, parameters)
+  }
+
+  override def changesFilter(locationKey: LocationKey, parameters: ChangesParameters): Seq[ChangesFilterOption] = {
+    val changeSetCounts = new MongoQueryLocationChanges(database).executeFilterOptions(locationKey.networkType, locationKey.name, parameters)
+    changeSetCounts.toFilterOptions(parameters.year, parameters.month, parameters.day)
   }
 
   override def changesCount(locationKey: LocationKey, parameters: ChangesParameters): Long = {

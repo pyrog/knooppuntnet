@@ -71,6 +71,4 @@ export class LayerSwitcherComponent {
     };
     this.openlayersMapService.layerStateChange(change);
   }
-
-  protected readonly OsmLayer = OsmLayer;
 }

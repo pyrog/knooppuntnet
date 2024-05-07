@@ -17,7 +17,7 @@ class MongoQueryRouteChangeCounts(database: Database) {
   def execute(routeId: Long, year: Int, monthOption: Option[Int]): ChangeSetCounts = {
     ChangeCountPipeline.execute(
       database.routeChanges,
-      Some(filter(equal("key.elementId", routeId))),
+      Seq(filter(equal("key.elementId", routeId))),
       year,
       monthOption,
       log

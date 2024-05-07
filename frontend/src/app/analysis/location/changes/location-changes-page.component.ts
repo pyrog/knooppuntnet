@@ -7,7 +7,7 @@ import { PageComponent } from '@app/components/shared/page';
 import { RouterService } from '../../../shared/services/router.service';
 import { LocationPageHeaderComponent } from '../components/location-page-header.component';
 import { LocationResponseComponent } from '../components/location-response.component';
-import { LocationSidebarComponent } from '../location-sidebar.component';
+import { LocationChangesSidebarComponent } from './components/location-changes-sidebar.component';
 import { LocationChangesComponent } from './components/location-changes.component';
 import { LocationChangesPageService } from './location-changes-page.service';
 
@@ -31,7 +31,7 @@ import { LocationChangesPageService } from './location-changes-page.service';
           </kpn-location-response>
         </div>
       }
-      <kpn-location-sidebar sidebar />
+      <kpn-location-changes-sidebar sidebar />
     </kpn-page>
   `,
   providers: [LocationChangesPageService, RouterService],
@@ -39,9 +39,9 @@ import { LocationChangesPageService } from './location-changes-page.service';
   imports: [
     ErrorComponent,
     LocationChangesComponent,
+    LocationChangesSidebarComponent,
     LocationPageHeaderComponent,
     LocationResponseComponent,
-    LocationSidebarComponent,
     PageComponent,
   ],
 })

@@ -9,7 +9,8 @@ object LocationChangesPageExample {
     LocationChangesPage(
       LocationSummary(10, 20, 30),
       Seq.empty,
-      0
+      0,
+      Seq.empty,
     )
   }
 }

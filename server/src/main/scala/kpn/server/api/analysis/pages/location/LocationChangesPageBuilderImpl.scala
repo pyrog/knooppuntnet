@@ -31,6 +31,7 @@ class LocationChangesPageBuilderImpl(
   private def buildPage(language: Language, locationKeyParam: LocationKey, parameters: ChangesParameters): Option[LocationChangesPage] = {
     val locationKey = locationService.toIdBased(language, locationKeyParam)
     val summary = locationRepository.summary(locationKey)
+    val filterOptions = locationRepository.changesFilter(locationKey, parameters)
     val changeSets = locationRepository.changes(locationKey, parameters)
     val changesCount = locationRepository.changesCount(locationKey, parameters)
     val changeSetIds = changeSets.map(_.key.changeSetId)
@@ -64,7 +65,12 @@ class LocationChangesPageBuilderImpl(
       )
     }
     Some(
-      LocationChangesPage(summary, locationChangeSetInfos, changesCount)
+      LocationChangesPage(
+        summary,
+        locationChangeSetInfos,
+        changesCount,
+        filterOptions
+      )
     )
   }
 }

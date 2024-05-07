@@ -24,11 +24,11 @@ import org.mongodb.scala.model.Sorts.orderBy
 
 object ChangeCountPipeline {
 
-  def execute(collection: DatabaseCollection[_], mainFilter: Option[Bson], year: Int, monthOption: Option[Int], log: Log): ChangeSetCounts = {
+  def execute(collection: DatabaseCollection[_], mainPipeline: Seq[Bson], year: Int, monthOption: Option[Int], log: Log): ChangeSetCounts = {
 
     val pipeline = monthOption match {
       case None =>
-        mainFilter.toSeq ++
+        mainPipeline ++
           Seq(
             facet(
               Facet("years", years(): _*),
@@ -37,7 +37,7 @@ object ChangeCountPipeline {
           )
 
       case Some(month) =>
-        mainFilter.toSeq ++
+        mainPipeline ++
           Seq(
             facet(
               Facet("years", years(): _*),
@@ -52,7 +52,6 @@ object ChangeCountPipeline {
     }
 
     log.debugElapsed {
-      // collection.native.aggregate[ChangeSetCounts](pipeline).allowDiskUse(true).first().toFuture()
       val counts = collection.aggregate[ChangeSetCounts](pipeline).head
       val result = s"year: $year, month: ${monthOption.getOrElse('-')}, results: years: ${counts.years.size}, months: ${counts.months.size}, days: ${counts.days.size}"
       (result, counts)

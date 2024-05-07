@@ -1,6 +1,7 @@
 package kpn.server.repository
 
 import kpn.api.common.LocationChangeSet
+import kpn.api.common.changes.filter.ChangesFilterOption
 import kpn.api.common.changes.filter.ChangesParameters
 import kpn.api.common.location.LocationFact
 import kpn.api.common.location.LocationNodeInfo
@@ -34,6 +35,8 @@ trait LocationRepository {
   def factCount(networkType: NetworkType, locationName: String): Long
 
   def changes(locationKey: LocationKey, parameters: ChangesParameters): Seq[LocationChangeSet]
+
+  def changesFilter(locationKey: LocationKey, parameters: ChangesParameters): Seq[ChangesFilterOption]
 
   def changesCount(locationKey: LocationKey, parameters: ChangesParameters): Long
 }

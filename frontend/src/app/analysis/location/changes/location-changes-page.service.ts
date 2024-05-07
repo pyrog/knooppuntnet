@@ -5,11 +5,11 @@ import { ChangesParameters } from '@api/common/changes/filter';
 import { LocationChangesPage } from '@api/common/location';
 import { ApiResponse } from '@api/custom';
 import { PreferencesService } from '@app/core';
+import { ChangeOption } from '@app/kpn/common';
 import { ApiService } from '@app/services';
 import { RouterService } from '../../../shared/services/router.service';
 import { UserService } from '../../../shared/user';
 import { LocationService } from '../location.service';
-import { ChangeOption } from '@app/kpn/common';
 
 export class LocationChangesPageService {
   private readonly apiService = inject(ApiService);
@@ -25,7 +25,7 @@ export class LocationChangesPageService {
   readonly impact = computed(() => this.changesParameters().impact);
   readonly pageSize = computed(() => this.changesParameters().pageSize);
   readonly pageIndex = computed(() => this.changesParameters().pageIndex);
-  // TODO readonly filterOptions = computed(() => this.response()?.result?.filterOptions);
+  readonly filterOptions = computed(() => this.response()?.result?.filterOptions);
 
   readonly response = this._response.asReadonly();
   readonly changesParameters = this._changesParameters.asReadonly();

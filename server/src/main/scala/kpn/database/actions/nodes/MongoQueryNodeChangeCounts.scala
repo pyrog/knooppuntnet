@@ -17,7 +17,7 @@ class MongoQueryNodeChangeCounts(database: Database) {
   def execute(nodeId: Long, year: Int, monthOption: Option[Int]): ChangeSetCounts = {
     ChangeCountPipeline.execute(
       database.nodeChanges,
-      Some(filter(equal("key.elementId", nodeId))),
+      Seq(filter(equal("key.elementId", nodeId))),
       year,
       monthOption,
       log

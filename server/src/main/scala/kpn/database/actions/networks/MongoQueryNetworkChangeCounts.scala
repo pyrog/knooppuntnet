@@ -17,7 +17,7 @@ class MongoQueryNetworkChangeCounts(database: Database) {
   def execute(networkId: Long, year: Int, monthOption: Option[Int]): ChangeSetCounts = {
     ChangeCountPipeline.execute(
       database.networkInfoChanges,
-      Some(filter(equal("networkId", networkId))),
+      Seq(filter(equal("networkId", networkId))),
       year,
       monthOption,
       log

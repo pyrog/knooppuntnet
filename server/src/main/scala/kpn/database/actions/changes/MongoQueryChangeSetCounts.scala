@@ -29,7 +29,7 @@ class MongoQueryChangeSetCounts(database: Database) {
 
     ChangeCountPipeline.execute(
       database.changes,
-      mainFilter,
+      mainFilter.toSeq,
       year,
       monthOption,
       log

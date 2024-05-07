@@ -3,13 +3,17 @@ package kpn.database.actions.locations
 import kpn.api.common.LocationChangeSet
 import kpn.api.common.changes.filter.ChangesParameters
 import kpn.api.custom.NetworkType
+import kpn.core.common.Time
 import kpn.core.util.Log
+import kpn.database.actions.base.ChangeCountPipeline
 import kpn.database.actions.locations.MongoQueryLocationChanges.log
+import kpn.database.actions.statistics.ChangeSetCounts
 import kpn.database.base.CountResult
 import kpn.database.base.Database
 import kpn.database.util.Mongo
 import org.bson.conversions.Bson
 import org.mongodb.scala.Document
+import org.mongodb.scala.bson.BsonDocument
 import org.mongodb.scala.model.Accumulators.push
 import org.mongodb.scala.model.Aggregates.count
 import org.mongodb.scala.model.Aggregates.filter
@@ -111,18 +115,31 @@ class MongoQueryLocationChanges(database: Database) {
     }
   }
 
+  def executeFilterOptions(networkType: NetworkType, locationName: String, parameters: ChangesParameters): ChangeSetCounts = {
+
+    val pipeline = new PipelineBuilder(networkType, locationName, ChangesParameters()).buildFilterOptionsPipeline()
+
+    val yearInt = parameters.year match {
+      case None => Time.now.year
+      case Some(year) => year.toInt
+    }
+
+    val monthInt = parameters.month.map(_.toInt)
+
+    ChangeCountPipeline.execute(
+      database.changes,
+      pipeline,
+      yearInt,
+      monthInt,
+      log
+    )
+  }
+
   private class PipelineBuilder(networkType: NetworkType, locationName: String, parameters: ChangesParameters) {
 
     def build(): Seq[Bson] = {
       commonStages() ++
         Seq(
-          group(
-            Document(
-              "id" -> "$_id",
-              "key" -> "$key"
-            ),
-            push("locationChanges", "$locationChanges")
-          ),
           sort(orderBy(descending("_id.key.time"))),
           skip((parameters.pageSize * parameters.pageIndex).toInt),
           limit(parameters.pageSize.toInt),
@@ -139,14 +156,21 @@ class MongoQueryLocationChanges(database: Database) {
     def buildCountPipeline(): Seq[Bson] = {
       commonStages() ++
         Seq(
-          group(
-            Document(
-              "id" -> "$_id",
-              "key" -> "$key"
-            ),
-            push("locationChanges", "$locationChanges")
-          ),
           count()
+        )
+    }
+
+    def buildFilterOptionsPipeline(): Seq[Bson] = {
+      commonStages() ++
+        Seq(
+          project(
+            fields(
+              computed("_id", "$_id.id"),
+              computed("key", "$_id.key"),
+              BsonDocument("""{"impact": {$or: [{$in: [true, "$locationChanges.happy"]}, {$in: [true, "$locationChanges.investigate"]}]}}"""),
+              include("locationChanges"),
+            )
+          )
         )
     }
 
@@ -161,6 +185,13 @@ class MongoQueryLocationChanges(database: Database) {
         ),
         unwind("$locationChanges"),
         locationChangesFilter(),
+        group(
+          Document(
+            "id" -> "$_id",
+            "key" -> "$key"
+          ),
+          push("locationChanges", "$locationChanges")
+        ),
       )
     }
 
