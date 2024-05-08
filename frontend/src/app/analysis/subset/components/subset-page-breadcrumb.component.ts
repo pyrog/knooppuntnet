@@ -61,6 +61,6 @@ export class SubsetPageBreadcrumbComponent {
   }
 
   countryLink() {
-    return `/analysis/${this.subset().networkType}/${this.subset().country}`;
+    return `/analysis/${this.subset().networkType}/${this.subset().country}/networks`;
   }
 }
