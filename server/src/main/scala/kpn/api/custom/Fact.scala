@@ -147,6 +147,7 @@ object Fact {
     LostMotorboatNodeTag,
     LostCanoeNodeTag,
     LostInlineSkateNodeTag,
+    UnexpectedIntegrityCheck,
     NodeInvalidSurveyDate,
     RouteInvalidSurveyDate,
   )
