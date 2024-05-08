@@ -3,8 +3,8 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { PageComponent } from '@app/components/shared/page';
+import { SidebarComponent } from '@app/components/shared/sidebar';
 import { RouterService } from '../../shared/services/router.service';
-import { AnalysisSidebarComponent } from '../analysis/analysis-sidebar.component';
 import { ChangeSetPageService } from './change-set-page.service';
 import { ChangeSetHeaderComponent } from './components/change-set-header.component';
 import { ChangeSetLocationChangesComponent } from './components/change-set-location-changes.component';
@@ -33,19 +33,19 @@ import { ChangeSetOrphanRouteChangesComponent } from './components/change-set-or
           <kpn-change-set-orphan-route-changes [page]="response.result" />
         }
       }
-      <kpn-analysis-sidebar sidebar />
+      <kpn-sidebar sidebar />
     </kpn-page>
   `,
   providers: [ChangeSetPageService, RouterService],
   standalone: true,
   imports: [
-    AnalysisSidebarComponent,
     ChangeSetHeaderComponent,
     ChangeSetLocationChangesComponent,
     ChangeSetNetworkChangesComponent,
     ChangeSetOrphanNodeChangesComponent,
     ChangeSetOrphanRouteChangesComponent,
     PageComponent,
+    SidebarComponent,
   ],
 })
 export class ChangeSetPageComponent implements OnInit {
