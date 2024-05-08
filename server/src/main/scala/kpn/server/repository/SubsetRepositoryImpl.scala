@@ -5,11 +5,11 @@ import kpn.api.common.subset.SubsetInfo
 import kpn.api.common.subset.SubsetMapNetwork
 import kpn.api.custom.Fact
 import kpn.api.custom.Subset
+import kpn.core.util.Log
 import kpn.database.actions.statistics.MongoQueryStatistics
 import kpn.database.actions.subsets.MongoQuerySubsetInfo
-import kpn.database.base.Database
-import kpn.core.util.Log
 import kpn.database.actions.subsets.MongoQuerySubsetMapNetworks
+import kpn.database.base.Database
 import org.springframework.stereotype.Component
 
 @Component

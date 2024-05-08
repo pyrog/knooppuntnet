@@ -380,8 +380,6 @@ class StatisticsUpdater(database: Database) {
         push("values", "$values")
       )
     )
-
-
   }
 
   private def pipelineRouteDistance(): Seq[Bson] = {

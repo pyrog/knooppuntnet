@@ -11,7 +11,6 @@ case class Fact(name: String, level: FactLevel) {
   def isOther: Boolean = level == FactLevel.OTHER
 
   override def toString: String = s"Fact.$name"
-
 }
 
 class FactFactory {
@@ -43,7 +42,6 @@ object Fact {
 
   private val f = new FactFactory()
 
-
   // new errors
   val RouteUnsupportedNetworkType: Fact = f.error("RouteUnsupportedNetworkType")
 
@@ -73,6 +71,7 @@ object Fact {
   val NetworkExtraMemberRelation: Fact = f.error("NetworkExtraMemberRelation")
   val NodeMemberMissing: Fact = f.info("NodeMemberMissing")
   val IntegrityCheckFailed: Fact = f.error("IntegrityCheckFailed")
+  val UnexpectedIntegrityCheck: Fact = f.error("UnexpectedIntegrityCheck")
   val NameMissing: Fact = f.error("NameMissing")
   val OrphanRoute: Fact = f.other("OrphanRoute")
   val OrphanNode: Fact = f.other("OrphanNode")
