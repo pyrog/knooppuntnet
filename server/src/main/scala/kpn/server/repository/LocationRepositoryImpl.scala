@@ -22,6 +22,7 @@ import kpn.database.actions.locations.MongoQueryLocationNodeCounts
 import kpn.database.actions.locations.MongoQueryLocationNodes
 import kpn.database.actions.locations.MongoQueryLocationRoutes
 import kpn.database.base.Database
+import kpn.server.api.analysis.pages.SurveyDateInfoBuilder
 import org.springframework.stereotype.Component
 
 @Component
@@ -50,7 +51,7 @@ class LocationRepositoryImpl(database: Database) extends LocationRepository {
   }
 
   override def routes(locationKey: LocationKey, parameters: LocationRoutesParameters): Seq[LocationRouteInfo] = {
-    new MongoQueryLocationRoutes(database).find(
+    new MongoQueryLocationRoutes(database, SurveyDateInfoBuilder.dateInfo).find(
       locationKey.networkType,
       locationKey.name,
       parameters.locationRoutesType,
@@ -60,7 +61,7 @@ class LocationRepositoryImpl(database: Database) extends LocationRepository {
   }
 
   override def routeCount(locationKey: LocationKey, locationRoutesType: LocationRoutesType): Long = {
-    new MongoQueryLocationRoutes(database).countDocuments(
+    new MongoQueryLocationRoutes(database, SurveyDateInfoBuilder.dateInfo).countDocuments(
       locationKey.networkType,
       locationKey.name,
       locationRoutesType

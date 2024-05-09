@@ -316,31 +316,31 @@
     <dependency>
       <groupId>org.mongodb.scala</groupId>
       <artifactId>mongo-scala-driver_2.13</artifactId>
-      <version>4.11.1</version>
+      <version>5.1.0</version>
     </dependency>
 
     <dependency>
       <groupId>org.mongodb.scala</groupId>
       <artifactId>mongo-scala-bson_2.13</artifactId>
-      <version>4.11.1</version>
+      <version>5.1.0</version>
     </dependency>
 
     <dependency>
       <groupId>org.mongodb</groupId>
       <artifactId>bson</artifactId>
-      <version>4.11.1</version>
+      <version>5.1.0</version>
     </dependency>
 
     <dependency>
       <groupId>org.mongodb</groupId>
       <artifactId>mongodb-driver-reactivestreams</artifactId>
-      <version>4.11.1</version>
+      <version>5.1.0</version>
     </dependency>
 
     <dependency>
       <groupId>org.mongodb</groupId>
       <artifactId>mongodb-driver-core</artifactId>
-      <version>4.11.1</version>
+      <version>5.1.0</version>
     </dependency>
 
     <dependency>
@@ -382,6 +382,13 @@
   </dependencies>
 
   <repositories>
+    <repository>
+      <id>central</id>
+      <url>https://repo1.maven.org/maven2</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
     <repository>
       <id>osgeo</id>
       <name>OSGeo Release Repository</name>

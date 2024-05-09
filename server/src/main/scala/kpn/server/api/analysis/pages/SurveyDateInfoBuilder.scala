@@ -1,17 +1,20 @@
 package kpn.server.api.analysis.pages
 
-import java.time.ZoneId
-import java.time.ZonedDateTime
-
 import kpn.api.common.SurveyDateInfo
 import kpn.api.custom.Day
+
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 object SurveyDateInfoBuilder {
 
   def dateInfo: SurveyDateInfo = {
-
     val zoned = ZonedDateTime.now(ZoneId.of("UTC"))
     val local = zoned.withZoneSameInstant(ZoneId.of("Europe/Brussels"))
+    dateInfoAt(local)
+  }
+
+  def dateInfoAt(local: ZonedDateTime): SurveyDateInfo = {
 
     val now: Day = Day(
       local.getYear,
