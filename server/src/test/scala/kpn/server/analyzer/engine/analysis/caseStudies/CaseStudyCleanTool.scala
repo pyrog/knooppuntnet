@@ -11,13 +11,13 @@ import scala.xml.XML
 
 object CaseStudyCleanTool {
   def main(args: Array[String]): Unit = {
-    new CaseStudyCleanTool().clean("12347801")
+    new CaseStudyCleanTool().clean("17574316")
   }
 }
 
 class CaseStudyCleanTool {
 
-  private val root = "/home/vmarc/wrk/projects/knooppuntnet/server/src/test/resources"
+  private val root = "/Users/marc/wrk/projects/knooppuntnet/server/src/test/resources"
 
   def clean(name: String): Unit = {
     val filename = s"$root/case-studies/$name.xml"
