@@ -153,7 +153,7 @@ object Fact {
   )
 
   val networkFactsWithElementIds: Seq[Fact] = Seq(Fact.NetworkExtraMemberNode, Fact.NetworkExtraMemberWay, Fact.NetworkExtraMemberRelation)
-  val networkFactsWithRefs: Seq[Fact] = Seq(Fact.NodeMemberMissing)
+  val networkFactsWithRefs: Seq[Fact] = Seq(Fact.NodeMemberMissing, Fact.UnexpectedIntegrityCheck)
 
   val routeDetailFacts: Seq[Fact] = all.filterNot(f => f == RouteBroken || f == RouteNotContinious)
 
