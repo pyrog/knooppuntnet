@@ -4393,7 +4393,7 @@ Mogelijke waarden bij andere knooppuntnetwerken zijn *"horse"*, *"motorboat"* , 
         <target>Beschrijving is veplicht.</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.group.description.maxlength">
-        <source>Too long (max= <x equiv-text="{{ description().errors.maxlength.requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{               description().errors.maxlength.actualLength             }}" id="INTERPOLATION_1"/>).</source>
+        <source>Too long (max= <x equiv-text="{{ description().errors['maxlength'].requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{               description().errors['maxlength'].actualLength             }}" id="INTERPOLATION_1"/>).</source>
         <target>Te lang (max= <x equiv-text="{{ description().errors.maxlength.requiredLength }}" id="INTERPOLATION"/>, lengte=<x equiv-text="{{ description().errors.maxlength.actualLength }}" id="INTERPOLATION_1"/>).</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.group.name.label">
@@ -4405,7 +4405,7 @@ Mogelijke waarden bij andere knooppuntnetwerken zijn *"horse"*, *"motorboat"* , 
         <target>Naam is verplicht.</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.group.name.maxlength">
-        <source>Too long (max= <x equiv-text="{{ name().errors.maxlength.requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{               name().errors.maxlength.actualLength             }}" id="INTERPOLATION_1"/>).</source>
+        <source>Too long (max= <x equiv-text="{{ name().errors['maxlength'].requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{               name().errors['maxlength'].actualLength             }}" id="INTERPOLATION_1"/>).</source>
         <target>Te lang (max= <x equiv-text="{{ name().errors.maxlength.requiredLength }}" id="INTERPOLATION"/>, lengte=<x equiv-text="{{ name().errors.maxlength.actualLength }}" id="INTERPOLATION_1"/>).</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.group.name.unique">
@@ -4561,7 +4561,7 @@ Mogelijke waarden bij andere knooppuntnetwerken zijn *"horse"*, *"motorboat"* , 
         <target>Beschrijving is verplicht.</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.route.description.maxlength">
-        <source>Too long (max= <x equiv-text="{{ description().errors.maxlength.requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{                 description().errors.maxlength.actualLength               }}" id="INTERPOLATION_1"/>).</source>
+        <source>Too long (max= <x equiv-text="{{ description().errors['maxlength'].requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{                 description().errors['maxlength'].actualLength               }}" id="INTERPOLATION_1"/>).</source>
         <target>Te lang (max= <x equiv-text="{{ description().errors.maxlength.requiredLength }}" id="INTERPOLATION"/>, lengte=<x equiv-text="{{ description().errors.maxlength.actualLength }}" id="INTERPOLATION_1"/>).</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.route.name.label">
@@ -4573,7 +4573,7 @@ Mogelijke waarden bij andere knooppuntnetwerken zijn *"horse"*, *"motorboat"* , 
         <target>Naam is verplicht.</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.route.name.maxlength">
-        <source>Too long (max= <x equiv-text="{{ name().errors.maxlength.requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{                 name().errors.maxlength.actualLength               }}" id="INTERPOLATION_1"/>).</source>
+        <source>Too long (max= <x equiv-text="{{ name().errors['maxlength'].requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{                 name().errors['maxlength'].actualLength               }}" id="INTERPOLATION_1"/>).</source>
         <target>Te lang (max= <x equiv-text="{{ name().errors.maxlength.requiredLength }}" id="INTERPOLATION"/>, lengte=<x equiv-text="{{ name().errors.maxlength.actualLength }}" id="INTERPOLATION_1"/>).</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.route.name.unique">
@@ -5245,7 +5245,7 @@ Mogelijke waarden bij andere knooppuntnetwerken zijn *"horse"*, *"motorboat"* , 
         <target>Ongeldige referentie (moet een geldig GPX bestand zijn).</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.route.properties.reference-details.file.max-size-exceeded">
-        <source>Cannot upload this file. It is too big (maximum file size is <x equiv-text="{{ referenceFile().errors.maxFileSizeExceeded }}" id="INTERPOLATION"/>).</source>
+        <source>Cannot upload this file. It is too big (maximum file size is <x equiv-text="{{ referenceFile().errors['maxFileSizeExceeded'] }}" id="INTERPOLATION"/>).</source>
         <target>Dit bestand is te groot om op te laden (<x equiv-text="{{referenceFile().errors.maxFileSizeExceeded}}" id="INTERPOLATION"/> maximum).</target>
       </trans-unit>
       <trans-unit datatype="html" id="edit-goto-error-dialog.title">
@@ -5370,6 +5370,14 @@ Mogelijke waarden bij andere knooppuntnetwerken zijn *"horse"*, *"motorboat"* , 
       <trans-unit datatype="html" id="icon.way.tooltip">
         <source>way</source>
         <target>way</target>
+      </trans-unit>
+      <trans-unit datatype="html" id="fact.description.unexpected-integrity-check">
+        <source>The node has an integrity check tag (_"expected_XXX_route_relations"_) where the _"XXX"_ does not match the _"XXX"_ in the tag key that contains the node name (_"XXX_ref"_, _"XXX_name"_, etc).</source>
+        <target>Het knooppunt heeft een _"expected_XXX_route_relations"_ tag waarvan de _"XXX"_ niet overeenkomt met de  _"XXX"_ in de sleutel van de tag die de knooppuntnaam bevat  (_"XXX_ref"_, _"XXX_name"_, etc).</target>
+      </trans-unit>
+      <trans-unit datatype="html" id="fact.name.unexpected-integrity-check">
+        <source>UnexpectedIntegrityCheck</source>
+        <target>OnverwachteRouteAantalTag</target>
       </trans-unit>
     </body>
   </file>

@@ -78,6 +78,7 @@ export class Facts {
     new FactDefinition('NodeInvalidSurveyDate', FactLevel.error, FactElement.node),
     new FactDefinition('RouteInvalidSurveyDate', FactLevel.error, FactElement.route),
     new FactDefinition('RouteNameDeprecatedNoteTag', FactLevel.info, FactElement.route),
+    new FactDefinition('UnexpectedIntegrityCheck', FactLevel.error, FactElement.node),
   ];
 
   static readonly facts: Map<string, FactDefinition> = new Map(

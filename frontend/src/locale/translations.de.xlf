@@ -4407,8 +4407,8 @@ Andere mögliche Werte sind *"horse"*, *"motorboat"*, *"canoe"* und *"inline_ska
         <target>Eine Beschreibung ist erforderlich.</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.group.description.maxlength">
-        <source>Too long (max= <x equiv-text="{{ description().errors.maxlength.requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{               description().errors.maxlength.actualLength             }}" id="INTERPOLATION_1"/>).</source>
-        <target>Too long (max= <x equiv-text="{{ description().errors.maxlength.requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{               description().errors.maxlength.actualLength             }}" id="INTERPOLATION_1"/>).</target>
+        <source>Too long (max= <x equiv-text="{{ description().errors['maxlength'].requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{               description().errors['maxlength'].actualLength             }}" id="INTERPOLATION_1"/>).</source>
+        <target>Too long (max= <x equiv-text="{{ description().errors['maxlength'].requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{               description().errors['maxlength'].actualLength             }}" id="INTERPOLATION_1"/>).</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.group.name.label">
         <source>Name</source>
@@ -4419,8 +4419,8 @@ Andere mögliche Werte sind *"horse"*, *"motorboat"*, *"canoe"* und *"inline_ska
         <target>Ein Name ist erforderlich.</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.group.name.maxlength">
-        <source>Too long (max= <x equiv-text="{{ name().errors.maxlength.requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{               name().errors.maxlength.actualLength             }}" id="INTERPOLATION_1"/>).</source>
-        <target>Too long (max= <x equiv-text="{{ name().errors.maxlength.requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{               name().errors.maxlength.actualLength             }}" id="INTERPOLATION_1"/>).</target>
+        <source>Too long (max= <x equiv-text="{{ name().errors['maxlength'].requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{               name().errors['maxlength'].actualLength             }}" id="INTERPOLATION_1"/>).</source>
+        <target>Too long (max= <x equiv-text="{{ name().errors['maxlength'].requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{               name().errors['maxlength'].actualLength             }}" id="INTERPOLATION_1"/>).</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.group.name.unique">
         <source>Name should be unique. A group with this name already exists.</source>
@@ -4575,8 +4575,8 @@ Andere mögliche Werte sind *"horse"*, *"motorboat"*, *"canoe"* und *"inline_ska
         <target>Eine Beschreibung ist erforderlich.</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.route.description.maxlength">
-        <source>Too long (max= <x equiv-text="{{ description().errors.maxlength.requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{                 description().errors.maxlength.actualLength               }}" id="INTERPOLATION_1"/>).</source>
-        <target>Too long (max= <x equiv-text="{{ description().errors.maxlength.requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{                 description().errors.maxlength.actualLength               }}" id="INTERPOLATION_1"/>).</target>
+        <source>Too long (max= <x equiv-text="{{ description().errors['maxlength'].requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{                 description().errors['maxlength'].actualLength               }}" id="INTERPOLATION_1"/>).</source>
+        <target>Too long (max= <x equiv-text="{{ description().errors['maxlength'].requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{                 description().errors['maxlength'].actualLength               }}" id="INTERPOLATION_1"/>).</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.route.name.label">
         <source>Name</source>
@@ -4587,8 +4587,8 @@ Andere mögliche Werte sind *"horse"*, *"motorboat"*, *"canoe"* und *"inline_ska
         <target>Ein Name ist erforderlich.</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.route.name.maxlength">
-        <source>Too long (max= <x equiv-text="{{ name().errors.maxlength.requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{                 name().errors.maxlength.actualLength               }}" id="INTERPOLATION_1"/>).</source>
-        <target>Too long (max= <x equiv-text="{{ name().errors.maxlength.requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{                 name().errors.maxlength.actualLength               }}" id="INTERPOLATION_1"/>).</target>
+        <source>Too long (max= <x equiv-text="{{ name().errors['maxlength'].requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{                 name().errors['maxlength'].actualLength               }}" id="INTERPOLATION_1"/>).</source>
+        <target>Too long (max= <x equiv-text="{{ name().errors['maxlength'].requiredLength }}" id="INTERPOLATION"/>, actual=<x equiv-text="{{                 name().errors['maxlength'].actualLength               }}" id="INTERPOLATION_1"/>).</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.route.name.unique">
         <source>The route name should be unique within the group. A route with this name already exists within this group.</source>
@@ -5259,8 +5259,8 @@ Andere mögliche Werte sind *"horse"*, *"motorboat"*, *"canoe"* und *"inline_ska
         <target>Invalid reference file (needs to be a valid GPX file).</target>
       </trans-unit>
       <trans-unit datatype="html" id="monitor.route.properties.reference-details.file.max-size-exceeded">
-        <source>Cannot upload this file. It is too big (maximum file size is <x equiv-text="{{ referenceFile().errors.maxFileSizeExceeded }}" id="INTERPOLATION"/>).</source>
-        <target>Cannot upload this file. It is too big (maximum file size is <x equiv-text="{{ referenceFile().errors.maxFileSizeExceeded }}" id="INTERPOLATION"/>).</target>
+        <source>Cannot upload this file. It is too big (maximum file size is <x equiv-text="{{ referenceFile().errors['maxFileSizeExceeded'] }}" id="INTERPOLATION"/>).</source>
+        <target>Cannot upload this file. It is too big (maximum file size is <x equiv-text="{{ referenceFile().errors['maxFileSizeExceeded'] }}" id="INTERPOLATION"/>).</target>
       </trans-unit>
       <trans-unit datatype="html" id="edit-goto-error-dialog.title">
         <source>JOSM</source>
@@ -5387,6 +5387,14 @@ Andere mögliche Werte sind *"horse"*, *"motorboat"*, *"canoe"* und *"inline_ska
       <trans-unit datatype="html" id="icon.way.tooltip">
         <source>way</source>
         <target>way</target>
+      </trans-unit>
+      <trans-unit datatype="html" id="fact.description.unexpected-integrity-check">
+        <source>The node has an integrity check tag (_"expected_XXX_route_relations"_) where the _"XXX"_ does not match the _"XXX"_ in the tag key that contains the node name (_"XXX_ref"_, _"XXX_name"_, etc).</source>
+        <target>The node has an integrity check tag (_"expected_XXX_route_relations"_) where the _"XXX"_ does not match the _"XXX"_ in the tag key that contains the node name (_"XXX_ref"_, _"XXX_name"_, etc).</target>
+      </trans-unit>
+      <trans-unit datatype="html" id="fact.name.unexpected-integrity-check">
+        <source>UnexpectedIntegrityCheck</source>
+        <target>UnexpectedIntegrityCheck</target>
       </trans-unit>
     </body>
   </file>

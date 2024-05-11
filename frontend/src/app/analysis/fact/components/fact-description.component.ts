@@ -46,6 +46,7 @@ import { FactRouteUnexpectedRelationComponent } from './descriptions/fact-route-
 import { FactRouteUnusedSegmentsComponent } from './descriptions/fact-route-unused-segments.component';
 import { FactRouteWithoutNodesComponent } from './descriptions/fact-route-without-nodes.component';
 import { FactRouteWithoutWaysComponent } from './descriptions/fact-route-without-ways.component';
+import { FactUnexpectedIntegrityCheckComponent } from './descriptions/fact-unexpected-integrity-check.component';
 import { FactInfo } from './fact-info';
 
 @Component({
@@ -188,6 +189,9 @@ import { FactInfo } from './fact-info';
       @case ('RouteNameDeprecatedNoteTag') {
         <kpn-fact-route-deprected-note-tag />
       }
+      @case ('UnexpectedIntegrityCheck') {
+        <kpn-fact-unexpected-integrity-check />
+      }
       @default {
         <p i18n="@@fact.description-missing">{{ factInfo().fact }} description missing!!</p>
       }
@@ -240,6 +244,7 @@ import { FactInfo } from './fact-info';
     FactRouteWithoutNodesComponent,
     FactRouteWithoutWaysComponent,
     FactRouteNameDeprecatedNoteTagComponent,
+    FactUnexpectedIntegrityCheckComponent,
   ],
 })
 export class FactDescriptionComponent {
