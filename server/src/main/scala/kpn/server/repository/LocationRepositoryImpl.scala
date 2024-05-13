@@ -32,7 +32,8 @@ class LocationRepositoryImpl(database: Database) extends LocationRepository {
     LocationSummary(
       factCount(locationKey.networkType, locationKey.name),
       nodeCount(locationKey, LocationNodesType.all),
-      routeCount(locationKey, LocationRoutesType.all)
+      routeCount(locationKey, LocationRoutesType.all),
+      changesCount(locationKey, ChangesParameters())
     )
   }
 

@@ -63,7 +63,7 @@ import { LocationPageBreadcrumbComponent } from './location-page-breadcrumb.comp
             [link]="link(key, 'changes')"
             [active]="pageName() === 'changes'"
             i18n="@@location-page.menu.changes"
-            [elementCount]="0"
+            [elementCount]="summary.changesCount"
           >
             Changes
           </kpn-page-menu-option>
