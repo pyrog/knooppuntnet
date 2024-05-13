@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { LocationKey } from '@api/custom';
 import { CountryNameComponent } from '@app/components/shared';
 import { NetworkTypeNameComponent } from '@app/components/shared';
+import { LocationPipe } from '../../../shared/components/shared/format/location.pipe';
 
 @Component({
   selector: 'kpn-location-page-breadcrumb',
@@ -25,11 +26,11 @@ import { NetworkTypeNameComponent } from '@app/components/shared';
           <kpn-country-name [country]="locationKey().country" />
         </a>
       </li>
-      <li>{{ locationName() }}</li>
+      <li>{{ locationName() | location }}</li>
     </ul>
   `,
   standalone: true,
-  imports: [RouterLink, NetworkTypeNameComponent, CountryNameComponent],
+  imports: [RouterLink, NetworkTypeNameComponent, CountryNameComponent, LocationPipe],
 })
 export class LocationPageBreadcrumbComponent {
   locationKey = input.required<LocationKey>();

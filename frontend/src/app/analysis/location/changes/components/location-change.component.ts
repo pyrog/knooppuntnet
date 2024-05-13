@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { LocationChangeSetInfo } from '@api/common/location-change-set-info';
 import { ChangeHeaderComponent } from '@app/analysis/components/change-set';
 import { ChangesSetElementRefsComponent } from '@app/analysis/components/change-set/components';
 import { NetworkTypeIconComponent } from '@app/components/shared';
-import { LocationChangeSetInfo } from '@api/common/location-change-set-info';
+import { LocationPipe } from '../../../../shared/components/shared/format/location.pipe';
 
 @Component({
   selector: 'kpn-location-change',
@@ -29,7 +30,9 @@ import { LocationChangeSetInfo } from '@api/common/location-change-set-info';
                 let i = $index
               ) {
                 <div class="location-name">
-                  <a [routerLink]="locationLink(locationInfo.link)">{{ locationInfo.name }}</a>
+                  <a [routerLink]="locationLink(locationInfo.link)">{{
+                    locationInfo.name | location
+                  }}</a>
                 </div>
               }
             </div>
@@ -72,6 +75,7 @@ import { LocationChangeSetInfo } from '@api/common/location-change-set-info';
     ChangesSetElementRefsComponent,
     NetworkTypeIconComponent,
     RouterLink,
+    LocationPipe,
   ],
 })
 export class LocationChangeComponent {

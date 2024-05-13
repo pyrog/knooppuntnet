@@ -7,6 +7,7 @@ import { NetworkType } from '@api/custom';
 import { Util } from '@app/components/shared';
 import { NetworkTypeIconComponent } from '@app/components/shared';
 import { Translations } from '@app/i18n';
+import { LocationPipe } from '../../../shared/components/shared/format/location.pipe';
 import { ChangeHeaderComponent } from './change-header.component';
 import { ChangesSetElementRefsComponent } from './components/change-set-element-refs.component';
 
@@ -37,7 +38,7 @@ import { ChangesSetElementRefsComponent } from './components/change-set-element-
                     [routerLink]="
                       locationLink(locationChanges.networkType, locationChanges.locationNames, i)
                     "
-                    >{{ locationName }}</a
+                    >{{ locationName | location }}</a
                   >
                 </div>
               }
@@ -79,6 +80,7 @@ import { ChangesSetElementRefsComponent } from './components/change-set-element-
     ChangesSetElementRefsComponent,
     NetworkTypeIconComponent,
     RouterLink,
+    LocationPipe,
   ],
 })
 export class ChangeLocationAnalysisSummaryComponent {

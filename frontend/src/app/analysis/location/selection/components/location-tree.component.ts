@@ -18,6 +18,7 @@ import { MatTreeFlattener } from '@angular/material/tree';
 import { Country } from '@api/custom';
 import { NetworkType } from '@api/custom';
 import { Subscriptions } from '@app/util';
+import { LocationPipe } from '../../../../shared/components/shared/format/location.pipe';
 import { LocalLocationNode } from './local-location-node';
 import { LocationFlatNode } from './location-flat-node';
 
@@ -62,7 +63,7 @@ import { LocationFlatNode } from './location-flat-node';
         matTreeNodePadding
         [ngClass]="{ hidden: !all && leafNode.nodeCount === 0 }"
       >
-        <a (click)="select(leafNode)">{{ leafNode.name }}</a>
+        <a (click)="select(leafNode)">{{ leafNode.name | location }}</a>
         <span class="node-count">{{ leafNode.nodeCount }}</span>
       </mat-tree-node>
       <mat-tree-node
@@ -77,7 +78,7 @@ import { LocationFlatNode } from './location-flat-node';
             <mat-icon svgIcon="collapse" class="expand-collapse-icon" />
           }
         </div>
-        <a (click)="select(expandableNode)">{{ expandableNode.name }}</a
+        <a (click)="select(expandableNode)">{{ expandableNode.name | location }}</a
         ><span class="node-count">{{ expandableNode.nodeCount }}</span>
       </mat-tree-node>
     </mat-tree>
@@ -102,13 +103,13 @@ import { LocationFlatNode } from './location-flat-node';
     .hidden {
       display: none;
     }
-    
+
     mat-tree {
       padding-left: 1em;
     }
   `,
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, MatRadioModule, MatTreeModule, NgClass],
+  imports: [MatButtonModule, MatIconModule, MatRadioModule, MatTreeModule, NgClass, LocationPipe],
 })
 export class LocationTreeComponent implements OnInit, OnDestroy {
   networkType = input.required<NetworkType>();

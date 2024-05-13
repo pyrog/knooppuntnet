@@ -9,6 +9,7 @@ import { NetworkTypeNameComponent } from '@app/components/shared';
 import { PageMenuOptionComponent } from '@app/components/shared/menu';
 import { PageMenuComponent } from '@app/components/shared/menu';
 import { PageHeaderComponent } from '@app/components/shared/page';
+import { LocationPipe } from '../../../shared/components/shared/format/location.pipe';
 import { LocationService } from '../location.service';
 import { LocationPageBreadcrumbComponent } from './location-page-breadcrumb.component';
 
@@ -25,7 +26,7 @@ import { LocationPageBreadcrumbComponent } from './location-page-breadcrumb.comp
           </span>
           <kpn-network-type-name [networkType]="key.networkType" />&nbsp;
           <span i18n="@@location-page.header.in">in</span>
-          {{ locationName(key) }}
+          {{ locationName(key) | location }}
         </kpn-page-header>
         <kpn-page-menu>
           <kpn-page-menu-option
@@ -86,6 +87,7 @@ import { LocationPageBreadcrumbComponent } from './location-page-breadcrumb.comp
     PageHeaderComponent,
     PageMenuComponent,
     PageMenuOptionComponent,
+    LocationPipe,
   ],
 })
 export class LocationPageHeaderComponent {
