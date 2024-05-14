@@ -1,7 +1,6 @@
 package kpn.api.common.location
 
 import kpn.api.common.LatLon
-import kpn.api.common.common.Ref
 import kpn.api.common.common.Reference
 import kpn.api.custom.Day
 import kpn.api.custom.Fact

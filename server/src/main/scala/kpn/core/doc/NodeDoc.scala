@@ -26,6 +26,7 @@ case class NodeDoc(
   changeSetId: Long,
   latitude: String,
   longitude: String,
+  position: GeoPoint,
   lastUpdated: Timestamp,
   lastSurvey: Option[Day],
   tags: Tags,
