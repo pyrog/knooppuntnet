@@ -6,7 +6,7 @@ import kpn.database.util.Mongo
 
 object MigrateNodePositionTool {
   def main(args: Array[String]): Unit = {
-    Mongo.executeIn("kpn-laptop") { database =>
+    Mongo.executeIn("kpn-next") { database =>
       new MigrateNodePositionTool(database).migrate()
     }
   }

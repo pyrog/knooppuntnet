@@ -16,8 +16,6 @@ class PolygonBuilder(element: String, data: SkeletonData) {
     val countryRelation = data.relations(data.countryRelationId)
     val outers = findRingsWithRole(countryRelation, "outer").map(toRing)
     val inners = findRingsWithRole(countryRelation, "inner").map(toRing)
-    log(outers, "outer")
-    log(inners, "inner")
     val polygons = outers.map { outer =>
       val locator = new IndexedPointInAreaLocator(new Polygon(outer, Array[LinearRing](), geometryFactory))
       val holes = inners.filter { inner =>

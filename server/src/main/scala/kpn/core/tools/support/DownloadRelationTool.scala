@@ -12,7 +12,8 @@ import java.nio.charset.Charset
 object DownloadRelationTool {
 
   private val routes = Seq(
-    "route" -> 17574316,
+    "route" -> 5555268,
+    "route" -> 2102885,
   )
 
   def main(args: Array[String]): Unit = {

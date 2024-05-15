@@ -11,6 +11,7 @@ import kpn.api.custom.Fact
 import kpn.api.custom.NetworkType
 import kpn.api.custom.Subset
 import kpn.core.doc.NodeDoc
+import kpn.core.util.Geo
 
 case class NodeAnalysis(
   node: RawNode,
@@ -59,6 +60,10 @@ case class NodeAnalysis(
       node.changeSetId,
       node.latitude,
       node.longitude,
+      Geo.point(
+        node.longitude.toDouble,
+        node.latitude.toDouble
+      ),
       node.timestamp,
       lastSurvey,
       node.tags,
