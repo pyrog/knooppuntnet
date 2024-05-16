@@ -27,7 +27,13 @@ case class RouteDoc(
   tiles: Seq[String],
   nodeRefs: Seq[Long],
   elementIds: ElementIds,
-  edges: Seq[RouteEdge]
+  edges: Seq[RouteEdge],
+  geoFreePaths: Option[Seq[GeoLineString]] = None,
+  geoForwardPath: Option[GeoLineString] = None,
+  geoBackwardPath: Option[GeoLineString] = None,
+  geoUnusedSegments: Option[Seq[GeoLineString]] = None,
+  geoStartTentaclePaths: Option[Seq[GeoLineString]] = None,
+  geoEndTentaclePaths: Option[Seq[GeoLineString]] = None
 ) extends Tagable with WithId {
 
   def id: Long = summary.id

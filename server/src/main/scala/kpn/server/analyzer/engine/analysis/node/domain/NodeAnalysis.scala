@@ -60,9 +60,11 @@ case class NodeAnalysis(
       node.changeSetId,
       node.latitude,
       node.longitude,
-      Geo.point(
-        node.longitude.toDouble,
-        node.latitude.toDouble
+      Some(
+        Geo.point(
+          node.longitude.toDouble,
+          node.latitude.toDouble
+        )
       ),
       node.timestamp,
       lastSurvey,
