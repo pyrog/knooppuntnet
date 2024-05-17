@@ -24,6 +24,7 @@ import org.mongodb.scala.model.Filters.and
 import org.mongodb.scala.model.Filters.equal
 import org.mongodb.scala.model.Filters.geoIntersects
 import org.mongodb.scala.model.Filters.not
+import org.mongodb.scala.model.Filters.or
 import org.mongodb.scala.model.Projections.computed
 import org.mongodb.scala.model.Projections.excludeId
 import org.mongodb.scala.model.Projections.fields
@@ -35,17 +36,31 @@ object CustomLocationTool {
   def main(args: Array[String]): Unit = {
     Mongo.executeIn("kpn-next") { database =>
       val tool = new CustomLocationTool(database)
-      tool.geoQueryNodes()
-      tool.geoQueryNodeCount()
+      tool.geoQueryRouteCount()
+      // tool.geoQueryNodes()
+      // tool.geoQueryNodeCount()
     }
   }
 }
 
 class CustomLocationTool(database: Database) {
 
+  def geoQueryRouteCount(): Unit = {
+    val pipeline = Seq(
+      filter(buildRouteFilter(NetworkType.hiking, "fr")),
+      count()
+    )
+
+    val start = System.currentTimeMillis()
+    val routeCount = database.routes.aggregate[CountResult](pipeline).map(_.count).sum
+    val end = System.currentTimeMillis()
+
+    println(s"route count = $routeCount (${(end - start) / 1000} seconds)")
+  }
+
   def geoQueryNodeCount(): Unit = {
     val pipeline = Seq(
-      filter(buildFilter(NetworkType.hiking, "fr", LocationNodesType.all)),
+      filter(buildNodeFilter(NetworkType.hiking, "fr", LocationNodesType.all)),
       count()
     )
 
@@ -59,7 +74,7 @@ class CustomLocationTool(database: Database) {
     val pageIndex = 0
 
     val pipeline = Seq(
-      filter(buildFilter(NetworkType.hiking, "fr", LocationNodesType.all)),
+      filter(buildNodeFilter(NetworkType.hiking, "fr", LocationNodesType.all)),
       sort(orderBy(ascending("names.name", "_id"))),
       skip(pageSize * pageIndex),
       limit(pageSize),
@@ -84,7 +99,7 @@ class CustomLocationTool(database: Database) {
     nodes.foreach(println)
   }
 
-  private def buildFilter(networkType: NetworkType, location: String, locationNodesType: LocationNodesType): Bson = {
+  private def buildNodeFilter(networkType: NetworkType, location: String, locationNodesType: LocationNodesType): Bson = {
 
     val boundary1 = loadBoundary(5555268)
     val boundary2 = loadBoundary(2102885)
@@ -108,6 +123,24 @@ class CustomLocationTool(database: Database) {
       }
     ).flatten
     and(filters: _*)
+  }
+
+  private def buildRouteFilter(networkType: NetworkType, location: String): Bson = {
+
+    val boundary1 = loadBoundary(5555268)
+    val boundary2 = loadBoundary(2102885)
+
+    and(
+      equal("labels", Label.active),
+      equal("labels", Label.networkType(networkType)),
+      equal("labels", Label.location(location)),
+      or(
+        and(
+          geoIntersects("geoForwardPath", BsonDocument(boundary1)),
+          not(geoIntersects("geoForwardPath", BsonDocument(boundary2)))
+        )
+      ),
+    )
   }
 
   private def loadBoundary(relationId: Long): String = {
