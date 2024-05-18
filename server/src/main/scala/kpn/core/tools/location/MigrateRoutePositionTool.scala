@@ -26,14 +26,13 @@ class MigrateRoutePositionTool(database: Database) {
         println(s"$index/${routeIds.size}")
       }
       database.routes.findById(routeId).foreach { routeDoc =>
-        database.routes.save(
-          migrateRoute(routeDoc)
-        )
+        database.routes.save(migrateRouteBoundingBox(routeDoc))
+        // migrateRoutePaths(routeDoc)
       }
     }
   }
 
-  private def migrateRoute(route: RouteDoc): RouteDoc = {
+  private def migrateRoutePaths(route: RouteDoc): RouteDoc = {
     val map = route.analysis.map
 
     val geoFreePaths = if (map.freePaths.nonEmpty) {
@@ -82,6 +81,36 @@ class MigrateRoutePositionTool(database: Database) {
       geoStartTentaclePaths = geoStartTentaclePaths,
       geoEndTentaclePaths = geoEndTentaclePaths,
     )
+  }
+
+  private def migrateRouteBoundingBox(route: RouteDoc): RouteDoc = {
+    val bounds = route.analysis.map.bounds
+    if (bounds.latMin == "" || bounds.latMin == bounds.latMax || bounds.lonMin == bounds.lonMax) {
+      route.copy(
+        geoBoundingBox = None
+      )
+    }
+    else {
+      val lonMin = bounds.lonMin.toDouble
+      val latMin = bounds.latMin.toDouble
+      val lonMax = bounds.lonMax.toDouble
+      val latMax = bounds.latMax.toDouble
+      route.copy(
+        geoBoundingBox = Some(
+          Geo.polygon(
+            Seq(
+              Seq(
+                Seq(lonMin, latMin),
+                Seq(lonMax, latMin),
+                Seq(lonMax, latMax),
+                Seq(lonMin, latMax),
+                Seq(lonMin, latMin),
+              )
+            )
+          )
+        )
+      )
+    }
   }
 
   private def trackPathToLineString(path: TrackPath): GeoLineString = {

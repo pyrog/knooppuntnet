@@ -8,9 +8,11 @@ import kpn.core.doc.Label
 import kpn.core.loadOld.OsmDataXmlReader
 import kpn.database.base.CountResult
 import kpn.database.base.Database
+import kpn.database.base.Id
 import kpn.database.util.Mongo
 import org.locationtech.jts.geom.GeometryCollection
 import org.locationtech.jts.geom.GeometryFactory
+import org.locationtech.jts.io.geojson.GeoJsonReader
 import org.locationtech.jts.io.geojson.GeoJsonWriter
 import org.mongodb.scala.bson.BsonDocument
 import org.mongodb.scala.bson.conversions.Bson
@@ -23,8 +25,8 @@ import org.mongodb.scala.model.Aggregates.sort
 import org.mongodb.scala.model.Filters.and
 import org.mongodb.scala.model.Filters.equal
 import org.mongodb.scala.model.Filters.geoIntersects
+import org.mongodb.scala.model.Filters.in
 import org.mongodb.scala.model.Filters.not
-import org.mongodb.scala.model.Filters.or
 import org.mongodb.scala.model.Projections.computed
 import org.mongodb.scala.model.Projections.excludeId
 import org.mongodb.scala.model.Projections.fields
@@ -45,11 +47,17 @@ object CustomLocationTool {
 
 class CustomLocationTool(database: Database) {
 
+  private val boundary1 = loadBoundary(5555268)
+  private val boundary2 = loadBoundary(2102885)
+
   def geoQueryRouteCount(): Unit = {
+    val routeIds = geoQueryRouteIds()
     val pipeline = Seq(
-      filter(buildRouteFilter(NetworkType.hiking, "fr")),
+      filter(buildRouteFilter(NetworkType.hiking, "fr", routeIds)),
       count()
     )
+
+    //println(Mongo.pipelineString(pipeline))
 
     val start = System.currentTimeMillis()
     val routeCount = database.routes.aggregate[CountResult](pipeline).map(_.count).sum
@@ -101,9 +109,6 @@ class CustomLocationTool(database: Database) {
 
   private def buildNodeFilter(networkType: NetworkType, location: String, locationNodesType: LocationNodesType): Bson = {
 
-    val boundary1 = loadBoundary(5555268)
-    val boundary2 = loadBoundary(2102885)
-
     val filters = Seq(
       Some(equal("labels", Label.active)),
       Some(equal("labels", Label.networkType(networkType))),
@@ -125,21 +130,43 @@ class CustomLocationTool(database: Database) {
     and(filters: _*)
   }
 
-  private def buildRouteFilter(networkType: NetworkType, location: String): Bson = {
+  private def geoQueryRouteIds(): Seq[Long] = {
+    val geometry = new GeoJsonReader().read(boundary1)
+    val bb = geometry.getEnvelope
+    val bbString = new GeoJsonWriter().write(bb)
 
-    val boundary1 = loadBoundary(5555268)
-    val boundary2 = loadBoundary(2102885)
+    val pipeline = Seq(
+      filter(geoIntersects("geoBoundingBox", BsonDocument(boundary1))),
+      project(
+        fields(
+          include("_id")
+        )
+      )
+    )
+
+    // println(Mongo.pipelineString(pipeline))
+
+    val start = System.currentTimeMillis()
+    val ids = database.routes.aggregate[Id](pipeline).map(_._id)
+    val end = System.currentTimeMillis()
+
+    println(s"routeIds.size = ${ids.size} (${(end - start) / 1000} seconds)")
+    ids
+  }
+
+  private def buildRouteFilter(networkType: NetworkType, location: String, routeIds: Seq[Long]): Bson = {
 
     and(
+      in("_id", routeIds: _*),
       equal("labels", Label.active),
       equal("labels", Label.networkType(networkType)),
-      equal("labels", Label.location(location)),
-      or(
-        and(
-          geoIntersects("geoForwardPath", BsonDocument(boundary1)),
-          not(geoIntersects("geoForwardPath", BsonDocument(boundary2)))
-        )
-      ),
+      //equal("labels", Label.location(location)),
+      //      or(
+      //        and(
+      //          geoIntersects("geoForwardPath", BsonDocument(boundary1)),
+      //          not(geoIntersects("geoForwardPath", BsonDocument(boundary2)))
+      //        )
+      //      ),
     )
   }
 

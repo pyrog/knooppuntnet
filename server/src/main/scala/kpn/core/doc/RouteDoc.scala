@@ -33,7 +33,8 @@ case class RouteDoc(
   geoBackwardPath: Option[GeoLineString] = None,
   geoUnusedSegments: Option[Seq[GeoLineString]] = None,
   geoStartTentaclePaths: Option[Seq[GeoLineString]] = None,
-  geoEndTentaclePaths: Option[Seq[GeoLineString]] = None
+  geoEndTentaclePaths: Option[Seq[GeoLineString]] = None,
+  geoBoundingBox: Option[GeoPolygon] = None,
 ) extends Tagable with WithId {
 
   def id: Long = summary.id
